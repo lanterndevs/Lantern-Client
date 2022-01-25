@@ -128,7 +128,7 @@ function Logo() {
       <Hidden smDown>
         <LogoTextWrapper>
           {/* Need to remove this, apply CSS changes to center the lantern text */}
-          <Tooltip title="Version 1.1.0" arrow placement="right">
+          <Tooltip title="Version 1.0.0" arrow placement="right">
             <VersionBadge>1.1</VersionBadge>
           </Tooltip>
           <LogoText>Lantern</LogoText>
