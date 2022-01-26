@@ -5,8 +5,14 @@ import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 
 import RecentOrders from './RecentOrders';
+import { useState } from 'react';
+import NoAccount from './NoAccount';
 
-function ApplicationsTransactions() {
+
+function ApplicationsFinancialAccount() {
+
+  const [hasAccount, setHasToggled] = useState(false); 
+  
   return (
     <>
       <Helmet>
@@ -24,7 +30,13 @@ function ApplicationsTransactions() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <RecentOrders />
+
+            {/* Loads Financial Accounts Component if the user has an account connected */}
+            {hasAccount && <RecentOrders />}
+            
+            {/* Loads No Accounts Component if the user does not have an account connected */}
+            {!hasAccount && <NoAccount />}
+
           </Grid>
         </Grid>
       </Container>
@@ -33,4 +45,4 @@ function ApplicationsTransactions() {
   );
 }
 
-export default ApplicationsTransactions;
+export default ApplicationsFinancialAccount;
