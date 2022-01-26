@@ -11,7 +11,7 @@ import NoAccount from './NoAccount';
 
 function ApplicationsFinancialAccount() {
 
-  const [hasAccount, setHasToggled] = useState(false); 
+  const [hasAccount, setHasAccount] = useState(false); 
   
   return (
     <>
