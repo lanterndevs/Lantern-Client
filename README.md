@@ -11,5 +11,5 @@ Lantern is a free, open source web-application that gives small businesses the a
     <li>Make sure you have the latest stable versions for Node.js and NPM installed</li>
     <li>Clone repository: <code>git clone https://github.com/lanterndevs/Lantern-Client.git</code></li>
     <li>Install dependencies: Run <code>npm install --legacy-peer-deps</code> inside the project folder</li>
-  <li>You can start a development server by running <code>yarn start</code> or <code>npm run start</code>. Enjoy and happy saving!</li>
+  <li>You can start a development server by running <code>yarn start</code> or <code>npm run start</code>. Enjoy and best of luck with your financial growth!</li>
 </ol>
