@@ -23,7 +23,7 @@ function PageHeader() {
           Financial Accounts
         </Typography>
         <Typography variant="subtitle2">
-          Below are the accounts that you have linked with Lantern
+          Below are the bank accounts that you have linked with Lantern
         </Typography>
       </Grid>
       <Grid item>

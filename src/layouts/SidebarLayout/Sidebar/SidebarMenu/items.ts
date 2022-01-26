@@ -7,6 +7,7 @@ import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import AccountBalanceTwoToneIcon from '@mui/icons-material/AccountBalanceTwoTone';
 import ReceiptLongTwoToneIcon from '@mui/icons-material/ReceiptLongTwoTone';
+import SavingsTwoToneIcon from '@mui/icons-material/SavingsTwoTone';
 
 export interface MenuItem {
   link?: string;
@@ -61,7 +62,7 @@ const menuItems: MenuItems[] = [
       },
       {
         name: 'Budget',
-        icon: BeachAccessTwoToneIcon,
+        icon: SavingsTwoToneIcon,
         link: '/components/modals'
       },
       {
