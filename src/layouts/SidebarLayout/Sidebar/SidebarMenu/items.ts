@@ -58,17 +58,17 @@ const menuItems: MenuItems[] = [
       {
         name: 'Reports',
         icon: BallotTwoToneIcon,
-        link: '/components/buttons'
+        link: '/finances/reports'
       },
       {
         name: 'Budget',
         icon: SavingsTwoToneIcon,
-        link: '/components/modals'
+        link: '/finances/budget'
       },
       {
         name: 'Goals',
         icon: EmojiEventsTwoToneIcon,
-        link: '/components/accordions'
+        link: '/finances/goals'
       }
     ]
   },

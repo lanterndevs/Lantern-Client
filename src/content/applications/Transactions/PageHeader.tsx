@@ -20,13 +20,13 @@ function PageHeader() {
         </Typography>
       </Grid>
       <Grid item>
-        <Button
+        {/* <Button
           sx={{ mt: { xs: 2, md: 0 } }}
           variant="contained"
           startIcon={<AddTwoToneIcon fontSize="small" />}
         >
           Create transaction
-        </Button>
+        </Button> */}
       </Grid>
     </Grid>
   );
