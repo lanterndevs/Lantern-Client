@@ -30,6 +30,7 @@ import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
+import CategoryDropdown from './CategoryDropdown';
 
 interface TransactionsTableProps {
   className?: string;
@@ -250,7 +251,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
                     /> */}
                   </TableCell>
                   <TableCell>
-                    <Typography
+                    {/* <Typography
                       variant="body1"
                       fontWeight="bold"
                       color="text.primary"
@@ -258,8 +259,8 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
                       noWrap
                     >
                       {cryptoOrder.orderDetails}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
+                    </Typography> */}
+                    <Typography variant="body1" color="text.primary" fontWeight="bold" noWrap>
                       {format(cryptoOrder.orderDate, 'MMMM dd yyyy')}
                     </Typography>
                   </TableCell>
@@ -282,11 +283,9 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.sourceName}
+                      {cryptoOrder.amountCrypto}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.sourceDesc}
-                    </Typography>
+
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -296,14 +295,17 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.amountCrypto}
-                      {cryptoOrder.cryptoCurrency}
+                      {/* {cryptoOrder.amountCrypto}
+                      {cryptoOrder.cryptoCurrency} */}
+                      
+                      <CategoryDropdown />
+
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
+                    {/* <Typography variant="body2" color="text.secondary" noWrap>
                       {numeral(cryptoOrder.amount).format(
                         `${cryptoOrder.currency}0,0.00`
                       )}
-                    </Typography>
+                    </Typography> */}
                   </TableCell>
                   {/* <TableCell align="right">
                     {getStatusLabel(cryptoOrder.status)}

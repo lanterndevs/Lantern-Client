@@ -1,5 +1,4 @@
 export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
-
 export interface CryptoOrder {
   id: string;
   status: CryptoOrderStatus;
@@ -12,4 +11,13 @@ export interface CryptoOrder {
   amount: number;
   cryptoCurrency: string;
   currency: string;
+}
+
+export type TransactionCategory = 'expense';
+
+export interface Transaction {
+  id: string;
+  date: string;
+  amount: number;
+  category: TransactionCategory;
 }

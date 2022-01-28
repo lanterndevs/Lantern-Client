@@ -2,6 +2,7 @@ import { Card } from '@mui/material';
 import { CryptoOrder } from 'src/models/crypto_order';
 import RecentOrdersTable from './TransactionsTable';
 import { subDays } from 'date-fns';
+import TransactionsTable from './TransactionsTable';
 
 function Transactions() {
 
@@ -11,7 +12,7 @@ function Transactions() {
       orderDetails: 'Fiat Deposit',
       orderDate: new Date().getTime(),
       status: 'completed',
-      orderID: 'VUVX709ET7BY',
+      orderID: 'MCDONALDS',
       sourceName: 'Bank Account',
       sourceDesc: '*** 1111',
       amountCrypto: 34.4565,
@@ -24,7 +25,7 @@ function Transactions() {
       orderDetails: 'Fiat Deposit',
       orderDate: subDays(new Date(), 1).getTime(),
       status: 'completed',
-      orderID: '23M3UOG65G8K',
+      orderID: 'WENDYS',
       sourceName: 'Bank Account',
       sourceDesc: '*** 1111',
       amountCrypto: 6.58454334,
@@ -37,7 +38,7 @@ function Transactions() {
       orderDetails: 'Fiat Deposit',
       orderDate: subDays(new Date(), 5).getTime(),
       status: 'failed',
-      orderID: 'F6JHK65MS818',
+      orderID: 'SUBWAY',
       sourceName: 'Bank Account',
       sourceDesc: '*** 1111',
       amountCrypto: 6.58454334,
@@ -50,7 +51,7 @@ function Transactions() {
       orderDetails: 'Fiat Deposit',
       orderDate: subDays(new Date(), 55).getTime(),
       status: 'completed',
-      orderID: 'QJFAI7N84LGM',
+      orderID: 'HOME DEPOT',
       sourceName: 'Bank Account',
       sourceDesc: '*** 1111',
       amountCrypto: 6.58454334,
@@ -63,7 +64,7 @@ function Transactions() {
       orderDetails: 'Fiat Deposit',
       orderDate: subDays(new Date(), 56).getTime(),
       status: 'pending',
-      orderID: 'BO5KFSYGC0YW',
+      orderID: 'ROKU',
       sourceName: 'Bank Account',
       sourceDesc: '*** 1111',
       amountCrypto: 6.58454334,
@@ -76,7 +77,7 @@ function Transactions() {
       orderDetails: 'Fiat Deposit',
       orderDate: subDays(new Date(), 33).getTime(),
       status: 'completed',
-      orderID: '6RS606CBMKVQ',
+      orderID: 'NIKE',
       sourceName: 'Bank Account',
       sourceDesc: '*** 1111',
       amountCrypto: 6.58454334,
@@ -102,7 +103,7 @@ function Transactions() {
       orderDetails: 'Paypal Withdraw',
       orderDate: subDays(new Date(), 22).getTime(),
       status: 'completed',
-      orderID: 'W67CFZNT71KR',
+      orderID: 'YAHOO',
       sourceName: 'Paypal Account',
       sourceDesc: '*** 1111',
       amountCrypto: 3.345456,
@@ -140,7 +141,7 @@ function Transactions() {
 
   return (
     <Card>
-      <RecentOrdersTable cryptoOrders={cryptoOrders} />
+      <TransactionsTable cryptoOrders={cryptoOrders} />
     </Card>
   );
 }
