@@ -2,7 +2,7 @@ function NoTransactions() {
 
   return (
     <div>
-      There are currently have no transactions to display.
+      There are currently no transactions to display.
     </div>
   );
 }

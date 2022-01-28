@@ -31,7 +31,7 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 
-interface RecentOrdersTableProps {
+interface TransactionsTableProps {
   className?: string;
   cryptoOrders: CryptoOrder[];
 }
@@ -84,7 +84,7 @@ const applyPagination = (
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
+const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
 
   const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>(
     []
@@ -184,6 +184,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       )}
       {!selectedBulkActions && (
         <CardHeader
+        // This is where the date range picker will go
           action={
             <Box width={150}>
               <FormControl fullWidth variant="outlined">
@@ -203,7 +204,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
               </FormControl>
             </Box>
           }
-          title="Recent Orders"
         />
       )}
       <Divider />
@@ -211,20 +211,21 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
+              <TableCell>
+                {/* <Checkbox
                   color="primary"
                   checked={selectedAllCryptoOrders}
                   indeterminate={selectedSomeCryptoOrders}
                   onChange={handleSelectAllCryptoOrders}
-                />
+                /> */}
               </TableCell>
-              <TableCell>Order Details</TableCell>
-              <TableCell>Order ID</TableCell>
-              <TableCell>Source</TableCell>
-              <TableCell align="right">Amount</TableCell>
-              <TableCell align="right">Status</TableCell>
-              <TableCell align="right">Actions</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Amount</TableCell>
+              <TableCell>Category</TableCell>
+              {/* <TableCell>Source</TableCell> */}
+              {/* <TableCell align="right">Status</TableCell>
+              <TableCell align="right">Actions</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -239,14 +240,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   selected={isCryptoOrderSelected}
                 >
                   <TableCell padding="checkbox">
-                    <Checkbox
+                    {/* <Checkbox
                       color="primary"
                       checked={isCryptoOrderSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>) =>
                         handleSelectOneCryptoOrder(event, cryptoOrder.id)
                       }
                       value={isCryptoOrderSelected}
-                    />
+                    /> */}
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -287,7 +288,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       {cryptoOrder.sourceDesc}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell>
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -304,10 +305,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       )}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
+                  {/* <TableCell align="right">
                     {getStatusLabel(cryptoOrder.status)}
-                  </TableCell>
-                  <TableCell align="right">
+                  </TableCell> */}
+                  {/* <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
                       <IconButton
                         sx={{
@@ -334,7 +335,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         <DeleteTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               );
             })}
@@ -356,12 +357,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   );
 };
 
-RecentOrdersTable.propTypes = {
+TransactionsTable.propTypes = {
   cryptoOrders: PropTypes.array.isRequired
 };
 
-RecentOrdersTable.defaultProps = {
+TransactionsTable.defaultProps = {
   cryptoOrders: []
 };
 
-export default RecentOrdersTable;
+export default TransactionsTable;
