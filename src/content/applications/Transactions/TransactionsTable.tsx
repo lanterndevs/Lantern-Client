@@ -69,6 +69,10 @@ const applyFilters = (
   return transactions.filter((transaction) => {
     let matches = true;
 
+
+    console.log('filters category: %s', filters.category);
+    console.log('transaction category: %s', transaction.category);
+
     if (filters.category && transaction.category !== filters.category) {
       matches = false;
     }
@@ -126,7 +130,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      cateogry: value
+      category: value
     }));
   };
 
