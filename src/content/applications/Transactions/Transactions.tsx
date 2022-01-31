@@ -9,11 +9,11 @@ function Transactions() {
   const transactions: Transaction[] = [
     {
       id: '1',
-      details: 'Fiat Deposit',
+      details: 'Zelle Transfer',
       transactionDate: new Date().getTime(),
-      category: 'food',
-      orderID: 'MCDONALDS',
-      sourceName: 'Bank Account',
+      category: 'expense',
+      orderID: 'ZELLE G95BW4HR',
+      sourceName: 'Bank of America',
       sourceDesc: '*** 1111',
       amount: 56787,
       currency: '$'

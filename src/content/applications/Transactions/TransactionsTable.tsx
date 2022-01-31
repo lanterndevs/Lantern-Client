@@ -1,6 +1,5 @@
 import { FC, ChangeEvent, useState } from 'react';
 import { format } from 'date-fns';
-import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
   Tooltip,
@@ -9,8 +8,6 @@ import {
   FormControl,
   InputLabel,
   Card,
-  Checkbox,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -21,16 +18,10 @@ import {
   Select,
   MenuItem,
   Typography,
-  useTheme,
   CardHeader
 } from '@mui/material';
 
-import Label from 'src/components/Label';
-import { CryptoOrder} from 'src/models/crypto_order';
 import {Transaction, TransactionCategory } from 'src/models/transaction';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import BulkActions from './BulkActions';
 
 interface TransactionsTableProps {
   className?: string;
@@ -41,37 +32,12 @@ interface Filters {
   category?: TransactionCategory;
 }
 
-const getStatusLabel = (TransactionCategory: TransactionCategory): JSX.Element => {
-  const map = {
-    failed: {
-      text: 'Failed',
-      color: 'error'
-    },
-    completed: {
-      text: 'Completed',
-      color: 'success'
-    },
-    pending: {
-      text: 'Pending',
-      color: 'warning'
-    }
-  };
-
-  const { text, color }: any = map[TransactionCategory];
-
-  return <Label color={color}>{text}</Label>;
-};
-
 const applyFilters = (
   transactions: Transaction[],
   filters: Filters
 ): Transaction[] => {
   return transactions.filter((transaction) => {
     let matches = true;
-
-
-    console.log('filters category: %s', filters.category);
-    console.log('transaction category: %s', transaction.category);
 
     if (filters.category && transaction.category !== filters.category) {
       matches = false;
@@ -94,7 +60,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
   const [selectedTransactions, setSelectedTransactions] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedTransactions.length > 0;
+
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
@@ -120,6 +86,17 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
     }
   ];
 
+  const [transaction, setTransaction] = useState<Transaction>();
+
+  function returnCategory(value){
+    
+    let category: TransactionCategory;
+    category = (value === 'expense' ? 'expense' : 'uncategorized');
+
+    return category;
+ }  
+
+
   const handleCateogryChange = (e: ChangeEvent<HTMLInputElement>): void => {
 
     let value = null;
@@ -132,6 +109,12 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
       ...prevFilters,
       category: value
     }));
+  };
+
+  const handleCateogryAttributeChange = (e: ChangeEvent<HTMLInputElement>): void => {
+
+    let value = e.target.value;
+    alert(value);
   };
 
 
@@ -152,12 +135,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
   return (
     <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
         <CardHeader
           action={
             <Box width={150}>
@@ -179,7 +156,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
             </Box>
           }
         />
-      )}
       <Divider />
       <TableContainer>
         <Table>
@@ -194,7 +170,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-
             {paginatedTransactions.map((transaction) => {
               const isTransactionSelected = selectedTransactions.includes(
                 transaction.id
@@ -262,17 +237,18 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                       gutterBottom
                       noWrap
                     >
-                      $ {transaction.amount}
+                      {transaction.currency} {transaction.amount}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <FormControl fullWidth variant="outlined">
                     <Select
                       value={transaction.category || 'all'}
-                      onChange={handleCateogryChange}
+
+                      onChange={(e) => {setTransaction({ ...transaction, category: 'expense'})}}
                       fullWidth
                     >
-                    {transactionOptions.map((transactionOption) => (
+                      {transactionOptions.filter(transactionOption => transactionOption.id !== 'all').map((transactionOption) => (
                       <MenuItem key={transactionOption.id} value={transactionOption.id}>
                         {transactionOption.name}
                       </MenuItem>
