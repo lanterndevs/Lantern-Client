@@ -123,8 +123,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
     if (e.target.value !== 'all') {
       value = e.target.value;
     }
-    
-    console.log(value);
 
     setFilters((prevFilters) => ({
       ...prevFilters,

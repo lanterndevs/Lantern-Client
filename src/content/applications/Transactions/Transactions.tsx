@@ -33,7 +33,7 @@ function Transactions() {
         id: '3',
         details: 'Incokme',
         transactionDate: new Date().getTime(),
-        category: 'expense',
+        category: 'food',
         orderID: 'MCDONALDS',
         sourceName: 'Bank Account',
         sourceDesc: '*** 1111',
