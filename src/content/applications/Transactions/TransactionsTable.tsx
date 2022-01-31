@@ -26,21 +26,22 @@ import {
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
+import { CryptoOrder} from 'src/models/crypto_order';
+import {Transaction, TransactionCategory } from 'src/models/transaction';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 
 interface TransactionsTableProps {
   className?: string;
-  cryptoOrders: CryptoOrder[];
+  transactions: Transaction[];
 }
 
 interface Filters {
-  status?: CryptoOrderStatus;
+  category?: TransactionCategory;
 }
 
-const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
+const getStatusLabel = (TransactionCategory: TransactionCategory): JSX.Element => {
   const map = {
     failed: {
       text: 'Failed',
@@ -56,19 +57,19 @@ const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
     }
   };
 
-  const { text, color }: any = map[cryptoOrderStatus];
+  const { text, color }: any = map[TransactionCategory];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  cryptoOrders: CryptoOrder[],
+  transactions: Transaction[],
   filters: Filters
-): CryptoOrder[] => {
-  return cryptoOrders.filter((cryptoOrder) => {
+): Transaction[] => {
+  return transactions.filter((transaction) => {
     let matches = true;
 
-    if (filters.status && cryptoOrder.status !== filters.status) {
+    if (filters.category && transaction.category !== filters.category) {
       matches = false;
     }
 
@@ -77,82 +78,60 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  cryptoOrders: CryptoOrder[],
+  transactions: Transaction[],
   page: number,
   limit: number
-): CryptoOrder[] => {
-  return cryptoOrders.slice(page * limit, page * limit + limit);
+): Transaction[] => {
+  return transactions.slice(page * limit, page * limit + limit);
 };
 
-const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
+const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
-  const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>(
+  const [selectedTransactions, setSelectedTransactions] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedCryptoOrders.length > 0;
+  const selectedBulkActions = selectedTransactions.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    status: null
+    category: null
   });
 
-  const statusOptions = [
+  const transactionOptions = [
     {
-      id: 'all',
-      name: 'All'
+        id: 'all',
+        name: 'All'
     },
     {
-      id: 'completed',
-      name: 'Completed'
+      id: 'expense',
+      name: 'Expense'
     },
     {
-      id: 'pending',
-      name: 'Pending'
+      id: 'food',
+      name: 'Food'
     },
     {
-      id: 'failed',
-      name: 'Failed'
+      id: 'uncategorized',
+      name: 'Uncategorized'
     }
   ];
 
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleCateogryChange = (e: ChangeEvent<HTMLInputElement>): void => {
+
     let value = null;
 
     if (e.target.value !== 'all') {
       value = e.target.value;
     }
+    
+    console.log(value);
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      status: value
+      cateogry: value
     }));
   };
 
-  const handleSelectAllCryptoOrders = (
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    setSelectedCryptoOrders(
-      event.target.checked
-        ? cryptoOrders.map((cryptoOrder) => cryptoOrder.id)
-        : []
-    );
-  };
-
-  const handleSelectOneCryptoOrder = (
-    event: ChangeEvent<HTMLInputElement>,
-    cryptoOrderId: string
-  ): void => {
-    if (!selectedCryptoOrders.includes(cryptoOrderId)) {
-      setSelectedCryptoOrders((prevSelected) => [
-        ...prevSelected,
-        cryptoOrderId
-      ]);
-    } else {
-      setSelectedCryptoOrders((prevSelected) =>
-        prevSelected.filter((id) => id !== cryptoOrderId)
-      );
-    }
-  };
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
@@ -162,18 +141,12 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
-  const paginatedCryptoOrders = applyPagination(
-    filteredCryptoOrders,
+  const filteredTransactions = applyFilters(transactions, filters);
+  const paginatedTransactions = applyPagination(
+    filteredTransactions,
     page,
     limit
   );
-  const selectedSomeCryptoOrders =
-    selectedCryptoOrders.length > 0 &&
-    selectedCryptoOrders.length < cryptoOrders.length;
-  const selectedAllCryptoOrders =
-    selectedCryptoOrders.length === cryptoOrders.length;
-  const theme = useTheme();
 
   return (
     <Card>
@@ -187,16 +160,16 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
           action={
             <Box width={150}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
+                <InputLabel>Category</InputLabel>
                 <Select
-                  value={filters.status || 'all'}
-                  onChange={handleStatusChange}
-                  label="Status"
+                  value={filters.category || 'all'}
+                  onChange={handleCateogryChange}
+                  label="Category"
                   autoWidth
                 >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
+                  {transactionOptions.map((transactionOption) => (
+                    <MenuItem key={transactionOption.id} value={transactionOption.id}>
+                      {transactionOption.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -212,22 +185,23 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
             <TableRow>
               <TableCell padding="checkbox"></TableCell>
               <TableCell>Details</TableCell>
-              <TableCell>Order ID</TableCell>
+              <TableCell>Transaction ID</TableCell>
               <TableCell>Source</TableCell>
               <TableCell>Amount</TableCell>
               <TableCell>Category</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoOrders.map((cryptoOrder) => {
-              const isCryptoOrderSelected = selectedCryptoOrders.includes(
-                cryptoOrder.id
+
+            {paginatedTransactions.map((transaction) => {
+              const isTransactionSelected = selectedTransactions.includes(
+                transaction.id
               );
               return (
                 <TableRow
                   hover
-                  key={cryptoOrder.id}
-                  selected={isCryptoOrderSelected}
+                  key={transaction.id}
+                  selected={isTransactionSelected}
                 >
                   <TableCell padding="checkbox">
                     {/* <Checkbox
@@ -247,10 +221,10 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderDetails}
+                      {transaction.details}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(cryptoOrder.orderDate, 'MMMM dd yyyy')}
+                      {format(transaction.transactionDate, 'MMMM dd yyyy')}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -261,7 +235,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderID}
+                      {transaction.id}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -272,10 +246,10 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.sourceName}
+                      {transaction.sourceName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.sourceDesc}
+                      {transaction.sourceDesc}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -286,25 +260,19 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.amountCrypto}
-                      {cryptoOrder.cryptoCurrency}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(cryptoOrder.amount).format(
-                        `${cryptoOrder.currency}0,0.00`
-                      )}
+                      $ {transaction.amount}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <FormControl fullWidth variant="outlined">
                     <Select
-                      value={filters.status || 'all'}
-                      onChange={handleStatusChange}
+                      value={transaction.category || 'all'}
+                      onChange={handleCateogryChange}
                       fullWidth
                     >
-                    {statusOptions.map((statusOption) => (
-                      <MenuItem key={statusOption.id} value={statusOption.id}>
-                        {statusOption.name}
+                    {transactionOptions.map((transactionOption) => (
+                      <MenuItem key={transactionOption.id} value={transactionOption.id}>
+                        {transactionOption.name}
                       </MenuItem>
                     ))}
                     </Select>
@@ -319,7 +287,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredCryptoOrders.length}
+          count={filteredTransactions.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -332,11 +300,11 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ cryptoOrders }) => {
 };
 
 TransactionsTable.propTypes = {
-  cryptoOrders: PropTypes.array.isRequired
+  transactions: PropTypes.array.isRequired
 };
 
 TransactionsTable.defaultProps = {
-  cryptoOrders: []
+  transactions: []
 };
 
 export default TransactionsTable;
