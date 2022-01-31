@@ -5,13 +5,12 @@ import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 
 import RecentOrders from './RecentOrders';
-import { useState } from 'react';
 import NoAccount from './NoAccount';
 
 
 function ApplicationsFinancialAccount() {
 
-  const [hasAccount, setHasAccount] = useState(false); 
+  const hasAccount = true;
   
   return (
     <>

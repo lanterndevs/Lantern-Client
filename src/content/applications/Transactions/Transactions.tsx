@@ -1,7 +1,5 @@
 import { Card } from '@mui/material';
-import { CryptoOrder } from 'src/models/crypto_order';
 import {Transaction } from 'src/models/transaction';
-import { subDays } from 'date-fns';
 import TransactionsTable from './TransactionsTable';
 
 function Transactions() {

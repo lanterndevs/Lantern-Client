@@ -2,7 +2,6 @@ import { FC, ChangeEvent, useState } from 'react';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import {
-  Tooltip,
   Divider,
   Box,
   FormControl,
@@ -88,13 +87,13 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
   const [transaction, setTransaction] = useState<Transaction>();
 
-  function returnCategory(value){
+//   function returnCategory(value){
     
-    let category: TransactionCategory;
-    category = (value === 'expense' ? 'expense' : 'uncategorized');
+//     let category: TransactionCategory;
+//     category = (value === 'expense' ? 'expense' : 'uncategorized');
 
-    return category;
- }  
+//     return category;
+//  }  
 
 
   const handleCateogryChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -109,12 +108,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
       ...prevFilters,
       category: value
     }));
-  };
-
-  const handleCateogryAttributeChange = (e: ChangeEvent<HTMLInputElement>): void => {
-
-    let value = e.target.value;
-    alert(value);
   };
 
 

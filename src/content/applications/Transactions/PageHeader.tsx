@@ -4,11 +4,6 @@ import { Typography, Grid } from '@mui/material';
 
 function PageHeader() {
 
-  const user =
-  {
-    name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg'
-  };
   return (
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>

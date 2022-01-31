@@ -4,12 +4,11 @@ import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 import NoTransactions from './NoTransactions';
-import { useState } from 'react';
 import Transactions from './Transactions';
 
 function ApplicationsTransactions() {
 
-  const [hasTransactions, setHasTransactions] = useState(true); 
+  const hasTransactions = true; 
   
   return (
     <>
