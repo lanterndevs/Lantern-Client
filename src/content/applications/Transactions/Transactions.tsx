@@ -1,11 +1,27 @@
 import { Card } from '@mui/material';
 import { CryptoOrder } from 'src/models/crypto_order';
+import {Transaction } from 'src/models/transaction';
 import RecentOrdersTable from './TransactionsTable';
 import { subDays } from 'date-fns';
 import TransactionsTable from './TransactionsTable';
 
 function Transactions() {
+  
+  type TransactionCategory = 'expense' | 'food' | 'uncategorized';
 
+  interface Transaction {
+    id: string;
+    details: string;
+    transactionDate: number;
+    orderID: string;
+    amount: number;
+    category: TransactionCategory;
+    sourceName: string;
+    sourceDesc: string;
+    currency: string;
+  }
+
+  // WILL NOT BE NEEDING THIS
   const cryptoOrders: CryptoOrder[] = [
     {
       id: '1',
@@ -139,9 +155,38 @@ function Transactions() {
     }
   ];
 
+  // THIS IS WHAT I WILL BE KEEPING
+  const transactions: Transaction[] = [
+    {
+      id: '1',
+      details: 'Fiat Deposit',
+      transactionDate: new Date().getTime(),
+      category: 'food',
+      // going to need to name this something else from plaid
+      orderID: 'MCDONALDS',
+      sourceName: 'Bank Account',
+      sourceDesc: '*** 1111',
+      amount: 56787,
+      currency: '$'
+    },
+    {
+        id: '2',
+        details: 'Expense',
+        transactionDate: new Date().getTime(),
+        category: 'food',
+        // going to need to name this something else from plaid
+        orderID: 'MCDONALDS',
+        sourceName: 'Bank Account',
+        sourceDesc: '*** 1111',
+        amount: 56787,
+        currency: '$'
+      },
+  ];
+
   return (
     <Card>
       <TransactionsTable cryptoOrders={cryptoOrders} />
+      {/* <TransactionsTable transactions={transactions} /> */}
     </Card>
   );
 }
