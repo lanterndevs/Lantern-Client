@@ -1865,6 +1865,11 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/canvasjs@^1.9.7":
+  "integrity" "sha512-/CfA3VtyTYVXDHvMy8F5hsvRUTiBX7TGe+nAHNONoJlNHbqakeIzxxt1MSNH619s8Oiu4CcFBMmJVg50El/0lw=="
+  "resolved" "https://registry.npmjs.org/@types/canvasjs/-/canvasjs-1.9.7.tgz"
+  "version" "1.9.7"
+
 "@types/eslint@^7.28.2":
   "integrity" "sha512-VNcvioYDH8/FxaeTKkM4/TiTwt6pBV9E3OfGmvaw8tPl0rrHCJ4Ll15HRT+pMiFAf/MLQvAzC+6RzUMEL9Ceng=="
   "resolved" "https://registry.npmjs.org/@types/eslint/-/eslint-7.29.0.tgz"
@@ -3534,6 +3539,11 @@
   "integrity" "sha512-csfD/GpHMqgEL3V3uIgosvh+SVIQvCh43SNu9HRbP1lnxkKm1kjDG4f32PP571JplkLjfS+mg2p1gxR7MYrrIA=="
   "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001301.tgz"
   "version" "1.0.30001301"
+
+"canvasjs-react-charts@^1.0.5":
+  "integrity" "sha512-8P3KnAvCqftmqf4O/xG6PlIDcTr0IvzuE4l6ACXIOROKtFmnmUu/xPEeq+0vI9Xvh7zXjzZvRqw0p1uxXr034g=="
+  "resolved" "https://registry.npmjs.org/canvasjs-react-charts/-/canvasjs-react-charts-1.0.5.tgz"
+  "version" "1.0.5"
 
 "capture-exit@^2.0.0":
   "integrity" "sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g=="

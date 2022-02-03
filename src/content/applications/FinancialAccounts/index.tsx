@@ -6,10 +6,6 @@ import Footer from 'src/components/Footer';
 
 import RecentOrders from './RecentOrders';
 import NoAccount from './NoAccount';
-
-  const plaid = require('plaid');
-  const express = require('express');
-  const app = express();
   
   // app.get('/', (req, res) => {
   //   res.json({

@@ -17,10 +17,18 @@ import {
   Select,
   MenuItem,
   Typography,
-  CardHeader
+  CardHeader,
+  Button
 } from '@mui/material';
 
+import TextField from '@mui/material/TextField';
+import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
 import {Transaction, TransactionCategory } from 'src/models/transaction';
+import './TransactionsTable.css';
+import React from 'react';
 
 interface TransactionsTableProps {
   className?: string;
@@ -56,6 +64,7 @@ const applyPagination = (
 
 const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
+  // eslint-disable-next-line
   const [selectedTransactions, setSelectedTransactions] = useState<string[]>(
     []
   );
@@ -65,6 +74,8 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
   const [filters, setFilters] = useState<Filters>({
     category: null
   });
+
+  const [value, setValue] = React.useState<DateRange<Date>>([null, null]);
 
   const transactionOptions = [
     {
@@ -85,16 +96,8 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
     }
   ];
 
+  // eslint-disable-next-line
   const [transaction, setTransaction] = useState<Transaction>();
-
-//   function returnCategory(value){
-    
-//     let category: TransactionCategory;
-//     category = (value === 'expense' ? 'expense' : 'uncategorized');
-
-//     return category;
-//  }  
-
 
   const handleCateogryChange = (e: ChangeEvent<HTMLInputElement>): void => {
 
@@ -130,6 +133,33 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
     <Card>
         <CardHeader
           action={
+            <div className="cardheader">
+            <Box width={300} >
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateRangePicker
+                  startText="Start Date"
+                  endText="End Date"
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                  renderInput={(startProps, endProps) => (
+                    <React.Fragment>
+                      <TextField {...startProps} />
+                      <Box sx={{ mx: 2 }}> to </Box>
+                      <TextField {...endProps} />
+                    </React.Fragment>
+                  )}
+                />
+            </LocalizationProvider>
+            
+            </Box>
+
+            <Box mr={8}>
+            <Button variant="outlined" style={{height:'53px', width: '100px'}}>Search 
+            </Button>
+            </Box>
+
             <Box width={150}>
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Category</InputLabel>
@@ -147,7 +177,9 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                 </Select>
               </FormControl>
             </Box>
+            </div>
           }
+          title="Filters"
         />
       <Divider />
       <TableContainer>

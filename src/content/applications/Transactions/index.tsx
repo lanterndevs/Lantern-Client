@@ -6,6 +6,7 @@ import Footer from 'src/components/Footer';
 import NoTransactions from './NoTransactions';
 import Transactions from './Transactions';
 
+
 function ApplicationsTransactions() {
 
   const hasTransactions = true; 
