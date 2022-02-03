@@ -7,9 +7,6 @@ import {
   usePlaidLink
 } from 'react-plaid-link';
 
-import axios from "axios";
-
-
 const PageHeader = () => {
 
   const { linkToken, dispatch } = useContext(Context);
@@ -66,7 +63,6 @@ const PageHeader = () => {
     isOauth = true;
   }
 
-  
   const { open, ready } = usePlaidLink(config);
 
   useEffect(() => {

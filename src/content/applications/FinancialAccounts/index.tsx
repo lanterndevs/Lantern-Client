@@ -7,10 +7,6 @@ import Footer from 'src/components/Footer';
 import RecentOrders from './RecentOrders';
 import NoAccount from './NoAccount';
   
-
-
-
-
 function ApplicationsFinancialAccount() {
 
   const hasAccount = false;
