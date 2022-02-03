@@ -7,13 +7,7 @@ import Footer from 'src/components/Footer';
 import RecentOrders from './RecentOrders';
 import NoAccount from './NoAccount';
   
-  // app.get('/', (req, res) => {
-  //   res.json({
-  //     message: 'Hello, world',
-  //   });
-  // });
 
-  // app.listen(3000, () => console.log('Server started. Listening at localhost:3000'));
 
 
 

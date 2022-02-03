@@ -155,7 +155,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
             
             </Box>
 
-            <Box mr={8}>
+            <Box mr={3}>
             <Button variant="outlined" style={{height:'53px', width: '100px'}}>Search 
             </Button>
             </Box>
