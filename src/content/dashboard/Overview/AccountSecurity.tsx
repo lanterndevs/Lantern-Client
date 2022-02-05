@@ -57,7 +57,7 @@ function AccountSecurity() {
 
   return (
     <Card>
-      <CardHeader title="Account Security" />
+      <CardHeader title="Calendar" />
       <Divider />
       <List disablePadding>
         <ListItem sx={{ py: 2 }}>

@@ -37,6 +37,7 @@ interface TransactionsTableProps {
 
 interface Filters {
   category?: TransactionCategory;
+  date?: number;
 }
 
 const applyFilters = (
@@ -122,6 +123,10 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
     setLimit(parseInt(event.target.value));
   };
 
+  const handleSearch = (event: any): void => {
+    console.log(value);
+  };
+
   const filteredTransactions = applyFilters(transactions, filters);
   const paginatedTransactions = applyPagination(
     filteredTransactions,
@@ -156,7 +161,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
             </Box>
 
             <Box mr={3}>
-            <Button variant="outlined" style={{height:'53px', width: '100px'}}>Search 
+            <Button onClick = {handleSearch} variant="outlined" style={{height:'53px', width: '100px'}}>Search
             </Button>
             </Box>
 
@@ -270,7 +275,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                     <Select
                       value={transaction.category || 'all'}
 
-                      onChange={(e) => {setTransaction({ ...transaction, category: 'expense'})}}
+                      
                       fullWidth
                     >
                       {transactionOptions.filter(transactionOption => transactionOption.id !== 'all').map((transactionOption) => (

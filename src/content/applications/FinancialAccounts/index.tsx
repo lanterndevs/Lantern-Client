@@ -3,8 +3,6 @@ import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
-
-import RecentOrders from './RecentOrders';
 import NoAccount from './NoAccount';
   
 function ApplicationsFinancialAccount() {
@@ -30,7 +28,6 @@ function ApplicationsFinancialAccount() {
           <Grid item xs={12}>
 
             {/* Loads Financial Accounts Component if the user has an account connected */}
-            {hasAccount && <RecentOrders />}
             
             {/* Loads No Accounts Component if the user does not have an account connected */}
             {!hasAccount && <NoAccount />}

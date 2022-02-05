@@ -14,7 +14,7 @@ const Loader = (Component) => (props) => (
 );
 
 // Pages
-//  Login = Loader(lazy(() => import('src/content/overview'))); // won't need this
+//  Login = Loader(lazy(() => import('src/content/overview'))); // *** This will be login page, need to create
 
 // Dashboard
 const Overview = Loader(lazy(() => import('src/content/dashboard/Overview')));
@@ -22,22 +22,16 @@ const Overview = Loader(lazy(() => import('src/content/dashboard/Overview')));
 // Applications
 const FinancialAccounts = Loader(lazy(() => import('src/content/applications/FinancialAccounts')))
 const Transactions = Loader(lazy(() => import('src/content/applications/Transactions')));
+// *** Will need to add Goals, Budget, etc
 
-const Messenger = Loader(lazy(() => import('src/content/applications/Messenger'))); // won't need this
-const UserProfile = Loader(lazy(() => import('src/content/applications/Users/profile'))); // won't need this
-const UserSettings = Loader(lazy(() => import('src/content/applications/Users/settings'))); // won't need this
+const Messenger = Loader(lazy(() => import('src/content/applications/Messenger'))); // *** Won't need this
+const UserProfile = Loader(lazy(() => import('src/content/applications/Users/profile'))); // *** Won't need this
+const UserSettings = Loader(lazy(() => import('src/content/applications/Users/settings'))); // *** Won't need this
 
 
 // Components
 const Buttons = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
 const Modals = Loader(lazy(() => import('src/content/pages/Components/Modals')));
-// const Accordions = Loader(lazy(() => import('src/content/pages/Components/Accordions')));
-// const Tabs = Loader(lazy(() => import('src/content/pages/Components/Tabs')));
-// const Badges = Loader(lazy(() => import('src/content/pages/Components/Badges')));
-// const Tooltips = Loader(lazy(() => import('src/content/pages/Components/Tooltips')));
-// const Avatars = Loader(lazy(() => import('src/content/pages/Components/Avatars')));
-// const Cards = Loader(lazy(() => import('src/content/pages/Components/Cards')));
-// const Forms = Loader(lazy(() => import('src/content/pages/Components/Forms')));
 
 // Status
 const Status404 = Loader(lazy(() => import('src/content/pages/Status/Status404')));

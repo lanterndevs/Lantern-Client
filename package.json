@@ -1,14 +1,12 @@
 {
-  "name": "tokyo-free-white-react-admin-dashboard",
+  "name": "lantern-client",
   "version": "1.1.0",
-  "title": "Tokyo Free White React Admin Dashboard",
-  "description": "This free and open source admin dashboard template is built for React and it’s bootstrapped from Facebook’s create-react-app. All NPM dependencies are up to date and it contains multiple fully customized components based on the popular frontend components framework, Material-UI.",
-  "author": {
-    "name": "BloomUI.com",
-    "url": "https://bloomui.com"
-  },
+  "title": "lantern-client",
+  "description": "Lantern is a free, open source web-application that gives small businesses the ability to track and account all income/cash flow along with providing computed detailed reports and finanical analysis.",
   "private": false,
   "dependencies": {
+    "@devexpress/dx-react-chart": "^3.0.0",
+    "@devexpress/dx-react-chart-material-ui": "^3.0.0",
     "@emotion/react": "11.4.1",
     "@emotion/styled": "11.3.0",
     "@mui/icons-material": "5.0.3",
@@ -20,6 +18,7 @@
     "@types/react": "17.0.25",
     "@types/react-dom": "17.0.9",
     "@types/react-router-dom": "5.3.0",
+    "antd": "^4.18.5",
     "body-parser": "^1.19.1",
     "canvasjs-react-charts": "^1.0.5",
     "chart.js": "2.9.4",
