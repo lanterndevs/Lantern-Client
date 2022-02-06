@@ -7,10 +7,22 @@ import { number } from 'prop-types';
 const Transactions = () => {
 
   const [plaidTransactions, setPlaidTransactions] = useState({
-    account: "",
+    accounts: [
+      {
+        account_id: "",
+        balances: [],
+        mask: "",
+        name: "",
+        official_name: "",
+        subtype: "",
+        type: "",
+      }
+    ],
+
     item: "",
     request_id: "",
     total_transactions:"",
+    
     transactions: [
       {
         account_id: "",
@@ -49,19 +61,27 @@ const Transactions = () => {
 
   let transactions: Transaction[] = [];
 
+  console.log(plaidTransactions);
+
   // if the user has transctions retrieved from Plaid, populate the transcations table
   if(plaidTransactions.transactions[0].name !== ""){
 
-    for(var transaction of plaidTransactions.transactions){
+    // creates a map to accounts to retrive name based on account_id
+    let accounts = new Map();
+    for(var account of plaidTransactions.accounts){
+      accounts.set(account.account_id, [account.name, account.subtype]);
+    }
 
+    // appends new transactions to list of transactions
+    for(var transaction of plaidTransactions.transactions){
       transactions.push(
         {id: transaction.transaction_id, 
         details: transaction.name, 
         transactionDate: new Date(transaction.date), 
         category: 'expense', 
         orderID: 'ZELLE G95BW4HR',
-        sourceName: 'Bank of America',
-        sourceDesc: '*** 1111',
+        sourceName: accounts.get(transaction.account_id)[0],
+        sourceDesc: accounts.get(transaction.account_id)[1],
         amount: Number(transaction.amount),
         currency: '$'}
       )
