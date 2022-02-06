@@ -32,7 +32,7 @@ const Transactions = () => {
     ],
   })
   
-  // fetches the transactions
+  // fetches user transactions via Plaid
   const fetchData = () => {
     fetch("/transactions")
       .then(response => {
@@ -49,11 +49,10 @@ const Transactions = () => {
 
   let transactions: Transaction[] = [];
 
-  if(plaidTransactions){
+  // if the user has transctions retrieved from Plaid, populate the transcations table
+  if(plaidTransactions.transactions[0].name !== ""){
 
     for(var transaction of plaidTransactions.transactions){
-
-      console.log(transaction.date);
 
       transactions.push(
         {id: transaction.transaction_id, 

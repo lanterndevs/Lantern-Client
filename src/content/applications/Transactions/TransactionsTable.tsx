@@ -1,5 +1,5 @@
 import { FC, ChangeEvent, useState } from 'react';
-import { format } from 'date-fns';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
   Divider,
@@ -246,7 +246,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                       {transaction.details}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {(moment(transaction.date)).format('DD-MMM-YYYY HH:mm:ss')}
+                      {(moment(transaction.transactionDate)).format('dddd, MMM DD YYYY')}
                     </Typography>
                   </TableCell>
                   <TableCell>
