@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -6,15 +5,15 @@ import {
   List,
   ListItem,
   Divider,
-  Switch,
   ListItemAvatar,
   Avatar
 } from '@mui/material';
 
+import Checkbox from '@mui/material/Checkbox';
+
 import { styled } from '@mui/material/styles';
-import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
-import PhoneLockedTwoToneIcon from '@mui/icons-material/PhoneLockedTwoTone';
-import EmailTwoToneIcon from '@mui/icons-material/EmailTwoTone';
+import GroupsTwoToneIcon from '@mui/icons-material/GroupsTwoTone';
+import AttachMoneyTwoToneIcon from '@mui/icons-material/AttachMoneyTwoTone';
 import Text from 'src/components/Text';
 
 const AvatarWrapperError = styled(Avatar)(
@@ -38,36 +37,23 @@ const AvatarWrapperWarning = styled(Avatar)(
 `
 );
 
-function AccountSecurity() {
-
-  const [checked, setChecked] = useState(['phone_verification']);
-
-  const handleToggle = (value: string) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
+function UpcomingEvents() {
 
   return (
     <Card>
-      <CardHeader title="Calendar" />
+      <CardHeader title="Upcoming Events" />
       <Divider />
       <List disablePadding>
+
+        {/* Hardcoded -- first compoent from list */}
         <ListItem sx={{ py: 2 }}>
           <ListItemAvatar>
             <AvatarWrapperError>
-              <LockTwoToneIcon fontSize="medium" />
+              <AttachMoneyTwoToneIcon fontSize="medium" />
             </AvatarWrapperError>
           </ListItemAvatar>
           <ListItemText
-            primary={<Text color="black">2FA Authentication</Text>}
+            primary={<Text color="black">BILL DUE ---- February 22, 2022</Text>}
             primaryTypographyProps={{
               variant: 'body1',
               fontWeight: 'bold',
@@ -75,25 +61,23 @@ function AccountSecurity() {
               gutterBottom: true,
               noWrap: true
             }}
-            secondary={<Text color="error">Disabled</Text>}
+            secondary={<Text > 6:00 PM </Text>}
             secondaryTypographyProps={{ variant: 'body2', noWrap: true }}
           />
-          <Switch
-            edge="end"
-            color="primary"
-            onChange={handleToggle('2fa')}
-            checked={checked.indexOf('2fa') !== -1}
-          />
+            <Checkbox />
         </ListItem>
+
         <Divider />
+
+        {/* Hardcoded -- second from list */}
         <ListItem sx={{ py: 2 }}>
           <ListItemAvatar>
             <AvatarWrapperSuccess>
-              <PhoneLockedTwoToneIcon fontSize="medium" />
+              <GroupsTwoToneIcon fontSize="medium" />
             </AvatarWrapperSuccess>
           </ListItemAvatar>
           <ListItemText
-            primary={<Text color="black">Phone Verification</Text>}
+            primary={<Text color="black">Meeting Feburary 5, 2022 </Text>}
             primaryTypographyProps={{
               variant: 'body1',
               fontWeight: 'bold',
@@ -101,25 +85,23 @@ function AccountSecurity() {
               gutterBottom: true,
               noWrap: true
             }}
-            secondary={<Text color="success">Active</Text>}
+            secondary={<Text > 6:00 PM </Text>}
             secondaryTypographyProps={{ variant: 'body2', noWrap: true }}
           />
-          <Switch
-            edge="end"
-            color="primary"
-            onChange={handleToggle('phone_verification')}
-            checked={checked.indexOf('phone_verification') !== -1}
-          />
+            <Checkbox />
         </ListItem>
+
         <Divider />
+
+        {/* Hardcoded -- thi compoent from list */}
         <ListItem sx={{ py: 2 }}>
           <ListItemAvatar>
             <AvatarWrapperWarning>
-              <EmailTwoToneIcon fontSize="medium" />
+              <AttachMoneyTwoToneIcon fontSize="medium" />
             </AvatarWrapperWarning>
           </ListItemAvatar>
           <ListItemText
-            primary={<Text color="black">Recovery Email</Text>}
+            primary={<Text color="black">BILL DUE</Text>}
             primaryTypographyProps={{
               variant: 'body1',
               fontWeight: 'bold',
@@ -127,19 +109,14 @@ function AccountSecurity() {
               gutterBottom: true,
               noWrap: true
             }}
-            secondary={<Text color="warning">Not completed</Text>}
+            secondary={<Text > 6:00 PM </Text>}
             secondaryTypographyProps={{ variant: 'body2', noWrap: true }}
           />
-          <Switch
-            edge="end"
-            color="primary"
-            onChange={handleToggle('recovery_email')}
-            checked={checked.indexOf('recovery_email') !== -1}
-          />
+            <Checkbox />
         </ListItem>
       </List>
     </Card>
   );
 }
 
-export default AccountSecurity;
+export default UpcomingEvents;

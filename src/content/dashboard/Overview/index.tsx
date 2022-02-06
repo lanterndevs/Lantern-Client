@@ -3,7 +3,7 @@ import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
-import AccountSecurity from './AccountSecurity';
+import UpcomingEvents from './UpcomingEvents';
 
 
 function Dashboard() {
@@ -26,7 +26,7 @@ function Dashboard() {
           
           {/* Chart that displays the break down of expenses based on transactions */}
           <Grid item lg={4} xs={12}>
-            <AccountSecurity />
+            <UpcomingEvents />
           </Grid>
           
           <Grid item lg={8} xs={12}>

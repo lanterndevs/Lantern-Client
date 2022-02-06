@@ -37,7 +37,7 @@ interface TransactionsTableProps {
 
 interface Filters {
   category?: TransactionCategory;
-  date?: number;
+  date?: DateRange<Date>;
 }
 
 const applyFilters = (
@@ -49,6 +49,15 @@ const applyFilters = (
 
     if (filters.category && transaction.category !== filters.category) {
       matches = false;
+    }
+
+    if(filters.date != null){
+      let start = filters.date[0].getTime();
+      let end = filters.date[1].getTime();
+
+      if(transaction.transactionDate >= end || transaction.transactionDate <= start){
+        matches = false;
+      }
     }
 
     return matches;
@@ -73,10 +82,10 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    category: null
+    category: null, date: null
   });
 
-  const [value, setValue] = React.useState<DateRange<Date>>([null, null]);
+  const [dates, setDates] = React.useState<DateRange<Date>>([null, null]);
 
   const transactionOptions = [
     {
@@ -97,9 +106,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
     }
   ];
 
-  // eslint-disable-next-line
-  const [transaction, setTransaction] = useState<Transaction>();
-
   const handleCateogryChange = (e: ChangeEvent<HTMLInputElement>): void => {
 
     let value = null;
@@ -110,7 +116,15 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      category: value
+      category: value, date: dates
+    }));
+  };
+
+  const handleDateSearch = (e: any): void => {
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      date: dates
     }));
   };
 
@@ -121,10 +135,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setLimit(parseInt(event.target.value));
-  };
-
-  const handleSearch = (event: any): void => {
-    console.log(value);
   };
 
   const filteredTransactions = applyFilters(transactions, filters);
@@ -144,9 +154,9 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                 <DateRangePicker
                   startText="Start Date"
                   endText="End Date"
-                  value={value}
+                  value={dates}
                   onChange={(newValue) => {
-                    setValue(newValue);
+                    setDates(newValue);
                   }}
                   renderInput={(startProps, endProps) => (
                     <React.Fragment>
@@ -161,7 +171,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
             </Box>
 
             <Box mr={3}>
-            <Button onClick = {handleSearch} variant="outlined" style={{height:'53px', width: '100px'}}>Search
+            <Button onClick = {handleDateSearch} variant="outlined" style={{height:'53px', width: '100px'}}>Search
             </Button>
             </Box>
 
