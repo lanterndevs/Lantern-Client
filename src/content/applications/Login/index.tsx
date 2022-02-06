@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import mainLogo from './lantern.png';
 
 const theme = createTheme();
 
@@ -39,9 +40,8 @@ function Login() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1 }}>
-            <LockTwoToneIcon />
-          </Avatar>
+          <img src={mainLogo} style={{width: "40px", height: "70px", bottom:"20px", position: "relative"}} alt="lantern-logo"/>
+          
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>

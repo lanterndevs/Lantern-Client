@@ -225,16 +225,8 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                   key={transaction.id}
                   selected={isTransactionSelected}
                 >
-                  <TableCell padding="checkbox">
-                    {/* <Checkbox
-                      color="primary"
-                      checked={isCryptoOrderSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoOrder(event, cryptoOrder.id)
-                      }
-                      value={isCryptoOrderSelected}
-                    /> */}
-                  </TableCell>
+                  <TableCell padding="checkbox"/>
+                  
                   <TableCell>
                     <Typography
                       variant="body1"
