@@ -79,12 +79,12 @@ const menuItems: MenuItems[] = [
       {
         name: 'Calculators',
         icon: CalculateTwoToneIcon,
-        link: '/finances/reports'
+        link: '/tools/calculators'
       },
       {
         name: 'Calendar',
         icon: EventNoteTwoToneIcon,
-        link: '/finances/reports'
+        link: '/tools/calendar'
       }
     ]
   },

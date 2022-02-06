@@ -14,7 +14,7 @@ const Loader = (Component) => (props) => (
 );
 
 // Pages
-//  Login = Loader(lazy(() => import('src/content/overview'))); // *** This will be login page, need to create
+const Login = Loader(lazy(() => import('src/content/applications/Login')));
 
 // Dashboard
 const Overview = Loader(lazy(() => import('src/content/dashboard/Overview')));
@@ -28,10 +28,8 @@ const Messenger = Loader(lazy(() => import('src/content/applications/Messenger')
 const UserProfile = Loader(lazy(() => import('src/content/applications/Users/profile'))); // *** Won't need this
 const UserSettings = Loader(lazy(() => import('src/content/applications/Users/settings'))); // *** Won't need this
 
-
 // Components
 const Buttons = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
-const Modals = Loader(lazy(() => import('src/content/pages/Components/Modals')));
 
 // Status
 const Status404 = Loader(lazy(() => import('src/content/pages/Status/Status404')));
@@ -63,6 +61,12 @@ const routes: PartialRouteObject[] = [
           />
         )
       },
+
+      {
+        path: 'login',
+        element: <Login />
+      },
+
       {
         path: 'status',
         children: [
@@ -192,14 +196,67 @@ const routes: PartialRouteObject[] = [
       },
       {
         path: 'budget',
-        element: <Buttons />
+        element: (
+          <Navigate
+            to="/status/coming-soon"
+            replace
+          />
+        )
       },
       {
         path: 'goals',
-        element: <Modals />
+        element: (
+          <Navigate
+            to="/status/coming-soon"
+            replace
+          />
+        )
       },
     ]
+  },
+
+  {
+    path: 'tools',
+    element: (
+      <SidebarLayout />
+    ),
+    children: [
+      {
+        path: '/',
+        element: (
+          <Navigate
+            to="/tools/calculators"
+            replace
+          />
+        )
+      },
+
+      {
+        path: 'calculators',
+        element: (
+          <Navigate
+            to="/status/coming-soon"
+            replace
+          />
+        )
+      },
+      {
+        path: 'calendar',
+        element: (
+          <Navigate
+            to="/status/coming-soon"
+            replace
+          />
+        )
+      }
+    ]
   }
+
+
+
+
+
+
 ];
 
 export default routes;

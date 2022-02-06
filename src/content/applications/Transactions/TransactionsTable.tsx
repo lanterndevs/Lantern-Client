@@ -51,7 +51,7 @@ const applyFilters = (
       matches = false;
     }
 
-    if(filters.date != null){
+    if(filters.date[0] !== null && filters.date[1] !== null){
       let start = filters.date[0].getTime();
       let end = filters.date[1].getTime();
 
@@ -82,7 +82,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    category: null, date: null
+    category: null, date: [null, null]
   });
 
   const [dates, setDates] = React.useState<DateRange<Date>>([null, null]);
@@ -121,6 +121,8 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
   };
 
   const handleDateSearch = (e: any): void => {
+
+    console.log(dates);
 
     setFilters((prevFilters) => ({
       ...prevFilters,
