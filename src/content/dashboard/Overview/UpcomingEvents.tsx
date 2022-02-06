@@ -53,7 +53,7 @@ function UpcomingEvents() {
             </AvatarWrapperError>
           </ListItemAvatar>
           <ListItemText
-            primary={<Text color="black">BILL DUE ---- February 22, 2022</Text>}
+            primary={<Text color="black">Bill due *Will Need to Add Date*</Text>}
             primaryTypographyProps={{
               variant: 'body1',
               fontWeight: 'bold',

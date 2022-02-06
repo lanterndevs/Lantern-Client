@@ -47,14 +47,17 @@ const applyFilters = (
   return transactions.filter((transaction) => {
     let matches = true;
 
+    // filters the current category selected
     if (filters.category && transaction.category !== filters.category) {
       matches = false;
     }
 
+    // filters the current date range selected
     if(filters.date[0] !== null && filters.date[1] !== null){
       let start = filters.date[0].getTime();
       let end = filters.date[1].getTime();
 
+      // checks if the transaction is within start and end bounds
       if(transaction.transactionDate >= end || transaction.transactionDate <= start){
         matches = false;
       }

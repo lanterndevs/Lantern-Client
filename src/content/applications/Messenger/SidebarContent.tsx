@@ -96,7 +96,7 @@ function SidebarContent() {
 
   const user =
   {
-    name: 'Catherine Pike',
+    name: 'User',
     avatar: '/static/images/avatars/1.jpg',
     jobtitle: 'Software Developer'
   };
