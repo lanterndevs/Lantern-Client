@@ -4,6 +4,7 @@
   "title": "lantern-client",
   "description": "Lantern is a free, open source web-application that gives small businesses the ability to track and account all income/cash flow along with providing computed detailed reports and finanical analysis.",
   "private": false,
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@devexpress/dx-react-chart": "^3.0.0",
     "@devexpress/dx-react-chart-material-ui": "^3.0.0",

@@ -1,44 +1,73 @@
 import { Card } from '@mui/material';
 import {Transaction } from 'src/models/transaction';
 import TransactionsTable from './TransactionsTable';
+import {useEffect, useState} from 'react';
+import { number } from 'prop-types';
 
-function Transactions() {
+const Transactions = () => {
 
-  const transactions: Transaction[] = [
-    {
-      id: '1',
-      details: 'Zelle Transfer',
-      transactionDate: new Date().getTime(),
-      category: 'expense',
-      orderID: 'ZELLE G95BW4HR',
-      sourceName: 'Bank of America',
-      sourceDesc: '*** 1111',
-      amount: 56787,
-      currency: '$'
-    },
-    {
-        id: '2',
-        details: 'Expense',
-        transactionDate: new Date().getTime(),
-        category: 'uncategorized',
-        orderID: 'MCDONALDS',
-        sourceName: 'Bank Account',
-        sourceDesc: '*** 1111',
-        amount: 56787,
-        currency: '$'
-      },
+  const [plaidTransactions, setPlaidTransactions] = useState({
+    account: "",
+    item: "",
+    request_id: "",
+    total_transactions:"",
+    transactions: [
       {
-        id: '3',
-        details: 'Incokme',
-        transactionDate: new Date().getTime(),
-        category: 'food',
-        orderID: 'MCDONALDS',
-        sourceName: 'Bank Account',
+        account_id: "",
+        account_owner: "",
+        amount: "",
+        category: [],
+        category_id: number,
+        date: "",
+        iso_currency_code: "",
+        location: "",
+        name: "",
+        payment_meta: "",
+        pending: "",
+        pending_transaction_id: "",
+        transaction_id: "",
+        transaction_type: "",
+        unofficial_currency_code: null
+      }
+    ],
+  })
+  
+  // fetches the transactions
+  const fetchData = () => {
+    fetch("/transactions")
+      .then(response => {
+        return response.json()
+      })
+      .then(data => {
+        setPlaidTransactions(data)
+      })
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  let transactions: Transaction[] = [];
+
+  if(plaidTransactions){
+
+    for(var transaction of plaidTransactions.transactions){
+
+      console.log(transaction.date);
+
+      transactions.push(
+        {id: transaction.transaction_id, 
+        details: transaction.name, 
+        transactionDate: new Date(transaction.date), 
+        category: 'expense', 
+        orderID: 'ZELLE G95BW4HR',
+        sourceName: 'Bank of America',
         sourceDesc: '*** 1111',
-        amount: 56787,
-        currency: '$'
-      },
-  ];
+        amount: Number(transaction.amount),
+        currency: '$'}
+      )
+    }
+  }
 
   return (
     <Card>

@@ -4,20 +4,12 @@ import {
   Typography,
   Container,
   Divider,
-  OutlinedInput,
-  IconButton,
-  Tooltip,
-  FormControl,
-  InputAdornment,
-  Button,
-  FormHelperText
+  Button
 } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { Helmet } from 'react-helmet-async';
-// import Logo from 'src/components/LogoSign';
 
 import { styled } from '@mui/material/styles';
-import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 
 const MainContent = styled(Box)(
   () => `
@@ -40,18 +32,6 @@ const TypographyH1 = styled(Typography)(
 const TypographyH3 = styled(Typography)(
   ({ theme }) => `
   color: ${theme.colors.alpha.black[50]};
-`
-);
-
-const OutlinedInputWrapper = styled(OutlinedInput)(
-  ({ theme }) => `
-    background-color: ${theme.colors.alpha.white[100]};
-`
-);
-
-const ButtonNotify = styled(Button)(
-  ({ theme }) => `
-    margin-right: -${theme.spacing(1)};
 `
 );
 

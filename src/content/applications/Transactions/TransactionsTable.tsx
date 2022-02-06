@@ -58,7 +58,7 @@ const applyFilters = (
       let end = filters.date[1].getTime();
 
       // checks if the transaction is within start and end bounds
-      if(transaction.transactionDate >= end || transaction.transactionDate <= start){
+      if(transaction.transactionDate.getTime() >= end || transaction.transactionDate.getTime() <= start){
         matches = false;
       }
     }
@@ -246,7 +246,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                       {transaction.details}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(transaction.transactionDate, 'MMMM dd yyyy')}
+                      {(moment(transaction.date)).format('DD-MMM-YYYY HH:mm:ss')}
                     </Typography>
                   </TableCell>
                   <TableCell>
