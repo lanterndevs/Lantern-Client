@@ -1,9 +1,10 @@
 name: 'build-test'
 on: # rebuild any PRs and main branch changes
   pull_request:
-  push:
     branches:
+      - dev
       - feature-8-plaid
+      - master
 
 jobs:
   
