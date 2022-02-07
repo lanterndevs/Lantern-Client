@@ -207,8 +207,8 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox"></TableCell>
-              <TableCell>Details</TableCell>
-              <TableCell>Transaction ID</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Transaction Name</TableCell>
               <TableCell>Source</TableCell>
               <TableCell>Amount</TableCell>
               <TableCell>Category</TableCell>
@@ -235,11 +235,11 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                       gutterBottom
                       noWrap
                     >
-                      {transaction.details}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
                       {(moment(transaction.transactionDate)).format('dddd, MMM DD YYYY')}
                     </Typography>
+                    {/* <Typography variant="body2" color="text.secondary" noWrap>
+                      {(moment(transaction.transactionDate)).format('dddd, MMM DD YYYY')}
+                    </Typography> */}
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -249,7 +249,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                       gutterBottom
                       noWrap
                     >
-                      {transaction.id}
+                      {transaction.details}
                     </Typography>
                   </TableCell>
                   <TableCell>
