@@ -2,7 +2,6 @@ import { Box, Hidden, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 
-
 import mainLogo from './lantern.png';
 
 const LogoWrapper = styled(Link)(
@@ -49,17 +48,6 @@ const LogoText = styled(Box)(
         font-weight: ${theme.typography.fontWeightBold};
 `
 );
-
-// const LogoTest = {
-//   // width: 18px,
-//   // height: 18px,
-//   // border-radius: ${theme.general.borderRadiusSm},
-//   position: relative,
-//   transform: rotate(45deg),
-//   top: 3px,
-//   left: 17px,
-// };
-
 
 function Logo() {
 

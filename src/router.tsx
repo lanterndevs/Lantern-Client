@@ -15,6 +15,7 @@ const Loader = (Component) => (props) => (
 
 // Pages
 const Login = Loader(lazy(() => import('src/content/applications/Login')));
+const Signup = Loader(lazy(() => import('src/content/applications/Signup')));
 
 // Dashboard
 const Overview = Loader(lazy(() => import('src/content/dashboard/Overview')));
@@ -65,6 +66,11 @@ const routes: PartialRouteObject[] = [
       {
         path: 'login',
         element: <Login />
+      },
+
+      {
+        path: 'register',
+        element: <Signup />
       },
 
       {
