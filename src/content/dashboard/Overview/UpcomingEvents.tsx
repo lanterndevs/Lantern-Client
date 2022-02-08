@@ -53,7 +53,7 @@ function UpcomingEvents() {
             </AvatarWrapperError>
           </ListItemAvatar>
           <ListItemText
-            primary={<Text color="black">Bill due *Will Need to Add Date*</Text>}
+            primary={<Text color="black">Bill Due, Feburary 5, 2022</Text>}
             primaryTypographyProps={{
               variant: 'body1',
               fontWeight: 'bold',
@@ -77,7 +77,7 @@ function UpcomingEvents() {
             </AvatarWrapperSuccess>
           </ListItemAvatar>
           <ListItemText
-            primary={<Text color="black">Meeting Feburary 5, 2022 </Text>}
+            primary={<Text color="black">Meeting, Feburary 5, 2022 </Text>}
             primaryTypographyProps={{
               variant: 'body1',
               fontWeight: 'bold',
@@ -101,7 +101,7 @@ function UpcomingEvents() {
             </AvatarWrapperWarning>
           </ListItemAvatar>
           <ListItemText
-            primary={<Text color="black">BILL DUE</Text>}
+            primary={<Text color="black">Bill Due, Feburary 5, 2022</Text>}
             primaryTypographyProps={{
               variant: 'body1',
               fontWeight: 'bold',

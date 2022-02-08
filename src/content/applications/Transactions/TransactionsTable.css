@@ -1,9 +1,8 @@
-.cardheader
-{   display: flex; 
+.cardheader{   
+    display: flex; 
     flex-direction:row;
 }
 
-.searchButton
-{
+.searchButton{
     padding-right: '150px';
 }
