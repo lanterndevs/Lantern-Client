@@ -8,19 +8,52 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import mainLogo from 'src/components/Logo/lantern.png';
-
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom'
 const theme = createTheme();
 
 export default function SignUp() {
+  // eslint-disable-next-line
+  const [cookies, setCookie] = useCookies(['auth_token']);
+  const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    console.log(
+      {
+        auth: {
+          email: data.get('email'),
+          password: data.get('password')
+        },
+        bio: {
+          first: data.get('firstName'),
+          last: data.get('lastName'),
+          orgName: data.get('organization')
+        }
+      
+    });
+
+    axios.post('http://localhost:8000/api/users/register',
+    {
+      auth: {
+        email: data.get('email'),
+        password: data.get('password')
+      },
+      bio: {
+        first: data.get('firstName'),
+        last: data.get('lastName'),
+        orgName: data.get('organization')
+      }
+    
+  }).then(res => {
+        if (res.data.token != null) {
+          console.log(JSON.stringify(res.data.token));
+          setCookie('auth_token',res.data.token,{ path: '/', maxAge: 30});
+          navigate('/dashboard/overview');
+        }
     });
   };
 
@@ -110,7 +143,7 @@ export default function SignUp() {
             <Grid container justifyContent="center">
               <Grid item>
                 
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
 

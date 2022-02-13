@@ -53,6 +53,15 @@ function PrivateComponent({component: Component, ...rest}) {
   );
 }
 
+function SignedOutOnlyComponent({component: Component, ...rest}) {
+  const loggedOut = getCookie("auth_token")==null;
+  return(
+    loggedOut ?
+      <Component/> :
+      <Navigate to={{ pathname: '/'}} />
+  );
+}
+
 const routes: PartialRouteObject[] = [
   {
     path: '*',
@@ -62,7 +71,7 @@ const routes: PartialRouteObject[] = [
         path: '/',
         element: (
           <Navigate
-            to="/login"
+            to="/dashboard/overview"
             replace
           />
         )
@@ -79,12 +88,12 @@ const routes: PartialRouteObject[] = [
 
       {
         path: 'login',
-        element: <Login />
+        element: <SignedOutOnlyComponent component={Login} />
       },
 
       {
         path: 'register',
-        element: <Signup />
+        element: <SignedOutOnlyComponent component={Signup} />
       },
 
       {
