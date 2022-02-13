@@ -33,6 +33,7 @@ const PageHeader = () => {
           });
           return;
         }
+        
         const data = await response.json();
         dispatch({
           type: "SET_STATE",
@@ -89,6 +90,7 @@ const PageHeader = () => {
           onClick={() => open()} disabled={!ready}
         >
           Add Account
+
         </Button>
       </Grid>
     </Grid>

@@ -16,14 +16,31 @@ import {
 import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 
-const account ={
+
+const account = [
+  {
     bank: "Plaid",
     accountName: "Plaid Checking",
     balance: "$100.00",
-    latestUpdate: "February 2, 2022 6:00 PM" 
-}
+    latestUpdate: "February 2, 2022 6:00 PM"
+  },
 
-function Accounts(){
+  {
+    bank: "Plaid",
+    accountName: "Plaid Checking",
+    balance: "$100.00",
+    latestUpdate: "February 2, 2022 6:00 PM"
+  },
+
+  {
+    bank: "Plaid",
+    accountName: "Plaid Checking",
+    balance: "$100.00",
+    latestUpdate: "February 2, 2022 6:00 PM"
+  }
+]
+
+const Accounts = () => {
 
 return(
     <Card>
@@ -57,7 +74,7 @@ return(
                             gutterBottom
                             noWrap
                         >
-                            {account.bank}
+                            {account[0].bank}
                             
                             </Typography>
                         </TableCell>
@@ -71,11 +88,8 @@ return(
                             gutterBottom
                             noWrap
                         >
-                      
-                            {account.accountName}
-                            
+                            {account[0].accountName}
                             </Typography>
-                        
                         </TableCell>
 
                   {/* Displays the current account balance of the bank connected */}
@@ -87,7 +101,7 @@ return(
                       gutterBottom
                       noWrap
                     >
-                      {account.balance}
+                      {account[0].balance}
                     </Typography>
                   </TableCell>
 
@@ -100,7 +114,7 @@ return(
                       gutterBottom
                       noWrap
                     >
-                      {account.latestUpdate}
+                      {account[0].latestUpdate}
                     </Typography>
                   </TableCell>
 

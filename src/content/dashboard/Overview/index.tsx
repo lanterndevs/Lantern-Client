@@ -4,6 +4,7 @@ import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 import UpcomingEvents from './UpcomingEvents';
+import LineGraph from './LineGraph';
 
 
 function Dashboard() {
@@ -21,7 +22,7 @@ function Dashboard() {
       <Container maxWidth="lg">
         <Grid container direction="row" justifyContent="left" alignItems="stretch" spacing={3}>
           <Grid item lg={8} xs={12}>
-          <UpcomingEvents />
+          <LineGraph />
             {/* Chart that displays net income (profit?) based on financial account and transactions */}
           </Grid>
           
@@ -31,6 +32,7 @@ function Dashboard() {
           </Grid>
           
           <Grid item lg={8} xs={12}>
+            
             {/* <Wallets /> */}
           </Grid>
           
