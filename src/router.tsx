@@ -38,6 +38,20 @@ const Status500 = Loader(lazy(() => import('src/content/pages/Status/Status500')
 const StatusComingSoon = Loader(lazy(() => import('src/content/pages/Status/ComingSoon')));
 const StatusMaintenance = Loader(lazy(() => import('src/content/pages/Status/Maintenance')));
 
+function getCookie(name) {
+  var re = new RegExp(name + "=([^;]+)");
+  var value = re.exec(document.cookie);
+  return (value != null) ? decodeURI(value[1]) : null;
+}
+
+function PrivateComponent({component: Component, ...rest}) {
+  const loggedIn = getCookie("auth_token")!=null;
+  return(
+    loggedIn ?
+      <Component/> :
+      <Navigate to={{ pathname: '/login'}} />
+  );
+}
 
 const routes: PartialRouteObject[] = [
   {
@@ -48,7 +62,7 @@ const routes: PartialRouteObject[] = [
         path: '/',
         element: (
           <Navigate
-            to="/dashboard/overview"
+            to="/login"
             replace
           />
         )
@@ -112,7 +126,7 @@ const routes: PartialRouteObject[] = [
   {
     path: 'dashboard',
     element: (
-      <SidebarLayout />
+      <PrivateComponent component={SidebarLayout} />
     ),
     children: [
       {
@@ -126,7 +140,7 @@ const routes: PartialRouteObject[] = [
       },
       {
         path: 'overview',
-        element: <Overview />
+        element: <Overview/>
       },
       {
         path: 'messenger',
@@ -137,7 +151,7 @@ const routes: PartialRouteObject[] = [
   {
     path: 'banking',
     element: (
-      <SidebarLayout />
+      <PrivateComponent component={SidebarLayout} />
     ),
     children: [
       {
@@ -184,7 +198,7 @@ const routes: PartialRouteObject[] = [
   {
     path: 'finances',
     element: (
-      <SidebarLayout />
+      <PrivateComponent component={SidebarLayout} />
     ),
     children: [
       {
@@ -224,7 +238,7 @@ const routes: PartialRouteObject[] = [
   {
     path: 'tools',
     element: (
-      <SidebarLayout />
+      <PrivateComponent component={SidebarLayout} />
     ),
     children: [
       {
