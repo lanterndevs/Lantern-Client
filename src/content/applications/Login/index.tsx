@@ -30,14 +30,14 @@ function Login() {
       password: data.get('password'),
     });
 
-    axios.post('localhost:8000/api/users/authenticate',
+    axios.post('http://localhost:8000/api/users/authenticate',
       {
         email: data.get('email'),
         password: data.get('password'),
       }).then(res => {
         if (res.data.token != null) {
           console.log(JSON.stringify(res.data.token));
-          setCookie('auth_token',res.data.token,{ path: '/', maxAge: 30});
+          setCookie('auth_token',res.data.token,{ path: '/', maxAge: 10000000000});
           navigate('/dashboard/overview');
         }
     });
