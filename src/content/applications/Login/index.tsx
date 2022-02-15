@@ -30,7 +30,7 @@ function Login() {
       password: data.get('password'),
     });
 
-    axios.post('http://localhost:8000/api/users/authenticate',
+    axios.post('localhost:8000/api/users/authenticate',
       {
         email: data.get('email'),
         password: data.get('password'),
