@@ -22,6 +22,8 @@ import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom'
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -62,13 +64,16 @@ function HeaderUserbox() {
 
   const user =
   {
-    name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg',
-    jobtitle: 'Project Manager'
+    name: 'User',
+    avatar: '',
+    jobtitle: 'Owner'
   };
 
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
+  // eslint-disable-next-line
+  const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
+  const navigate = useNavigate(); 
 
   const handleOpen = (): void => {
     setOpen(true);
@@ -76,6 +81,11 @@ function HeaderUserbox() {
 
   const handleClose = (): void => {
     setOpen(false);
+  };
+
+  const handleSignOut = (): void => {
+    removeCookie('auth_token', {path:'/'});
+    navigate('/login');
   };
 
   return (
@@ -141,7 +151,7 @@ function HeaderUserbox() {
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button color="primary" fullWidth onClick={handleSignOut}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Sign out
           </Button>

@@ -3,13 +3,10 @@ import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
-import NoTransactions from './NoTransactions';
-import { useState } from 'react';
 import Transactions from './Transactions';
 
-function ApplicationsTransactions() {
 
-  const [hasTransactions, setHasTransactions] = useState(true); 
+function ApplicationsTransactions() {
   
   return (
     <>
@@ -28,13 +25,7 @@ function ApplicationsTransactions() {
           spacing={3}
         >
           <Grid item xs={12}>
-
-            {/* Loads Transactions Component if the user has any transactions */}
-            {hasTransactions && <Transactions />}
-            
-            {/* Loads No Transactions Component if the user does not have any current transactions on the account */}
-            {!hasTransactions && <NoTransactions />}
-
+            <Transactions/>
           </Grid>
         </Grid>
       </Container>

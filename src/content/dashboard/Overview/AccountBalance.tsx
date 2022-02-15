@@ -46,13 +46,17 @@ function AccountBalance() {
     labels: ['Bitcoin', 'Ripple', 'Cardano', 'Ethereum']
   };
 
+
+
   return (
-    <Card>
+
+    <Card >
+      
       <Grid spacing={0} container>
         <Grid item xs={12} md={6}>
           <Box p={4}>
             <Typography sx={{ pb: 3 }} variant="h4">
-              Account Balance
+              Cash Flow
             </Typography>
             <Box>
               <Typography variant="h1" gutterBottom>
@@ -241,6 +245,14 @@ function AccountBalance() {
         </Grid>
       </Grid>
     </Card>
+
+
+
+
+
+
+
+
   );
 }
 

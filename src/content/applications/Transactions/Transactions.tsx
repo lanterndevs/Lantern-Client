@@ -1,46 +1,92 @@
 import { Card } from '@mui/material';
-import { CryptoOrder } from 'src/models/crypto_order';
 import {Transaction } from 'src/models/transaction';
-import { subDays } from 'date-fns';
 import TransactionsTable from './TransactionsTable';
+import {useEffect, useState} from 'react';
+import { number } from 'prop-types';
 
-function Transactions() {
+const Transactions = () => {
 
-  const transactions: Transaction[] = [
-    {
-      id: '1',
-      details: 'Zelle Transfer',
-      transactionDate: new Date().getTime(),
-      category: 'expense',
-      orderID: 'ZELLE G95BW4HR',
-      sourceName: 'Bank of America',
-      sourceDesc: '*** 1111',
-      amount: 56787,
-      currency: '$'
-    },
-    {
-        id: '2',
-        details: 'Expense',
-        transactionDate: new Date().getTime(),
-        category: 'uncategorized',
-        orderID: 'MCDONALDS',
-        sourceName: 'Bank Account',
-        sourceDesc: '*** 1111',
-        amount: 56787,
-        currency: '$'
-      },
+  const [plaidTransactions, setPlaidTransactions] = useState({
+    accounts: [
       {
-        id: '3',
-        details: 'Incokme',
-        transactionDate: new Date().getTime(),
-        category: 'food',
-        orderID: 'MCDONALDS',
-        sourceName: 'Bank Account',
-        sourceDesc: '*** 1111',
-        amount: 56787,
-        currency: '$'
-      },
-  ];
+        account_id: "",
+        balances: [],
+        mask: "",
+        name: "",
+        official_name: "",
+        subtype: "",
+        type: "",
+      }
+    ],
+
+    item: "",
+    request_id: "",
+    total_transactions:"",
+    
+    transactions: [
+      {
+        account_id: "",
+        account_owner: "",
+        amount: "",
+        category: [],
+        category_id: number,
+        date: "",
+        iso_currency_code: "",
+        location: "",
+        name: "",
+        payment_meta: "",
+        pending: "",
+        pending_transaction_id: "",
+        transaction_id: "",
+        transaction_type: "",
+        unofficial_currency_code: null
+      }
+    ],
+  })
+  
+  // fetches user transactions via Plaid
+  const fetchData = () => {
+    fetch("/transactions")
+      .then(response => {
+        return response.json()
+      })
+      .then(data => {
+        setPlaidTransactions(data)
+      })
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  let transactions: Transaction[] = [];
+
+  console.log(plaidTransactions);
+
+  // if the user has transctions retrieved from Plaid, populate the transcations table
+  if(plaidTransactions.transactions[0].name !== ""){
+
+    // creates a map to accounts to retrive name based on account_id
+    let accounts = new Map();
+    for(var account of plaidTransactions.accounts){
+      accounts.set(account.account_id, [account.name, account.subtype]);
+    }
+
+    // appends new transactions to list of transactions
+    for(var transaction of plaidTransactions.transactions){
+      transactions.push(
+        {id: transaction.transaction_id, 
+        details: transaction.name, 
+        transactionDate: new Date(transaction.date), 
+        category: 'expense', 
+        orderID: 'ZELLE G95BW4HR',
+        sourceName: accounts.get(transaction.account_id)[0],
+        sourceDesc: accounts.get(transaction.account_id)[1],
+        amount: Number(transaction.amount),
+        currency: '$'}
+      )
+    }
+  }
 
   return (
     <Card>

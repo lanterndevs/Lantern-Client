@@ -18,7 +18,7 @@ const PageTitleWrapper: FC<PageTitleWrapperProps> = ({ children }) => {
   return (
     <>
       <PageTitle>
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" >
           {children}
         </Container>
       </PageTitle>

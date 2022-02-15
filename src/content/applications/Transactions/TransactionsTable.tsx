@@ -1,8 +1,7 @@
 import { FC, ChangeEvent, useState } from 'react';
-import { format } from 'date-fns';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
-  Tooltip,
   Divider,
   Box,
   FormControl,
@@ -18,10 +17,18 @@ import {
   Select,
   MenuItem,
   Typography,
-  CardHeader
+  CardHeader,
+  Button
 } from '@mui/material';
 
+import TextField from '@mui/material/TextField';
+import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
 import {Transaction, TransactionCategory } from 'src/models/transaction';
+import './TransactionsTable.css';
+import React from 'react';
 
 interface TransactionsTableProps {
   className?: string;
@@ -30,6 +37,7 @@ interface TransactionsTableProps {
 
 interface Filters {
   category?: TransactionCategory;
+  date?: DateRange<Date>;
 }
 
 const applyFilters = (
@@ -39,8 +47,20 @@ const applyFilters = (
   return transactions.filter((transaction) => {
     let matches = true;
 
+    // filters the current category selected
     if (filters.category && transaction.category !== filters.category) {
       matches = false;
+    }
+
+    // filters the current date range selected
+    if(filters.date[0] !== null && filters.date[1] !== null){
+      let start = filters.date[0].getTime();
+      let end = filters.date[1].getTime();
+
+      // checks if the transaction is within start and end bounds
+      if(transaction.transactionDate.getTime() >= end || transaction.transactionDate.getTime() <= start){
+        matches = false;
+      }
     }
 
     return matches;
@@ -57,6 +77,7 @@ const applyPagination = (
 
 const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
+  // eslint-disable-next-line
   const [selectedTransactions, setSelectedTransactions] = useState<string[]>(
     []
   );
@@ -64,8 +85,10 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    category: null
+    category: null, date: [null, null]
   });
+
+  const [dates, setDates] = React.useState<DateRange<Date>>([null, null]);
 
   const transactionOptions = [
     {
@@ -86,17 +109,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
     }
   ];
 
-  const [transaction, setTransaction] = useState<Transaction>();
-
-  function returnCategory(value){
-    
-    let category: TransactionCategory;
-    category = (value === 'expense' ? 'expense' : 'uncategorized');
-
-    return category;
- }  
-
-
   const handleCateogryChange = (e: ChangeEvent<HTMLInputElement>): void => {
 
     let value = null;
@@ -107,14 +119,18 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      category: value
+      category: value, date: dates
     }));
   };
 
-  const handleCateogryAttributeChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleDateSearch = (e: any): void => {
 
-    let value = e.target.value;
-    alert(value);
+    console.log(dates);
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      date: dates
+    }));
   };
 
 
@@ -137,6 +153,33 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
     <Card>
         <CardHeader
           action={
+            <div className="cardheader">
+            <Box width={300} >
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateRangePicker
+                  startText="Start Date"
+                  endText="End Date"
+                  value={dates}
+                  onChange={(newValue) => {
+                    setDates(newValue);
+                  }}
+                  renderInput={(startProps, endProps) => (
+                    <React.Fragment>
+                      <TextField {...startProps} />
+                      <Box sx={{ mx: 2 }}> to </Box>
+                      <TextField {...endProps} />
+                    </React.Fragment>
+                  )}
+                />
+            </LocalizationProvider>
+            
+            </Box>
+
+            <Box mr={3}>
+            <Button onClick = {handleDateSearch} variant="outlined" style={{height:'53px', width: '100px'}}>Search
+            </Button>
+            </Box>
+
             <Box width={150}>
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Category</InputLabel>
@@ -154,7 +197,9 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                 </Select>
               </FormControl>
             </Box>
+            </div>
           }
+          title="Filters"
         />
       <Divider />
       <TableContainer>
@@ -162,8 +207,8 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox"></TableCell>
-              <TableCell>Details</TableCell>
-              <TableCell>Transaction ID</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Transaction Name</TableCell>
               <TableCell>Source</TableCell>
               <TableCell>Amount</TableCell>
               <TableCell>Category</TableCell>
@@ -180,15 +225,21 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                   key={transaction.id}
                   selected={isTransactionSelected}
                 >
-                  <TableCell padding="checkbox">
-                    {/* <Checkbox
-                      color="primary"
-                      checked={isCryptoOrderSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoOrder(event, cryptoOrder.id)
-                      }
-                      value={isCryptoOrderSelected}
-                    /> */}
+                  <TableCell padding="checkbox"/>
+                  
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {(moment(transaction.transactionDate)).format('dddd, MMM DD YYYY')}
+                    </Typography>
+                    {/* <Typography variant="body2" color="text.secondary" noWrap>
+                      {(moment(transaction.transactionDate)).format('dddd, MMM DD YYYY')}
+                    </Typography> */}
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -199,20 +250,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                       noWrap
                     >
                       {transaction.details}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(transaction.transactionDate, 'MMMM dd yyyy')}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {transaction.id}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -245,7 +282,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                     <Select
                       value={transaction.category || 'all'}
 
-                      onChange={(e) => {setTransaction({ ...transaction, category: 'expense'})}}
+                      
                       fullWidth
                     >
                       {transactionOptions.filter(transactionOption => transactionOption.id !== 'all').map((transactionOption) => (
