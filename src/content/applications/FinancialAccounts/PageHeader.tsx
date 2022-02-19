@@ -39,9 +39,9 @@ const PageHeader = () => {
   ];
   
   // need to replace the following line with function to import auth token
-  const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaWJpYmFsYUBnbWFpbC5jb20iLCJpYXQiOjE2NDUyOTA2MTksImV4cCI6MTY0NTI5MjQxOX0.cOFvH-hm77_W9F52hEKjkIA-ayA1hXIRx15UryeXHFo";
 
   const [token, setToken] = useState<string | null>(null);
+  const [publicToken, setPublicToken] = useState<string | null>(null);
 
   useEffect(() => {
     axios.get('http://localhost:8000/api/link', {
@@ -57,7 +57,20 @@ const PageHeader = () => {
   const onSuccess = useCallback<PlaidLinkOnSuccess>((publicToken, metadata) => {
     // send public_token to your server
     // https://plaid.com/docs/api/tokens/#token-exchange-flow
-    console.log(publicToken, metadata);
+    setPublicToken(publicToken);
+    console.log(publicToken);
+
+    // retrieve the accounts using the Plaid public tokens
+    axios.get('http://localhost:8000/api/accounts', {
+      headers: {
+        authorization: 'Bearer ' + publicToken,
+      }
+    }).then((response) => {
+      // checks to see if the account data is as expected
+      console.log(response);
+      console.log('Tosin');
+    });
+
   }, []);
 
   const { open, ready } = usePlaidLink({

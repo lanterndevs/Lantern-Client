@@ -61,8 +61,6 @@ const Transactions = () => {
 
   let transactions: Transaction[] = [];
 
-  console.log(plaidTransactions);
-
   // if the user has transctions retrieved from Plaid, populate the transcations table
   if(plaidTransactions.transactions[0].name !== ""){
 

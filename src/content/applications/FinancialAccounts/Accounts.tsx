@@ -50,7 +50,6 @@ return(
                     </TableRow>
                 </TableHead>
                 
-                {/* ADD THE MAP HERE */}
                 <TableBody>
                   {accounts.map((account) => {
                     return (
@@ -140,6 +139,6 @@ return(
           </TableContainer>
 
     </Card>
-    );
+  );
 }
 export default Accounts;
