@@ -1,76 +1,40 @@
 import { Typography, Button, Grid } from '@mui/material';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import React, { useContext , useEffect }from 'react';
-import Context from './Context';
+import axios from 'axios';
+import { useCallback, useState, useEffect } from 'react';
+import { usePlaidLink, PlaidLinkOnSuccess } from 'react-plaid-link';
 
-import {
-  usePlaidLink
-} from 'react-plaid-link';
 
 const PageHeader = () => {
+  
+  // need to replace the following line with function to import auth token
 
-  const { linkToken, dispatch } = useContext(Context);
 
-  const onSuccess = React.useCallback(
-    (public_token: string) => {
-      // send public_token to server
-      const setToken = async () => {
-        const response = await fetch("/api/set_access_token", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          },
-          body: `public_token=${public_token}`,
-        });
-        if (!response.ok) {
-          dispatch({
-            type: "SET_STATE",
-            state: {
-              itemId: `no item_id retrieved`,
-              accessToken: `no access_token retrieved`,
-              isItemAccess: false,
-            },
-          });
-          return;
-        }
-        
-        const data = await response.json();
-        dispatch({
-          type: "SET_STATE",
-          state: {
-            itemId: data.item_id,
-            accessToken: data.access_token,
-            isItemAccess: true,
-          },
-        });
-      };
-      setToken();
-      dispatch({ type: "SET_STATE", state: { linkSuccess: true } });
-      window.history.pushState("", "", "/");
-    },
-    [dispatch]
-  );
-
-  let isOauth = false;
-  const config: Parameters<typeof usePlaidLink>[0] = {
-    token: linkToken!,
-    onSuccess,
-  };
-
-  if (window.location.href.includes("?oauth_state_id=")) {
-    // TODO: figure out how to delete this ts-ignore
-    // @ts-ignore
-    config.receivedRedirectUri = window.location.href;
-    isOauth = true;
-  }
-
-  const { open, ready } = usePlaidLink(config);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isOauth && ready) {
-      open();
-    }
-  }, [ready, open, isOauth]);
+    axios.get('http://localhost:8000/api/link', {
+      headers: {
+        authorization: 'Bearer ' + authToken,
+      }
+    }).then((response) => {
+      setToken(response.data.token);
+    });
+  }, []);
+
+
+  const onSuccess = useCallback<PlaidLinkOnSuccess>((publicToken, metadata) => {
+    // send public_token to your server
+    // https://plaid.com/docs/api/tokens/#token-exchange-flow
+    console.log(publicToken, metadata);
+  }, []);
+
+  const { open, ready } = usePlaidLink({
+    token,
+    onSuccess,
+    // onEvent
+    // onExit
+  });
 
   return (
     <Grid container justifyContent="space-between" alignItems="center">

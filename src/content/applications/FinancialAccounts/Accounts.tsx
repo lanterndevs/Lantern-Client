@@ -15,7 +15,7 @@ import {
 
 import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-
+import axios from 'axios';
 
 const account = [
   {
@@ -41,6 +41,17 @@ const account = [
 ]
 
 const Accounts = () => {
+
+
+const response = axios.get('http://localhost:8080/api/accounts', {
+  headers: {
+    authorization: 'Bearer ' + 'public-sandbox-c1efb46b-a9f0-4e80-9d01-9c07c8b7c3',
+  }
+})
+
+console.log(response);
+
+
 
 return(
     <Card>

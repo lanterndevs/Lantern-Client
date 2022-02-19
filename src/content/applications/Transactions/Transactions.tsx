@@ -46,7 +46,7 @@ const Transactions = () => {
   
   // fetches user transactions via Plaid
   const fetchData = () => {
-    fetch("/transactions")
+    fetch("http://localhost:3001/transactions")
       .then(response => {
         return response.json()
       })
