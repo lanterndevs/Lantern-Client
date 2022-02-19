@@ -1,14 +1,45 @@
-import { Typography, Button, Grid } from '@mui/material';
+import { Typography, Button, Grid, Box } from '@mui/material';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import axios from 'axios';
 import { useCallback, useState, useEffect } from 'react';
 import { usePlaidLink, PlaidLinkOnSuccess } from 'react-plaid-link';
+import Accounts from './Accounts';
+import { Account } from 'src/models/account';
 
 
 const PageHeader = () => {
+
+  // const [plaidAccounts, setPlaidAccounts] = useState({
+  //   accounts: [
+  //     {
+  //       account_id: "",
+  //       balances: [],
+  //       mask: "",
+  //       name: "",
+  //       official_name: "",
+  //       subtype: "",
+  //       type: "",
+  //     }
+  //   ]
+  // });
+
+  let accounts: Account[] = [
+    {
+      bank: "Plaid",
+      accountName: "Plaid Checking",
+      balance: "$100.00",
+      latestUpdate: "February 2, 2022 6:00 PM"
+    },
+    {
+      bank: "Plaid",
+      accountName: "Plaid Savings",
+      balance: "$150.00",
+      latestUpdate: "February 9, 2022 6:00 PM"
+    },
+  ];
   
   // need to replace the following line with function to import auth token
-
+  const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaWJpYmFsYUBnbWFpbC5jb20iLCJpYXQiOjE2NDUyOTA2MTksImV4cCI6MTY0NTI5MjQxOX0.cOFvH-hm77_W9F52hEKjkIA-ayA1hXIRx15UryeXHFo";
 
   const [token, setToken] = useState<string | null>(null);
 
@@ -37,6 +68,7 @@ const PageHeader = () => {
   });
 
   return (
+    <>
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
@@ -58,6 +90,14 @@ const PageHeader = () => {
         </Button>
       </Grid>
     </Grid>
+
+    {/* Creates space in between page header and accounts */}
+    <Box m={1} pt={2}/>
+
+    {/* Displays the connected accounts */}
+    <Accounts accounts={accounts}/>
+
+    </>
   );
 }
 
