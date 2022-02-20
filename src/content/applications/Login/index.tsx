@@ -13,12 +13,15 @@ import mainLogo from 'src/components/Logo/lantern.png';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
 
 const theme = createTheme();
 
 function Login() {
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['auth_token']);
+  const [authToken, setAuthToken] = useState('');
+  
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,8 +33,8 @@ function Login() {
         password: data.get('password'),
       }).then(res => {
         if (res.data.token != null) {
-          console.log(JSON.stringify(res.data.token));
-          setCookie('auth_token',res.data.token,{ path: '/', maxAge: 10000000000});
+          setAuthToken(res.data.token);
+          setCookie('auth_token',res.data.token,{ path: '/', maxAge: 1000000000000});
           navigate('/dashboard/overview');
         }
     });
