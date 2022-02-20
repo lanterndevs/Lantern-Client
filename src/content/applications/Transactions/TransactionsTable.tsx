@@ -33,7 +33,6 @@ import React from 'react';
 interface TransactionsTableProps {
   className?: string;
   transactions: Transaction[];
-  categories: string[];
 }
 
 interface Filters {
@@ -76,7 +75,7 @@ const applyPagination = (
   return transactions.slice(page * limit, page * limit + limit);
 };
 
-const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categories }) => {
+const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
   // eslint-disable-next-line
   const [selectedTransactions, setSelectedTransactions] = useState<string[]>(
@@ -271,23 +270,28 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
                     <Typography
                       variant="body1"
                       fontWeight="bold"
-                      color={transaction.amount > 0 ? "red" : "green"}
-                      gutterBottom
-                      noWrap
-                    >
-                      {transaction.currency} {-transaction.amount}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                  <Typography
-                      variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {transaction.category}
+                      {transaction.currency} {transaction.amount}
                     </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <FormControl fullWidth variant="outlined">
+                    <Select
+                      value={transaction.category || 'all'}
+
+                      
+                      fullWidth
+                    >
+                      {transactionOptions.filter(transactionOption => transactionOption.id !== 'all').map((transactionOption) => (
+                      <MenuItem key={transactionOption.id} value={transactionOption.id}>
+                        {transactionOption.name}
+                      </MenuItem>
+                    ))}
+                    </Select>
+                    </FormControl>
                   </TableCell>
                 </TableRow>
               );
