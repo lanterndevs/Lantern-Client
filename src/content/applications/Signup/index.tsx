@@ -11,30 +11,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import mainLogo from 'src/components/Logo/lantern.png';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { useAlert } from 'react-alert';
 const theme = createTheme();
 
 export default function SignUp() {
+  const alert = useAlert()
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['auth_token']);
   const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log(
-      {
-        auth: {
-          email: data.get('email'),
-          password: data.get('password')
-        },
-        bio: {
-          first: data.get('firstName'),
-          last: data.get('lastName'),
-          orgName: data.get('organization')
-        }
-      
-    });
 
     axios.post('http://localhost:8000/api/users/register',
     {
@@ -51,10 +39,13 @@ export default function SignUp() {
   }).then(res => {
         if (res.data.token != null) {
           console.log(JSON.stringify(res.data.token));
+          alert.removeAll();
           setCookie('auth_token',res.data.token,{ path: '/', maxAge: 30});
           navigate('/dashboard/overview');
         }
-    });
+    }).catch(err => {
+      alert.show("Invalid signup. Try again");
+    });;
   };
 
   return (
