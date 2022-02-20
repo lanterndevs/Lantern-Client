@@ -46,7 +46,7 @@ const Transactions = () => {
   
   // fetches user transactions via Plaid
   const fetchData = () => {
-    fetch("http://localhost:3001/transactions")
+    fetch("/transactions")
       .then(response => {
         return response.json()
       })
@@ -60,7 +60,6 @@ const Transactions = () => {
   }, [])
 
   let transactions: Transaction[] = [];
-  let categoriesSet = new Set<string>();
 
   console.log(plaidTransactions);
 
@@ -79,20 +78,19 @@ const Transactions = () => {
         {id: transaction.transaction_id, 
         details: transaction.name, 
         transactionDate: new Date(transaction.date), 
-        category: transaction.category[0], 
+        category: 'expense', 
         orderID: 'ZELLE G95BW4HR',
         sourceName: accounts.get(transaction.account_id)[0],
         sourceDesc: accounts.get(transaction.account_id)[1],
         amount: Number(transaction.amount),
         currency: '$'}
-      );
-      categoriesSet.add(transaction.category[0]);
+      )
     }
   }
-  let categories = Array.from(categoriesSet);
+
   return (
     <Card>
-      <TransactionsTable transactions={transactions} categories={categories} />
+      <TransactionsTable transactions={transactions} />
     </Card>
   );
 }
