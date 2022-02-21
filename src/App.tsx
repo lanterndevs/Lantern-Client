@@ -7,6 +7,7 @@ import ThemeProvider from './theme/ThemeProvider';
 import { CssBaseline } from '@mui/material';
 import { CookiesProvider } from 'react-cookie';
 import { withCookies } from 'react-cookie';
+import { AuthenticationProvider } from './content/applications/Login/authenticationContext';
 
 const App = () => {
 
@@ -17,7 +18,9 @@ const App = () => {
       <ThemeProvider>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <CssBaseline />
+          <AuthenticationProvider>
           {content}
+          </AuthenticationProvider>
         </LocalizationProvider>
       </ThemeProvider>
     </CookiesProvider>

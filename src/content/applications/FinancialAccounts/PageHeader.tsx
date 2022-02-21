@@ -5,23 +5,12 @@ import { useCallback, useState, useEffect, useContext } from 'react';
 import { usePlaidLink, PlaidLinkOnSuccess } from 'react-plaid-link';
 import Accounts from './Accounts';
 import { Account } from 'src/models/account';
+import { AuthenticationContext } from '../Login/authenticationContext';
 
 
 const PageHeader = () => {
 
-  // const [plaidAccounts, setPlaidAccounts] = useState({
-  //   accounts: [
-  //     {
-  //       account_id: "",
-  //       balances: [],
-  //       mask: "",
-  //       name: "",
-  //       official_name: "",
-  //       subtype: "",
-  //       type: "",
-  //     }
-  //   ]
-  // });
+  const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
 
   let accounts: Account[] = [
     {
@@ -39,8 +28,10 @@ const PageHeader = () => {
   ];
   
   // need to replace the following line with function to import auth token
-  const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaWJpYmFsYUBnbWFpbC5jb20iLCJpYXQiOjE2NDUzMDYwNjMsImV4cCI6MTY0NTMwNzg2M30.0qTSQgtZJwHQdtaO52eCghlad0qgTtQrmvnL-kfa11c";
+  // const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaWJpYmFsYUBnbWFpbC5jb20iLCJpYXQiOjE2NDUzMDYwNjMsImV4cCI6MTY0NTMwNzg2M30.0qTSQgtZJwHQdtaO52eCghlad0qgTtQrmvnL-kfa11c";
   // const {authToken, setAuthToken} = useContext(authenticationToken);
+  console.log(authToken);
+
   const [token, setToken] = useState<string | null>(null); // link token received from Plaid
   const [publicToken, setPublicToken] = useState<string | null>(null);
 
@@ -117,3 +108,17 @@ const PageHeader = () => {
 }
 
 export default PageHeader;
+
+  // const [plaidAccounts, setPlaidAccounts] = useState({
+  //   accounts: [
+  //     {
+  //       account_id: "",
+  //       balances: [],
+  //       mask: "",
+  //       name: "",
+  //       official_name: "",
+  //       subtype: "",
+  //       type: "",
+  //     }
+  //   ]
+  // });
