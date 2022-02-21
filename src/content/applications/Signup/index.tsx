@@ -13,9 +13,33 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+
 const theme = createTheme();
+const validationSchema = yup.object({
+  email: yup.string().email('Enter a valid email').required('Email is required'),
+  password: yup.string().required('Password is required'),
+  firstName: yup.string().required('First name is required').matches(/^[a-zA-Z0-9]+$/, 'First name has non-alphanumeric characters'),
+  lastName: yup.string().required('Last name is required').matches(/^[a-zA-Z0-9]+$/, 'Last name has non-alphanumeric characters'),
+  organization: yup.string().required('Organization name is required').matches(/^[a-zA-Z0-9]+$/, 'Organization name has non-alphanumeric characters')
+});
 
 export default function SignUp() {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      organization: ''
+    },
+    validationSchema: validationSchema ,    
+    onSubmit: values => {     
+        // Handle Submit
+    },
+  });
+
   const alert = useAlert()
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['auth_token']);
@@ -76,6 +100,11 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.firstName}
+                  error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                  helperText={formik.touched.firstName && formik.errors.firstName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -86,6 +115,11 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.lastName}
+                  error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                  helperText={formik.touched.lastName && formik.errors.lastName}
                 />
               </Grid>
 
@@ -97,6 +131,11 @@ export default function SignUp() {
                   label="Organization Name"
                   name="organization"
                   autoComplete="organization"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.organization}
+                  error={formik.touched.organization && Boolean(formik.errors.organization)}
+                  helperText={formik.touched.organization && formik.errors.organization}
                 />
               </Grid>
 
@@ -108,6 +147,11 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
                 />
               </Grid>
 
@@ -120,6 +164,11 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.password}
+                  error={formik.touched.password && Boolean(formik.errors.password)}
+                  helperText={formik.touched.password && formik.errors.password}
                 />
               </Grid>
             </Grid>

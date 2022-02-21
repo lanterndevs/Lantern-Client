@@ -14,11 +14,27 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom'
 import { useAlert } from 'react-alert'
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 const theme = createTheme();
-
+const validationSchema = yup.object({
+  email: yup.string().email('Enter a valid email').required('Email is required'),
+  password: yup.string().required('Password is required'),
+});
 
 function Login() {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    validationSchema: validationSchema ,    
+    onSubmit: values => {     
+        // Handle Submit
+    },
+  });
+
   const alert = useAlert()
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['auth_token']);
@@ -69,6 +85,12 @@ function Login() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              inputProps={{style: {textTransform: 'lowercase'}}}                
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
               autoFocus
             />
             <TextField
@@ -80,6 +102,11 @@ function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
