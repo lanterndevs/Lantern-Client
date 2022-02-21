@@ -19,7 +19,7 @@ import * as yup from 'yup';
 const theme = createTheme();
 const validationSchema = yup.object({
   email: yup.string().email('Enter a valid email').required('Email is required'),
-  password: yup.string().required('Password is required'),
+  password: yup.string().required('Password is required').length(6, 'Password must be 6 characters or more'),
   firstName: yup.string().required('First name is required').matches(/^[a-zA-Z0-9]+$/, 'First name has non-alphanumeric characters'),
   lastName: yup.string().required('Last name is required').matches(/^[a-zA-Z0-9]+$/, 'Last name has non-alphanumeric characters'),
   organization: yup.string().required('Organization name is required').matches(/^[a-zA-Z0-9]+$/, 'Organization name has non-alphanumeric characters')
