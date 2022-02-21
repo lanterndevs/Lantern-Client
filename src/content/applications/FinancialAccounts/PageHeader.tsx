@@ -10,30 +10,18 @@ import { AuthenticationContext } from '../Login/authenticationContext';
 
 const PageHeader = () => {
 
-  // eslint-disable-next-line
-  const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
-
   let accounts: Account[] = [
-    {
-      bank: "Plaid",
-      accountName: "Plaid Checking",
-      balance: "$100.00",
-      latestUpdate: "February 2, 2022 6:00 PM"
-    },
-    {
-      bank: "Plaid",
-      accountName: "Plaid Savings",
-      balance: "$150.00",
-      latestUpdate: "February 9, 2022 6:00 PM"
-    },
   ];
 
+
+  // eslint-disable-next-line
+  const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
   const [token, setToken] = useState<string | null>(null); // link token received from Plaid
-  const [publicToken, setPublicToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [publicToken, setPublicToken] = useState<string | null>(null); // public token received upon adding account with Plaid
 
+  // initial communication on render between server and Plaid to obtain link to add a new account
   useEffect(() => {
-    console.log(authToken); // checks that the auth token matches
-
     axios.get('http://localhost:8000/api/link', {
       headers: {
         authorization: 'Bearer ' + authToken,
@@ -50,15 +38,23 @@ const PageHeader = () => {
     setPublicToken(publicToken);
     console.log(publicToken);
 
-    // retrieve the accounts using the Plaid public tokens
+    // uses public token to retrieve access token for accounts and transactions
+    axios.post('http://localhost:8000/api/link', { token: publicToken},{
+      headers: {
+        authorization: 'Bearer ' + authToken,
+      }
+    }).then(response => {
+      setAccessToken(response.data.token);
+    })
+
+    // retrieve the accounts from server
     axios.get('http://localhost:8000/api/accounts', {
       headers: {
-        authorization: 'Bearer ' + publicToken,
+        authorization: 'Bearer ' + authToken,
       }
     }).then((response) => {
       // checks to see if the account data is as expected
       console.log(response);
-      
     });
   }, []);
 
@@ -98,7 +94,6 @@ const PageHeader = () => {
 
     {/* Displays the connected accounts */}
     <Accounts accounts={accounts}/>
-
     </>
   );
 }
