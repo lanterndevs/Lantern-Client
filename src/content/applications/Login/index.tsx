@@ -13,7 +13,7 @@ import mainLogo from 'src/components/Logo/lantern.png';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom'
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { AuthenticationContext } from '../Login/authenticationContext';
 
 const theme = createTheme();
@@ -21,8 +21,9 @@ const theme = createTheme();
 function Login() {
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['auth_token']);
+
+  // eslint-disable-next-line
   const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
-  // const [authToken, setAuthToken] = useState('');
   
   const navigate = useNavigate();
   const handleSubmit = (event) => {

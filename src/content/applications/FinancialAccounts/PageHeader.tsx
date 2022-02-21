@@ -10,6 +10,7 @@ import { AuthenticationContext } from '../Login/authenticationContext';
 
 const PageHeader = () => {
 
+  // eslint-disable-next-line
   const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
 
   let accounts: Account[] = [
@@ -26,11 +27,6 @@ const PageHeader = () => {
       latestUpdate: "February 9, 2022 6:00 PM"
     },
   ];
-  
-  // need to replace the following line with function to import auth token
-  // const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaWJpYmFsYUBnbWFpbC5jb20iLCJpYXQiOjE2NDUzMDYwNjMsImV4cCI6MTY0NTMwNzg2M30.0qTSQgtZJwHQdtaO52eCghlad0qgTtQrmvnL-kfa11c";
-  // const {authToken, setAuthToken} = useContext(authenticationToken);
-  console.log(authToken);
 
   const [token, setToken] = useState<string | null>(null); // link token received from Plaid
   const [publicToken, setPublicToken] = useState<string | null>(null);

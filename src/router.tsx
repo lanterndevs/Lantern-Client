@@ -1,4 +1,4 @@
-import { Suspense, lazy, Fragment } from 'react';
+import { Suspense, lazy} from 'react';
 import { Navigate } from 'react-router-dom';
 import { PartialRouteObject } from 'react-router';
 
@@ -6,7 +6,6 @@ import SidebarLayout from 'src/layouts/SidebarLayout';
 import BaseLayout from 'src/layouts/BaseLayout';
 
 import SuspenseLoader from 'src/components/SuspenseLoader';
-import { AuthenticationProvider } from './content/applications/Login/authenticationContext';
 
 const Loader = (Component) => (props) => (
   <Suspense fallback={<SuspenseLoader />}>
@@ -50,11 +49,7 @@ function PrivateComponent({component: Component, ...rest}) {
   return(
     loggedIn ?
       <Component/> :
-      <Fragment>
-      <AuthenticationProvider>
       <Navigate to={{ pathname: '/login'}} />
-      </AuthenticationProvider> 
-      </Fragment>
   );
 }
 
