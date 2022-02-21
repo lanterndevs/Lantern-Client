@@ -10,8 +10,8 @@ import { AuthenticationContext } from '../Login/authenticationContext';
 
 const PageHeader = () => {
 
+  // will be used to populate the list of plaid accounts
   let accounts: Account[] = [];
-
 
   // eslint-disable-next-line
   const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
