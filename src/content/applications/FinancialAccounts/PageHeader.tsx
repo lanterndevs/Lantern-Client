@@ -10,8 +10,7 @@ import { AuthenticationContext } from '../Login/authenticationContext';
 
 const PageHeader = () => {
 
-  let accounts: Account[] = [
-  ];
+  let accounts: Account[] = [];
 
 
   // eslint-disable-next-line
