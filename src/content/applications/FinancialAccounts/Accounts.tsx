@@ -66,7 +66,7 @@ return(
                             gutterBottom
                             noWrap
                         >
-                            {account.bank}
+                            {account.bankName}
                             
                             </Typography>
                         </TableCell>
@@ -80,7 +80,7 @@ return(
                             gutterBottom
                             noWrap
                         >
-                            {account.accountName}
+                            {account.name}
                             </Typography>
                         </TableCell>
 

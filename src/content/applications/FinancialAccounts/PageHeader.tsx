@@ -10,8 +10,40 @@ import { AuthenticationContext } from '../Login/authenticationContext';
 
 const PageHeader = () => {
 
+  const [plaidAccounts, setPlaidAccounts] = useState({
+    accounts: [
+      {
+        balance: "",
+        description: "",
+        id: "",
+        instituationId: "",
+        name: ""
+      }
+    ]
+  });
+
   // will be used to populate the list of plaid accounts
   let accounts: Account[] = [];
+  
+  console.log(plaidAccounts.accounts);
+
+  //   // appends new transactions to list of transactions
+  //   if(plaidAccounts.accounts.length > 2){
+
+  //   for(var account of plaidAccounts.accounts){
+  //     accounts.push(
+  //       {
+  //         balance: account.balance,
+  //         description: account.description,
+  //         id: account.id,
+  //         institutionID: account.instituationId,
+  //         name: account.name,
+  //         bankName: "Plaid",
+  //         latestUpdate: "February 22, 2022",
+  //       }
+  //     )
+  //   }
+  // }
 
   // eslint-disable-next-line
   const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
@@ -35,7 +67,6 @@ const PageHeader = () => {
     // send public_token to your server
     // https://plaid.com/docs/api/tokens/#token-exchange-flow
     setPublicToken(publicToken);
-    console.log(publicToken);
 
     // uses public token to retrieve access token for accounts and transactions
     axios.post('http://localhost:8000/api/link', { token: publicToken },{
@@ -53,14 +84,13 @@ const PageHeader = () => {
         authorization: 'Bearer ' + authToken,
       }
     }).then((response) => {
-      // checks to see if the account data is as expected
-      console.log(response);
+      setPlaidAccounts(response.data);
     });
   }, []);
 
   const { open, ready } = usePlaidLink({
     token,
-    onSuccess,
+    onSuccess, 
     // onEvent
     // onExit
   });
@@ -99,17 +129,3 @@ const PageHeader = () => {
 }
 
 export default PageHeader;
-
-  // const [plaidAccounts, setPlaidAccounts] = useState({
-  //   accounts: [
-  //     {
-  //       account_id: "",
-  //       balances: [],
-  //       mask: "",
-  //       name: "",
-  //       official_name: "",
-  //       subtype: "",
-  //       type: "",
-  //     }
-  //   ]
-  // });

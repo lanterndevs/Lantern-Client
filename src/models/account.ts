@@ -1,7 +1,9 @@
 export interface Account {
-    bank: string;
-    accountName: string;
     balance: string;
+    description: string;
+    id: string;
+    institutionID: string;
+    name: string;
+    bankName: string;
     latestUpdate: string;
-    // Still need to update this
   }
