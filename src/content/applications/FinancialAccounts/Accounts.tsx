@@ -28,7 +28,7 @@ const Accounts: FC<AccountProps> = ({ accounts }) => {
 // This will happen in page header
 // const response = axios.get('http://localhost:8080/api/accounts', {
 //   headers: {
-//     authorization: 'Bearer ' + 'public-sandbox-c1efb46b-a9f0-4e80-9d01-9c07c8b7c3',
+//     authorization: 'Bearer ' + authToken,
 //   }
 // })
 

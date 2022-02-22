@@ -3,8 +3,8 @@ import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
-import UpcomingEvents from './UpcomingEvents';
-import LineGraph from './LineGraph';
+import UpcomingEvents from '../components/UpcomingEvents';
+import CashFlow from '../components/CashFlow';
 
 
 function Dashboard() {
@@ -22,7 +22,7 @@ function Dashboard() {
       <Container maxWidth="lg">
         <Grid container direction="row" justifyContent="left" alignItems="stretch" spacing={3}>
           <Grid item lg={8} xs={12}>
-          <LineGraph />
+          <CashFlow />
             {/* Chart that displays net income (profit?) based on financial account and transactions */}
           </Grid>
           

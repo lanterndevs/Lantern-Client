@@ -28,7 +28,7 @@ const PageHeader = () => {
     }).then((response) => {
       setToken(response.data.token);
     });
-  }, []);
+  }, [authToken]);
 
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>((publicToken, metadata) => {
@@ -55,7 +55,7 @@ const PageHeader = () => {
       // checks to see if the account data is as expected
       console.log(response);
     });
-  }, []);
+  }, [authToken]);
 
   const { open, ready } = usePlaidLink({
     token,
