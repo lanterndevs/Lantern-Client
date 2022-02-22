@@ -26,7 +26,7 @@ interface AccountProps {
 const Accounts: FC<AccountProps> = ({ accounts }) => {
 
 // This will happen in page header
-// const response = axios.get('http://localhost:8080/api/accounts', {
+// const response = axios.get('/api/accounts', {
 //   headers: {
 //     authorization: 'Bearer ' + authToken,
 //   }

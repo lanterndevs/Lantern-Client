@@ -15,18 +15,18 @@ const PageHeader = () => {
 
   // eslint-disable-next-line
   const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
-  const [token, setToken] = useState<string | null>(null); // link token received from Plaid
+  const [linkToken, setLinkToken] = useState<string | null>(null); // link token received from Plaid
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [publicToken, setPublicToken] = useState<string | null>(null); // public token received upon adding account with Plaid
 
   // initial communication on render between server and Plaid to obtain link to add a new account
   useEffect(() => {
-    axios.get('http://localhost:8000/api/link', {
+    axios.get('/api/link', {
       headers: {
         authorization: 'Bearer ' + authToken,
       }
     }).then((response) => {
-      setToken(response.data.token);
+      setLinkToken(response.data.token);
     });
   }, [authToken]);
 
@@ -35,10 +35,9 @@ const PageHeader = () => {
     // send public_token to your server
     // https://plaid.com/docs/api/tokens/#token-exchange-flow
     setPublicToken(publicToken);
-    console.log(publicToken);
 
     // uses public token to retrieve access token for accounts and transactions
-    axios.post('http://localhost:8000/api/link', { token: publicToken},{
+    axios.post('/api/link', { token: publicToken},{
       headers: {
         authorization: 'Bearer ' + authToken,
       }
@@ -47,7 +46,7 @@ const PageHeader = () => {
     })
 
     // retrieve the accounts from server
-    axios.get('http://localhost:8000/api/accounts', {
+    axios.get('/api/accounts', {
       headers: {
         authorization: 'Bearer ' + authToken,
       }
@@ -58,7 +57,7 @@ const PageHeader = () => {
   }, [authToken]);
 
   const { open, ready } = usePlaidLink({
-    token,
+    token: linkToken,
     onSuccess,
     // onEvent
     // onExit
