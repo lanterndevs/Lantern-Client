@@ -6,6 +6,8 @@ import { number } from 'prop-types';
 
 const Transactions = () => {
 
+  // need to update this, remove accounts, items, request_id, total_transactions
+  
   const [plaidTransactions, setPlaidTransactions] = useState({
     accounts: [
       {
@@ -46,7 +48,7 @@ const Transactions = () => {
   
   // fetches user transactions via Plaid
   const fetchData = () => {
-    fetch("/transactions")
+    fetch("http://localhost:3001/transactions")
       .then(response => {
         return response.json()
       })
@@ -60,8 +62,6 @@ const Transactions = () => {
   }, [])
 
   let transactions: Transaction[] = [];
-
-  console.log(plaidTransactions);
 
   // if the user has transctions retrieved from Plaid, populate the transcations table
   if(plaidTransactions.transactions[0].name !== ""){
