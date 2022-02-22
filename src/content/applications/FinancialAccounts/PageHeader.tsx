@@ -38,7 +38,7 @@ const PageHeader = () => {
     console.log(publicToken);
 
     // uses public token to retrieve access token for accounts and transactions
-    axios.post('http://localhost:8000/api/link', { token: publicToken},{
+    axios.post('http://localhost:8000/api/link', { token: publicToken },{
       headers: {
         authorization: 'Bearer ' + authToken,
       }
@@ -46,6 +46,7 @@ const PageHeader = () => {
       setAccessToken(response.data.token);
     })
 
+    // will need to move this to somewhere else instead of on success !!
     // retrieve the accounts from server
     axios.get('http://localhost:8000/api/accounts', {
       headers: {
