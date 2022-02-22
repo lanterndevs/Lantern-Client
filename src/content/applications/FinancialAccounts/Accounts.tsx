@@ -15,32 +15,22 @@ import {
 
 import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import { Account } from 'src/models/account';
+import { FC } from 'react';
 
 
-const account = [
-  {
-    bank: "Plaid",
-    accountName: "Plaid Checking",
-    balance: "$100.00",
-    latestUpdate: "February 2, 2022 6:00 PM"
-  },
+interface AccountProps {
+  accounts: Account[];
+}
 
-  {
-    bank: "Plaid",
-    accountName: "Plaid Checking",
-    balance: "$100.00",
-    latestUpdate: "February 2, 2022 6:00 PM"
-  },
+const Accounts: FC<AccountProps> = ({ accounts }) => {
 
-  {
-    bank: "Plaid",
-    accountName: "Plaid Checking",
-    balance: "$100.00",
-    latestUpdate: "February 2, 2022 6:00 PM"
-  }
-]
-
-const Accounts = () => {
+// This will happen in page header
+// const response = axios.get('http://localhost:8080/api/accounts', {
+//   headers: {
+//     authorization: 'Bearer ' + 'public-sandbox-c1efb46b-a9f0-4e80-9d01-9c07c8b7c3',
+//   }
+// })
 
 return(
     <Card>
@@ -61,6 +51,8 @@ return(
                 </TableHead>
                 
                 <TableBody>
+                  {accounts.map((account) => {
+                    return (
                     <TableRow hover>
                         <TableCell padding="checkbox"/>
                         
@@ -74,7 +66,7 @@ return(
                             gutterBottom
                             noWrap
                         >
-                            {account[0].bank}
+                            {account.bank}
                             
                             </Typography>
                         </TableCell>
@@ -88,7 +80,7 @@ return(
                             gutterBottom
                             noWrap
                         >
-                            {account[0].accountName}
+                            {account.accountName}
                             </Typography>
                         </TableCell>
 
@@ -101,7 +93,7 @@ return(
                       gutterBottom
                       noWrap
                     >
-                      {account[0].balance}
+                      {account.balance}
                     </Typography>
                   </TableCell>
 
@@ -114,7 +106,7 @@ return(
                       gutterBottom
                       noWrap
                     >
-                      {account[0].latestUpdate}
+                      {account.latestUpdate}
                     </Typography>
                   </TableCell>
 
@@ -140,11 +132,13 @@ return(
                   
                   </TableCell>
                 </TableRow>
+                );
+              })}
           </TableBody>
           </Table>
           </TableContainer>
 
     </Card>
-    );
+  );
 }
 export default Accounts;

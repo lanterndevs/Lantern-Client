@@ -13,22 +13,22 @@ import mainLogo from 'src/components/Logo/lantern.png';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react';
+import { AuthenticationContext } from '../Login/authenticationContext';
 
 const theme = createTheme();
-
 
 function Login() {
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['auth_token']);
+
+  // eslint-disable-next-line
+  const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
+  
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
 
     axios.post('http://localhost:8000/api/users/authenticate',
       {
@@ -36,8 +36,8 @@ function Login() {
         password: data.get('password'),
       }).then(res => {
         if (res.data.token != null) {
-          console.log(JSON.stringify(res.data.token));
-          setCookie('auth_token',res.data.token,{ path: '/', maxAge: 10000000000});
+          setAuthToken(res.data.token);
+          setCookie('auth_token',res.data.token,{ path: '/', maxAge: 1000000000000});
           navigate('/dashboard/overview');
         }
     });

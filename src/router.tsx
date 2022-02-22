@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy} from 'react';
 import { Navigate } from 'react-router-dom';
 import { PartialRouteObject } from 'react-router';
 
@@ -25,9 +25,9 @@ const FinancialAccounts = Loader(lazy(() => import('src/content/applications/Fin
 const Transactions = Loader(lazy(() => import('src/content/applications/Transactions')));
 // *** Will need to add Goals, Budget, etc
 
-const Messenger = Loader(lazy(() => import('src/content/applications/Messenger'))); // *** Won't need this
-const UserProfile = Loader(lazy(() => import('src/content/applications/Users/profile'))); // *** Won't need this
-const UserSettings = Loader(lazy(() => import('src/content/applications/Users/settings'))); // *** Won't need this
+const Messenger = Loader(lazy(() => import('src/content/applications/Messenger'))); // *** Won't need this ***
+const UserProfile = Loader(lazy(() => import('src/content/applications/Users/profile'))); // *** Won't need this ***
+const UserSettings = Loader(lazy(() => import('src/content/applications/Users/settings'))); // *** Won't need this ***
 
 // Components
 const Buttons = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
@@ -45,7 +45,7 @@ function getCookie(name) {
 }
 
 function PrivateComponent({component: Component, ...rest}) {
-  const loggedIn = getCookie("auth_token")!=null;
+  const loggedIn = getCookie("auth_token") != null;
   return(
     loggedIn ?
       <Component/> :
@@ -54,7 +54,7 @@ function PrivateComponent({component: Component, ...rest}) {
 }
 
 function SignedOutOnlyComponent({component: Component, ...rest}) {
-  const loggedOut = getCookie("auth_token")==null;
+  const loggedOut = getCookie("auth_token") == null;
   return(
     loggedOut ?
       <Component/> :
