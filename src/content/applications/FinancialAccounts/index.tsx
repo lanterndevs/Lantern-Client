@@ -11,7 +11,7 @@ function FinancialAccount() {
         <title>Financial Accounts</title>
       </Helmet>
       <PageTitleWrapper>
-          <PageHeader />
+          <PageHeader /> 
       </PageTitleWrapper>
       <Footer />
     </>

@@ -9,41 +9,32 @@ import { AuthenticationContext } from '../Login/authenticationContext';
 
 
 const PageHeader = () => {
-
-  const [plaidAccounts, setPlaidAccounts] = useState({
-    accounts: [
-      {
-        balance: "",
-        description: "",
-        id: "",
-        instituationId: "",
-        name: ""
-      }
-    ]
-  });
-
   // will be used to populate the list of plaid accounts
-  let accounts: Account[] = [];
+  let accounts: Account[] = [{
+    balance: 232,
+    description: "Tosin",
+    id: "Tosin",
+    institutionID: "Tosin",
+    name: "Tosin",
+    bankName: "tosin",
+    latestUpdate: "Tosin"
+  }
+];
+
+function updateArray(){
+  accounts.push(    
+    {
+      balance: 232,
+      description: "Tosin",
+      id: "Tosin",
+      institutionID: "Tosin",
+      name: "Tosin",
+      bankName: "tosin",
+      latestUpdate: "Tosin"
+  })
+
   
-  console.log(plaidAccounts.accounts);
-
-  //   // appends new transactions to list of transactions
-  //   if(plaidAccounts.accounts.length > 2){
-
-  //   for(var account of plaidAccounts.accounts){
-  //     accounts.push(
-  //       {
-  //         balance: account.balance,
-  //         description: account.description,
-  //         id: account.id,
-  //         institutionID: account.instituationId,
-  //         name: account.name,
-  //         bankName: "Plaid",
-  //         latestUpdate: "February 22, 2022",
-  //       }
-  //     )
-  //   }
-  // }
+}
 
   // eslint-disable-next-line
   const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
@@ -75,17 +66,33 @@ const PageHeader = () => {
       }
     }).then(response => {
       setAccessToken(response.data.token);
-    })
 
-    // will need to move this to somewhere else instead of on success !!
-    // retrieve the accounts from server
-    axios.get('http://localhost:8000/api/accounts', {
-      headers: {
-        authorization: 'Bearer ' + authToken,
-      }
-    }).then((response) => {
-      setPlaidAccounts(response.data);
-    });
+      // retrieve the accounts from server
+      axios.get('http://localhost:8000/api/accounts', {
+        headers: {
+          authorization: 'Bearer ' + authToken,
+        }
+      }).then((response) => {
+
+        // populates the accounts array with data from response
+        for(var account of response.data){
+          accounts.push(
+            {
+              balance: account.balance,
+              description: account.description,
+              id: account.id,
+              institutionID: account.institutionID,
+              name: account.name,
+              bankName: "Plaid",
+              latestUpdate: "February 22, 2022"
+            }
+          );
+        }
+
+        console.log(accounts);
+
+      });
+    })
   }, []);
 
   const { open, ready } = usePlaidLink({
@@ -116,6 +123,16 @@ const PageHeader = () => {
           Add Account
 
         </Button>
+
+        <Button
+          onClick={() => open()}
+        >
+          Add an Account
+
+        </Button>
+
+
+
       </Grid>
     </Grid>
 

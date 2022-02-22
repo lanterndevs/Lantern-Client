@@ -16,8 +16,7 @@ import {
 import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { Account } from 'src/models/account';
-import { FC } from 'react';
-
+import { FC, useState, useEffect } from 'react';
 
 interface AccountProps {
   accounts: Account[];
@@ -25,12 +24,13 @@ interface AccountProps {
 
 const Accounts: FC<AccountProps> = ({ accounts }) => {
 
-// This will happen in page header
-// const response = axios.get('http://localhost:8080/api/accounts', {
-//   headers: {
-//     authorization: 'Bearer ' + 'public-sandbox-c1efb46b-a9f0-4e80-9d01-9c07c8b7c3',
-//   }
-// })
+const [accountsState , setAccountsState ] = useState(accounts);
+useEffect(() => 
+  { 
+    console.log("hello world!");
+    setAccountsState(accounts) 
+  }, [accounts] 
+);
 
 return(
     <Card>
@@ -51,7 +51,7 @@ return(
                 </TableHead>
                 
                 <TableBody>
-                  {accounts.map((account) => {
+                  {accountsState.map((account) => {
                     return (
                     <TableRow hover>
                         <TableCell padding="checkbox"/>

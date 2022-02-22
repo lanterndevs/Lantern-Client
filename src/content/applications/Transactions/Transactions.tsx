@@ -7,7 +7,6 @@ import { number } from 'prop-types';
 const Transactions = () => {
 
   // need to update this, remove accounts, items, request_id, total_transactions
-  
   const [plaidTransactions, setPlaidTransactions] = useState({
     accounts: [
       {

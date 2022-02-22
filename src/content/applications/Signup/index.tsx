@@ -62,7 +62,6 @@ export default function SignUp() {
     
   }).then(res => {
         if (res.data.token != null) {
-          console.log(JSON.stringify(res.data.token));
           alert.removeAll();
           setCookie('auth_token',res.data.token,{ path: '/', maxAge: 30});
           navigate('/dashboard/overview');

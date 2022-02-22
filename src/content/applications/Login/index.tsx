@@ -56,7 +56,6 @@ function Login() {
         password: data.get('password'),
       }).then(res => {
         if (res.data.token != null) {
-          console.log(JSON.stringify(res.data.token));
           alert.removeAll();
           setAuthToken(res.data.token);
           setCookie('auth_token',res.data.token,{ path: '/', maxAge: 10000000000});
