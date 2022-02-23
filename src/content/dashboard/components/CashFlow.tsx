@@ -3,7 +3,7 @@ import React, { memo, useCallback, useContext, useEffect, useMemo, useState } fr
 import { Line } from 'react-chartjs-2';
 
 import ChartHeader from "./ChartHeader";
-import { data, options, retrieveBreakdown } from '../../utils/charts/breakdown';
+import { data, options, retrieveCashFlow } from '../../../utils/cashflow';
 
 const CashFlow = () => {
     const [chartType, setChartType] = useState('month');

@@ -6,6 +6,7 @@ import SidebarLayout from 'src/layouts/SidebarLayout';
 import BaseLayout from 'src/layouts/BaseLayout';
 
 import SuspenseLoader from 'src/components/SuspenseLoader';
+import {getCookie} from "./utils/cookies";
 
 const Loader = (Component) => (props) => (
   <Suspense fallback={<SuspenseLoader />}>
@@ -38,14 +39,8 @@ const Status500 = Loader(lazy(() => import('src/content/pages/Status/Status500')
 const StatusComingSoon = Loader(lazy(() => import('src/content/pages/Status/ComingSoon')));
 const StatusMaintenance = Loader(lazy(() => import('src/content/pages/Status/Maintenance')));
 
-function getCookie(name) {
-  var re = new RegExp(name + "=([^;]+)");
-  var value = re.exec(document.cookie);
-  return (value != null) ? decodeURI(value[1]) : null;
-}
-
 function PrivateComponent({component: Component, ...rest}) {
-  const loggedIn = getCookie("auth_token") != null;
+  const loggedIn = getCookie(document.cookie, "auth_token") != null;
   return(
     loggedIn ?
       <Component/> :
@@ -54,7 +49,7 @@ function PrivateComponent({component: Component, ...rest}) {
 }
 
 function SignedOutOnlyComponent({component: Component, ...rest}) {
-  const loggedOut = getCookie("auth_token") == null;
+  const loggedOut = getCookie(document.cookie, "auth_token") == null;
   return(
     loggedOut ?
       <Component/> :
