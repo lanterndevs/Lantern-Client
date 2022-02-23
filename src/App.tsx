@@ -12,6 +12,10 @@ import { AuthenticationProvider } from './content/applications/Login/authenticat
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 
+// Axios global default config
+const axios = require('axios');
+axios.defaults.baseURL = 'http://localhost:8000';
+
 const options = {
   // you can also just use 'bottom center'
   position: positions.BOTTOM_CENTER,

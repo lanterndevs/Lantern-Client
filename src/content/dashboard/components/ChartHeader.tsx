@@ -3,13 +3,13 @@ import React from 'react';
 
 const ChartHeader = ({ title, onClick}) => {
     return (
-        <Row>
-            <Col span={8} align="left">
+        <Row justify="space-between">
+            <Col span={8}>
                 <Typography.Title level={2} className="chartHeader">
                     {title}
                 </Typography.Title>
             </Col>
-            <Col span={16} align="right" className="buttonGroup">
+            <Col span={16} className="buttonGroup">
                 <Button.Group size="small">
                     <Button onClick={onClick} name="week">Week</Button>
                     <Button onClick={onClick} name="month">Month</Button>
