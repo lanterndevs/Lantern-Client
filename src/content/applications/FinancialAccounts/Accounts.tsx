@@ -22,15 +22,16 @@ interface AccountProps {
   accounts: Account[];
 }
 
-const Accounts: FC<AccountProps> = ({ accounts }) => {
+const Accounts: FC<AccountProps> = ({accounts}) => {
 
 const [accountsState , setAccountsState ] = useState(accounts);
 useEffect(() => 
   { 
-    console.log("hello world!");
     setAccountsState(accounts) 
   }, [accounts] 
 );
+
+
 
 return(
     <Card>
@@ -51,9 +52,9 @@ return(
                 </TableHead>
                 
                 <TableBody>
-                  {accountsState.map((account) => {
+                  {accounts.map((account) => {
                     return (
-                    <TableRow hover>
+                    <TableRow hover key={account.id}>
                         <TableCell padding="checkbox"/>
                         
                         {/* Displays the name of the Bank connected */}

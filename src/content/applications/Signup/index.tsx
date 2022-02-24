@@ -15,17 +15,20 @@ import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useContext } from 'react';
+import { AuthenticationContext } from '../Login/authenticationContext';
 
 const theme = createTheme();
 const validationSchema = yup.object({
   email: yup.string().email('Enter a valid email').required('Email is required'),
-  password: yup.string().required('Password is required').length(6, 'Password must be 6 characters or more'),
+  password: yup.string().required('Password is required').min(6, 'Password must be 6 characters or more'),
   firstName: yup.string().required('First name is required').matches(/^[a-zA-Z0-9]+$/, 'First name has non-alphanumeric characters'),
   lastName: yup.string().required('Last name is required').matches(/^[a-zA-Z0-9]+$/, 'Last name has non-alphanumeric characters'),
   organization: yup.string().required('Organization name is required').matches(/^[a-zA-Z0-9]+$/, 'Organization name has non-alphanumeric characters')
 });
 
 export default function SignUp() {
+  
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -43,6 +46,9 @@ export default function SignUp() {
   const alert = useAlert()
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['auth_token']);
+  // eslint-disable-next-line
+  const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
+
   const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -63,7 +69,8 @@ export default function SignUp() {
   }).then(res => {
         if (res.data.token != null) {
           alert.removeAll();
-          setCookie('auth_token',res.data.token,{ path: '/', maxAge: 30});
+          setCookie('auth_token',res.data.token,{ path: '/', maxAge: 100000000});
+          setAuthToken(res.data.token);
           navigate('/dashboard/overview');
         }
     }).catch(err => {
