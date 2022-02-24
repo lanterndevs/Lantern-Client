@@ -127,16 +127,25 @@ function getYearCashFlow() {
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 async function retrieveData(start, end) {
-    let transactions = [];
+    let transactions;
     // Get auth cookie
     let authToken = getCookie(document.cookie, "auth_token");
+    console.log("authToken retrieved from cookies:");
+    console.log(authToken);
     await axios.get('/api/transactions', {
         headers: {
             authorization: 'Bearer ' + authToken,
         }
-    })
-        .then(res => transactions = res.data.tags)
-        .catch(error => console.log(error));
+    }).then(res => {
+        transactions = res.data;
+    }).catch(error => {
+        console.log(error);
+        return error;
+    });
+
+    console.log("Transactions:");
+    console.log(transactions.length);
+    console.log(transactions);
 
     let flow = [];
     let dates = [];
@@ -144,7 +153,12 @@ async function retrieveData(start, end) {
         flow.push(transactions[i].amount);
         dates.push(transactions[i].date);
     }
-    return { cashflow: flow, labels: dates }
+    console.log("flow and dates:");
+    console.log(flow.length);
+    console.log(dates.length);
+    console.log(flow);
+    console.log(dates);
+    return { cashflow: flow, labels: dates };
 }
 
 export {

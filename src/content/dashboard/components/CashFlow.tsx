@@ -19,16 +19,17 @@ const CashFlow = () => {
 
     // retrieves cashflow if component did mount
     useEffect(() => {
+        console.log("Calling retrieveCashFlow!")
         retrieveCashFlow().then(([week, month, year]) => {
-                setState({
-                    weekCashFlow: week.cashflow,
-                    weekLabels: week.labels,
-                    monthCashFlow: month.cashflow,
-                    monthLabels: month.labels,
-                    yearCashFlow: year.cashflow,
-                    yearLabels: year.labels,
-                });
+            setState({
+                weekCashFlow: week.cashflow,
+                weekLabels: week.labels,
+                monthCashFlow: month.cashflow,
+                monthLabels: month.labels,
+                yearCashFlow: year.cashflow,
+                yearLabels: year.labels,
             });
+        });
     }, []);
 
     // data for the current chart type
