@@ -5,24 +5,19 @@ import { useCallback, useState, useEffect, useContext } from 'react';
 import { usePlaidLink, PlaidLinkOnSuccess } from 'react-plaid-link';
 import Accounts from './Accounts';
 import { Account } from 'src/models/account';
-import { AuthenticationContext } from '../Login/authenticationContext';
 
 
 const PageHeader = () => {
   // will be used to populate the list of plaid accounts
   const [accounts, setAccounts] = useState<Account[]>([]);
 
-function getCookie(name) {
-  var re = new RegExp(name + "=([^;]+)");
-  var value = re.exec(document.cookie);
-  return (value != null) ? decodeURI(value[1]) : null;
-}
+  function getCookie(name) {
+    var re = new RegExp(name + "=([^;]+)");
+    var value = re.exec(document.cookie);
+    return (value != null) ? decodeURI(value[1]) : null;
+  }
 
-  // eslint-disable-next-line
-  const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
   const [token, setToken] = useState<string | null>(null); // link token received from Plaid
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [publicToken, setPublicToken] = useState<string | null>(null); // public token received upon adding account with Plaid
 
   // initial communication on render between server and Plaid to obtain link to add a new account
   useEffect(() => {
@@ -62,7 +57,6 @@ function getCookie(name) {
   const onSuccess = useCallback<PlaidLinkOnSuccess>((publicToken, metadata) => {
     // send public_token to your server
     // https://plaid.com/docs/api/tokens/#token-exchange-flow
-    setPublicToken(publicToken);
 
     // uses public token to retrieve access token for accounts and transactions
     axios.post('http://localhost:8000/api/link', { token: publicToken },{
@@ -70,7 +64,6 @@ function getCookie(name) {
         authorization: 'Bearer ' + getCookie("auth_token"),
       }
     }).then(response => {
-      setAccessToken(response.data.token);
       // retrieve the accounts from server
       axios.get('http://localhost:8000/api/accounts', {
         headers: {
@@ -127,7 +120,7 @@ function getCookie(name) {
           Add Account
 
         </Button>
-        
+
       </Grid>
     </Grid>
 
