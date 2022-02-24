@@ -16,22 +16,13 @@ import {
 import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { Account } from 'src/models/account';
-import { FC, useState, useEffect } from 'react';
+import { FC } from 'react';
 
 interface AccountProps {
   accounts: Account[];
 }
 
 const Accounts: FC<AccountProps> = ({accounts}) => {
-
-const [accountsState , setAccountsState ] = useState(accounts);
-useEffect(() => 
-  { 
-    setAccountsState(accounts) 
-  }, [accounts] 
-);
-
-
 
 return(
     <Card>
@@ -94,7 +85,7 @@ return(
                       gutterBottom
                       noWrap
                     >
-                      {account.balance}
+                      $ {account.balance}
                     </Typography>
                   </TableCell>
 

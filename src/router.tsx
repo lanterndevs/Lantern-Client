@@ -6,6 +6,7 @@ import SidebarLayout from 'src/layouts/SidebarLayout';
 import BaseLayout from 'src/layouts/BaseLayout';
 
 import SuspenseLoader from 'src/components/SuspenseLoader';
+import { getCookie } from 'src/utilities/utils';
 
 const Loader = (Component) => (props) => (
   <Suspense fallback={<SuspenseLoader />}>
@@ -37,12 +38,6 @@ const Status404 = Loader(lazy(() => import('src/content/pages/Status/Status404')
 const Status500 = Loader(lazy(() => import('src/content/pages/Status/Status500')));
 const StatusComingSoon = Loader(lazy(() => import('src/content/pages/Status/ComingSoon')));
 const StatusMaintenance = Loader(lazy(() => import('src/content/pages/Status/Maintenance')));
-
-function getCookie(name) {
-  var re = new RegExp(name + "=([^;]+)");
-  var value = re.exec(document.cookie);
-  return (value != null) ? decodeURI(value[1]) : null;
-}
 
 function PrivateComponent({component: Component, ...rest}) {
   const loggedIn = getCookie("auth_token") != null;

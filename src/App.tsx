@@ -8,7 +8,6 @@ import { CssBaseline } from '@mui/material';
 import { CookiesProvider } from 'react-cookie';
 import { withCookies } from 'react-cookie';
 
-import { AuthenticationProvider } from './content/applications/Login/authenticationContext';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 
@@ -31,9 +30,7 @@ const App = () => {
         <ThemeProvider>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <CssBaseline />
-            <AuthenticationProvider>
               {content}
-            </AuthenticationProvider>
           </LocalizationProvider>
         </ThemeProvider>
       </CookiesProvider>

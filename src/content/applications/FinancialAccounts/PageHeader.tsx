@@ -1,22 +1,16 @@
 import { Typography, Button, Grid, Box } from '@mui/material';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import axios from 'axios';
-import { useCallback, useState, useEffect, useContext } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { usePlaidLink, PlaidLinkOnSuccess } from 'react-plaid-link';
 import Accounts from './Accounts';
 import { Account } from 'src/models/account';
-
+import moment from 'moment';
+import { getCookie } from 'src/utilities/utils';
 
 const PageHeader = () => {
   // will be used to populate the list of plaid accounts
   const [accounts, setAccounts] = useState<Account[]>([]);
-
-  function getCookie(name) {
-    var re = new RegExp(name + "=([^;]+)");
-    var value = re.exec(document.cookie);
-    return (value != null) ? decodeURI(value[1]) : null;
-  }
-
   const [token, setToken] = useState<string | null>(null); // link token received from Plaid
 
   // initial communication on render between server and Plaid to obtain link to add a new account
@@ -37,7 +31,7 @@ const PageHeader = () => {
               institutionID: account.institutionID,
               name: account.name,
               bankName: "Plaid",
-              latestUpdate: "February 22, 2022"
+              latestUpdate: (moment(new Date())).format('l , LT')
             }
           );
         }
@@ -81,11 +75,12 @@ const PageHeader = () => {
               id: account.id,
               institutionID: account.institutionID,
               name: account.name,
-              bankName: "Plaid",
-              latestUpdate: "February 22, 2022"
+              bankName: "Plaid", // will need to determine how to pull this information from Plaid API
+              latestUpdate: (moment(new Date())).format('l , LT')
             }
           );
         }
+
         setAccounts(tempAccounts);
 
       });

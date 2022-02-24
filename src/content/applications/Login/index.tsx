@@ -16,8 +16,6 @@ import { useNavigate } from 'react-router-dom'
 import { useAlert } from 'react-alert'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useContext } from 'react';
-import { AuthenticationContext } from '../Login/authenticationContext';
 
 const theme = createTheme();
 const validationSchema = yup.object({
@@ -41,9 +39,6 @@ function Login() {
   const alert = useAlert()
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['auth_token']);
-
-  // eslint-disable-next-line
-  const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
   
   const navigate = useNavigate();
   const handleSubmit = (event) => {
@@ -57,7 +52,6 @@ function Login() {
       }).then(res => {
         if (res.data.token != null) {
           alert.removeAll();
-          setAuthToken(res.data.token);
           setCookie('auth_token',res.data.token,{ path: '/', maxAge: 10000000000});
           navigate('/dashboard/overview');
         }
