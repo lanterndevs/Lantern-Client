@@ -1,72 +1,6 @@
 import axios from "axios";
 import {getCookie} from "./cookies";
-
-/**
- * Returns data for chart.
- *
- * @param {Array} labels - The labels for cashflow (revenue, expenses, net).
- * @param {Array} data - The dollar amounts of each type.
- * @returns {Object} - The data object.
- */
-const data = (labels, data) => {
-    return {
-        datasets: [{
-            backgroundColor: '#ffffff',
-            borderWidth: 0,
-            data: data,
-            hoverBackgroundColor: '#ffffff'
-        }],
-        labels: labels
-    }
-};
-
-/**
- * The options for the chart.
- *
- * @type Object
- */
-const options = {
-    cutoutPercentage: 70,
-    layout: {
-        padding: {
-            bottom: 20,
-            left: 0,
-            right: 0,
-            top: 40
-        }
-    },
-    legend: {
-        labels: {
-            boxWidth: 7,
-            usePointStyle: true
-        },
-        onClick: null,
-        position: 'right'
-    },
-    tooltips: {
-        backgroundColor: '#ffffff',
-        bodyAlign: 'center',
-        bodyFontColor: '#000000',
-        callbacks: {
-            label: (tooltip, object) => {
-                const data = object.datasets[tooltip.datasetIndex].data;
-                const total = data.reduce((acc, dataPoint) => {
-                    return acc + dataPoint
-                });
-                const category = data[tooltip.index];
-                return (category / total * 100).toFixed(1) + '%';
-            },
-            title: (tooltipArray, object) => {
-                return object.labels[tooltipArray[0].index] + ':';
-            },
-        },
-        displayColors: false,
-        titleAlign: 'center',
-        titleFontColor: '#000000',
-        xAlign: 'center',
-        yAlign: 'bottom',
-    }
-};
+import {formatDate} from "./dates";
 
 /**
  * Retrieves week, month, and year breakdowns and labels.
@@ -127,11 +61,9 @@ function getYearCashFlow() {
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 async function retrieveData(start, end) {
-    let transactions;
+    let transactions = [];
     // Get auth cookie
     let authToken = getCookie(document.cookie, "auth_token");
-    console.log("authToken retrieved from cookies:");
-    console.log(authToken);
     await axios.get('/api/transactions', {
         headers: {
             authorization: 'Bearer ' + authToken,
@@ -143,26 +75,36 @@ async function retrieveData(start, end) {
         return error;
     });
 
-    console.log("Transactions:");
-    console.log(transactions.length);
-    console.log(transactions);
-
-    let flow = [];
+    // Generate date range
+    let currentDate = start;
     let dates = [];
-    for (let i = 0; i < transactions.length; i++) {
-        flow.push(transactions[i].amount);
-        dates.push(transactions[i].date);
+    while (currentDate <= end) {
+        dates.push(formatDate(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
     }
-    console.log("flow and dates:");
-    console.log(flow.length);
-    console.log(dates.length);
-    console.log(flow);
-    console.log(dates);
-    return { cashflow: flow, labels: dates };
+
+    let revenue = new Array(dates.length).fill(0);
+    let expenses = new Array(dates.length).fill(0);
+
+    //for (let i = 0; i < transactions.length; i++) {
+    // STRICTLY FOR TEMPORARY TESTING PURPOSES
+    for (let i = 0; i < 50; i++) {
+        if (transactions[i].amount <= 0) { // REVENUE
+            revenue[dates.indexOf(transactions[i].date)] += (transactions[i].amount * -1);
+        } else { // EXPENSE
+            expenses[dates.indexOf(transactions[i].date)] += transactions[i].amount;
+        }
+    }
+
+    // Now compute profits
+    let profit = new Array(dates.length).fill(0);
+    for (let i = 0; i < dates.length; i++) {
+        profit[i] = revenue[i] - expenses[i];
+    }
+
+    return { revenue: revenue, expenses: expenses, profit: profit, labels: dates };
 }
 
 export {
-    data,
-    options,
-    retrieveCashFlow,
+    retrieveCashFlow
 };

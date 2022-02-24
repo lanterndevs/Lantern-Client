@@ -23,7 +23,6 @@ const AccountBalanceChart: FC<ChartProps> = ({ data: dataProp, ...rest }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    animation: false,
     cutoutPercentage: 60,
     legend: {
       display: false

@@ -3770,28 +3770,10 @@
   "resolved" "https://registry.npmjs.org/char-regex/-/char-regex-1.0.2.tgz"
   "version" "1.0.2"
 
-"chart.js@^2.3", "chart.js@2.9.4":
-  "integrity" "sha512-B07aAzxcrikjAPyV+01j7BmOpxtQETxTSlQ26BEYJ+3iUkbNKaOJ/nDbT6JjyqYxseM0ON12COHYdU2cTIjC7A=="
-  "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-2.9.4.tgz"
-  "version" "2.9.4"
-  dependencies:
-    "chartjs-color" "^2.1.0"
-    "moment" "^2.10.2"
-
-"chartjs-color-string@^0.6.0":
-  "integrity" "sha512-TIB5OKn1hPJvO7JcteW4WY/63v6KwEdt6udfnDE9iCAZgy+V4SrbSxoIbTw/xkUIapjEI4ExGtD0+6D3KyFd7A=="
-  "resolved" "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz"
-  "version" "0.6.0"
-  dependencies:
-    "color-name" "^1.0.0"
-
-"chartjs-color@^2.1.0":
-  "integrity" "sha512-haqOg1+Yebys/Ts/9bLo/BqUcONQOdr/hoEr2LLTRl6C5LXctUdHxsCYfvQVg5JIxITrfCNUDr4ntqmQk9+/0w=="
-  "resolved" "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.4.1.tgz"
-  "version" "2.4.1"
-  dependencies:
-    "chartjs-color-string" "^0.6.0"
-    "color-convert" "^1.9.3"
+"chart.js@^3.5.0", "chart.js@^3.6.0":
+  "integrity" "sha512-8knRegQLFnPQAheZV8MjxIXc5gQEfDFD897BJgv/klO/vtIyFFmgMXrNfgrXpbTr/XbTturxRgxIXx/Y+ASJBA=="
+  "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-3.7.1.tgz"
+  "version" "3.7.1"
 
 "check-types@^11.1.1":
   "integrity" "sha512-tzWzvgePgLORb9/3a0YenggReLKAIb2owL03H2Xdoe5pKcUyWRSEQ8xfCar8t2SIAuEDwtmx2da1YB52YuHQMQ=="
@@ -8604,7 +8586,7 @@
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
 
-"moment@^2.10.2", "moment@^2.24.0", "moment@^2.25.3", "moment@^2.29.1":
+"moment@^2.24.0", "moment@^2.25.3", "moment@^2.29.1":
   "integrity" "sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ=="
   "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz"
   "version" "2.29.1"
@@ -10827,13 +10809,10 @@
     "regenerator-runtime" "^0.13.7"
     "whatwg-fetch" "^3.4.1"
 
-"react-chartjs-2@2.11.1":
-  "integrity" "sha512-G7cNq/n2Bkh/v4vcI+GKx7Q1xwZexKYhOSj2HmrFXlvNeaURWXun6KlOUpEQwi1cv9Tgs4H3kGywDWMrX2kxfA=="
-  "resolved" "https://registry.npmjs.org/react-chartjs-2/-/react-chartjs-2-2.11.1.tgz"
-  "version" "2.11.1"
-  dependencies:
-    "lodash" "^4.17.19"
-    "prop-types" "^15.7.2"
+"react-chartjs-2@^4.0.0":
+  "integrity" "sha512-q8bgWzKoFvBvD7YcjT/hXG8jt55TaMAuJ1dmI3tKFJ7CijUWYz4pIfOhkTI6PBTwqu/pmeWsClBRd/7HiWzN1g=="
+  "resolved" "https://registry.npmjs.org/react-chartjs-2/-/react-chartjs-2-4.0.1.tgz"
+  "version" "4.0.1"
 
 "react-cookie@^4.1.1":
   "integrity" "sha512-ffn7Y7G4bXiFbnE+dKhHhbP+b8I34mH9jqnm8Llhj89zF4nPxPutxHT1suUqMeCEhLDBI7InYwf1tpaSoK5w8A=="
