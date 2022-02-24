@@ -10,30 +10,12 @@ import { AuthenticationContext } from '../Login/authenticationContext';
 
 const PageHeader = () => {
   // will be used to populate the list of plaid accounts
-  let accounts: Account[] = [{
-    balance: 232,
-    description: "Tosin",
-    id: "Tosin",
-    institutionID: "Tosin",
-    name: "Tosin",
-    bankName: "tosin",
-    latestUpdate: "Tosin"
-  }
-];
+  const [accounts, setAccounts] = useState<Account[]>([]);
 
-function updateArray(){
-  accounts.push(    
-    {
-      balance: 232,
-      description: "Tosin",
-      id: "Tosin",
-      institutionID: "Tosin",
-      name: "Tosin",
-      bankName: "tosin",
-      latestUpdate: "Tosin"
-  })
-
-  
+function getCookie(name) {
+  var re = new RegExp(name + "=([^;]+)");
+  var value = re.exec(document.cookie);
+  return (value != null) ? decodeURI(value[1]) : null;
 }
 
   // eslint-disable-next-line
@@ -44,9 +26,32 @@ function updateArray(){
 
   // initial communication on render between server and Plaid to obtain link to add a new account
   useEffect(() => {
+    axios.get('http://localhost:8000/api/accounts', {
+        headers: {
+          authorization: 'Bearer ' + getCookie("auth_token"),
+        }
+      }).then((response) => {
+        // populates the accounts array with data from response
+        let tempAccounts: Account[] = [];
+        for(var account of response.data){
+          tempAccounts.push(
+            {
+              balance: account.balance,
+              description: account.description,
+              id: account.id,
+              institutionID: account.institutionID,
+              name: account.name,
+              bankName: "Plaid",
+              latestUpdate: "February 22, 2022"
+            }
+          );
+        }
+        setAccounts(tempAccounts);
+      });
+
     axios.get('http://localhost:8000/api/link', {
       headers: {
-        authorization: 'Bearer ' + authToken,
+        authorization: 'Bearer ' + getCookie("auth_token"),
       }
     }).then((response) => {
       setToken(response.data.token);
@@ -62,21 +67,21 @@ function updateArray(){
     // uses public token to retrieve access token for accounts and transactions
     axios.post('http://localhost:8000/api/link', { token: publicToken },{
       headers: {
-        authorization: 'Bearer ' + authToken,
+        authorization: 'Bearer ' + getCookie("auth_token"),
       }
     }).then(response => {
       setAccessToken(response.data.token);
-
       // retrieve the accounts from server
       axios.get('http://localhost:8000/api/accounts', {
         headers: {
-          authorization: 'Bearer ' + authToken,
+          authorization: 'Bearer ' + getCookie("auth_token"),
         }
       }).then((response) => {
 
         // populates the accounts array with data from response
+        let tempAccounts: Account[] = [];
         for(var account of response.data){
-          accounts.push(
+          tempAccounts.push(
             {
               balance: account.balance,
               description: account.description,
@@ -88,8 +93,7 @@ function updateArray(){
             }
           );
         }
-
-        console.log(accounts);
+        setAccounts(tempAccounts);
 
       });
     })
@@ -121,13 +125,6 @@ function updateArray(){
           onClick={() => open()} disabled={!ready}
         >
           Add Account
-
-        </Button>
-
-        <Button
-          onClick={() => open()}
-        >
-          Add an Account
 
         </Button>
 

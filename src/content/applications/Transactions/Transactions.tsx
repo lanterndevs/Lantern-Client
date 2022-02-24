@@ -1,28 +1,15 @@
 import { Card } from '@mui/material';
 import {Transaction } from 'src/models/transaction';
 import TransactionsTable from './TransactionsTable';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useContext} from 'react';
 import { number } from 'prop-types';
+import axios from 'axios'
+import { AuthenticationContext } from '../Login/authenticationContext';
 
 const Transactions = () => {
 
   // need to update this, remove accounts, items, request_id, total_transactions
   const [plaidTransactions, setPlaidTransactions] = useState({
-    accounts: [
-      {
-        account_id: "",
-        balances: [],
-        mask: "",
-        name: "",
-        official_name: "",
-        subtype: "",
-        type: "",
-      }
-    ],
-
-    item: "",
-    request_id: "",
-    total_transactions:"",
     
     transactions: [
       {
@@ -45,47 +32,28 @@ const Transactions = () => {
     ],
   })
   
+  
+  const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
   // fetches user transactions via Plaid
   const fetchData = () => {
-    fetch("http://localhost:3001/transactions")
-      .then(response => {
-        return response.json()
-      })
-      .then(data => {
-        setPlaidTransactions(data)
-      })
+    console.log("REQ TRANSACTIONS");
+    console.log(authToken);
+    axios.get('http://localhost:8000/api/transactions', {
+      headers: {
+        authorization: 'Bearer ' + authToken,
+      }
+    }).then((response) => {
+      // checks to see if the account data is as expected
+      console.log(response);
+
+    });
   }
 
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, [])
 
   let transactions: Transaction[] = [];
-
-  // if the user has transctions retrieved from Plaid, populate the transcations table
-  if(plaidTransactions.transactions[0].name !== ""){
-
-    // creates a map to accounts to retrive name based on account_id
-    let accounts = new Map();
-    for(var account of plaidTransactions.accounts){
-      accounts.set(account.account_id, [account.name, account.subtype]);
-    }
-
-    // appends new transactions to list of transactions
-    for(var transaction of plaidTransactions.transactions){
-      transactions.push(
-        {id: transaction.transaction_id, 
-        details: transaction.name, 
-        transactionDate: new Date(transaction.date), 
-        category: 'expense', 
-        orderID: 'ZELLE G95BW4HR',
-        sourceName: accounts.get(transaction.account_id)[0],
-        sourceDesc: accounts.get(transaction.account_id)[1],
-        amount: Number(transaction.amount),
-        currency: '$'}
-      )
-    }
-  }
 
   return (
     <Card>
