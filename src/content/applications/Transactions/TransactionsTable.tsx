@@ -27,12 +27,13 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 import {Transaction, TransactionCategory } from 'src/models/transaction';
-import './TransactionsTable.css';
+import './TransactionsTable.css'; 
 import React from 'react';
 
 interface TransactionsTableProps {
   className?: string;
   transactions: Transaction[];
+  categories: string[];
 }
 
 interface Filters {
@@ -58,7 +59,7 @@ const applyFilters = (
       let end = filters.date[1].getTime();
 
       // checks if the transaction is within start and end bounds
-      if(transaction.transactionDate.getTime() >= end || transaction.transactionDate.getTime() <= start){
+      if(transaction.date.getTime() >= end || transaction.date.getTime() <= start){
         matches = false;
       }
     }
@@ -75,8 +76,8 @@ const applyPagination = (
   return transactions.slice(page * limit, page * limit + limit);
 };
 
-const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
-
+const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categories }) => {
+  console.log(categories);
   // eslint-disable-next-line
   const [selectedTransactions, setSelectedTransactions] = useState<string[]>(
     []
@@ -90,30 +91,11 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
 
   const [dates, setDates] = React.useState<DateRange<Date>>([null, null]);
 
-  const transactionOptions = [
-    {
-        id: 'all',
-        name: 'All'
-    },
-    {
-      id: 'expense',
-      name: 'Expense'
-    },
-    {
-      id: 'food',
-      name: 'Food'
-    },
-    {
-      id: 'uncategorized',
-      name: 'Uncategorized'
-    }
-  ];
-
   const handleCateogryChange = (e: ChangeEvent<HTMLInputElement>): void => {
 
     let value = null;
 
-    if (e.target.value !== 'all') {
+    if (e.target.value !== 'All') {
       value = e.target.value;
     }
 
@@ -124,8 +106,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
   };
 
   const handleDateSearch = (e: any): void => {
-
-    console.log(dates);
 
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -184,14 +164,14 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Category</InputLabel>
                 <Select
-                  value={filters.category || 'all'}
+                  value={filters.category || 'All'}
                   onChange={handleCateogryChange}
                   label="Category"
                   autoWidth
                 >
-                  {transactionOptions.map((transactionOption) => (
-                    <MenuItem key={transactionOption.id} value={transactionOption.id}>
-                      {transactionOption.name}
+                  {categories.map((category) => (
+                    <MenuItem key={category} value={category}>
+                      {category}
                     </MenuItem>
                   ))}
                 </Select>
@@ -217,12 +197,12 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
           <TableBody>
             {paginatedTransactions.map((transaction) => {
               const isTransactionSelected = selectedTransactions.includes(
-                transaction.id
+                transaction.transactionID
               );
               return (
                 <TableRow
                   hover
-                  key={transaction.id}
+                  key={transaction.transactionID}
                   selected={isTransactionSelected}
                 >
                   <TableCell padding="checkbox"/>
@@ -235,7 +215,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                       gutterBottom
                       noWrap
                     >
-                      {(moment(transaction.transactionDate)).format('dddd, MMM DD YYYY')}
+                      {(moment(transaction.date)).format('dddd, MMM DD YYYY')}
                     </Typography>
                     {/* <Typography variant="body2" color="text.secondary" noWrap>
                       {(moment(transaction.transactionDate)).format('dddd, MMM DD YYYY')}
@@ -249,7 +229,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                       gutterBottom
                       noWrap
                     >
-                      {transaction.details}
+                      {transaction.name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -263,35 +243,30 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions }) => {
                       {transaction.sourceName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {transaction.sourceDesc}
+                      {transaction.sourceAccount}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
                       fontWeight="bold"
-                      color="text.primary"
+                      color={transaction.amount > 0 ? "red" : "green"}
                       gutterBottom
                       noWrap
                     >
-                      {transaction.currency} {transaction.amount}
+                      {transaction.currency} {-transaction.amount}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <FormControl fullWidth variant="outlined">
-                    <Select
-                      value={transaction.category || 'all'}
-
-                      
-                      fullWidth
-                    >
-                      {transactionOptions.filter(transactionOption => transactionOption.id !== 'all').map((transactionOption) => (
-                      <MenuItem key={transactionOption.id} value={transactionOption.id}>
-                        {transactionOption.name}
-                      </MenuItem>
-                    ))}
-                    </Select>
-                    </FormControl>
+                    <Typography	
+                      variant="body1"	
+                      fontWeight="bold"	
+                      color="text.primary"	
+                      gutterBottom	
+                      noWrap	
+                    >	
+                      {transaction.category}	
+                    </Typography>
                   </TableCell>
                 </TableRow>
               );

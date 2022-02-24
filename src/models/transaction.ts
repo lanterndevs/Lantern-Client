@@ -1,13 +1,14 @@
-export type TransactionCategory = 'expense' | 'food' | 'uncategorized';
+export type TransactionCategory = 'expense' | 'food' | 'uncategorized'; // need to remove this
 
 export interface Transaction {
-  id: string;
-  details: string;
-  transactionDate: Date;
-  orderID: string;
+  transactionID: string;
+  accountID: string;
   amount: number;
-  category: TransactionCategory;
+  category: string;
+  date: Date;
+  details: string;
+  name: string;
   sourceName: string;
-  sourceDesc: string;
+  sourceAccount: string;
   currency: string;
 }
