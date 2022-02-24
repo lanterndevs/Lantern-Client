@@ -85,7 +85,7 @@ return(
                       gutterBottom
                       noWrap
                     >
-                      $ {account.balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                      {account.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                     </Typography>
                   </TableCell>
 

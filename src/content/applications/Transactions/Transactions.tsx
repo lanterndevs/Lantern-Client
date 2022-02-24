@@ -38,7 +38,7 @@ const Transactions = () => {
               name: transaction.name,
               sourceName: 'Tosin', // name of the bank goes here
               sourceAccount: 'Tosin', // name of account goes here (Checking, Savings, etc)
-              currency: '$', // will need to change this based on the actual currency of the transaction
+              currency: 'USD', // will need to change this based on the actual currency of the transaction
             }
           );
         });

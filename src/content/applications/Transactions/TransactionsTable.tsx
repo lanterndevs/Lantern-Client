@@ -243,6 +243,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
                       noWrap
                     >
                       {transaction.sourceName}
+                      
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
                       {transaction.sourceAccount}
@@ -256,7 +257,9 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
                       gutterBottom
                       noWrap
                     >
-                      {transaction.currency} {-transaction.amount}
+
+                      {(-transaction.amount).toLocaleString('en-US', { style: 'currency', currency: transaction.currency })}
+
                     </Typography>
                   </TableCell>
                   <TableCell>
