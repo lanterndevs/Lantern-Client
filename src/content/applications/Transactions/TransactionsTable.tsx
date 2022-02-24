@@ -58,8 +58,10 @@ const applyFilters = (
       let start = filters.date[0].getTime();
       let end = filters.date[1].getTime();
 
+      let transactionDate = new Date(transaction.date).getTime();
+
       // checks if the transaction is within start and end bounds
-      if(transaction.date.getTime() >= end || transaction.date.getTime() <= start){
+      if(transactionDate >= end || transactionDate <= start){
         matches = false;
       }
     }
