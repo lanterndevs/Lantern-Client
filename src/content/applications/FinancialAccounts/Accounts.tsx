@@ -16,21 +16,22 @@ import {
 import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { Account } from 'src/models/account';
-import { FC } from 'react';
-
+import { FC, useState, useEffect } from 'react';
 
 interface AccountProps {
   accounts: Account[];
 }
 
-const Accounts: FC<AccountProps> = ({ accounts }) => {
+const Accounts: FC<AccountProps> = ({accounts}) => {
 
-// This will happen in page header
-// const response = axios.get('http://localhost:8080/api/accounts', {
-//   headers: {
-//     authorization: 'Bearer ' + 'public-sandbox-c1efb46b-a9f0-4e80-9d01-9c07c8b7c3',
-//   }
-// })
+const [accountsState , setAccountsState ] = useState(accounts);
+useEffect(() => 
+  { 
+    setAccountsState(accounts) 
+  }, [accounts] 
+);
+
+
 
 return(
     <Card>
@@ -53,7 +54,7 @@ return(
                 <TableBody>
                   {accounts.map((account) => {
                     return (
-                    <TableRow hover>
+                    <TableRow hover key={account.id}>
                         <TableCell padding="checkbox"/>
                         
                         {/* Displays the name of the Bank connected */}
@@ -66,7 +67,7 @@ return(
                             gutterBottom
                             noWrap
                         >
-                            {account.bank}
+                            {account.bankName}
                             
                             </Typography>
                         </TableCell>
@@ -80,7 +81,7 @@ return(
                             gutterBottom
                             noWrap
                         >
-                            {account.accountName}
+                            {account.name}
                             </Typography>
                         </TableCell>
 

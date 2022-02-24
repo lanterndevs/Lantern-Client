@@ -9,9 +9,14 @@ import { AuthenticationContext } from '../Login/authenticationContext';
 
 
 const PageHeader = () => {
-
   // will be used to populate the list of plaid accounts
-  let accounts: Account[] = [];
+  const [accounts, setAccounts] = useState<Account[]>([]);
+
+function getCookie(name) {
+  var re = new RegExp(name + "=([^;]+)");
+  var value = re.exec(document.cookie);
+  return (value != null) ? decodeURI(value[1]) : null;
+}
 
   // eslint-disable-next-line
   const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
@@ -21,9 +26,32 @@ const PageHeader = () => {
 
   // initial communication on render between server and Plaid to obtain link to add a new account
   useEffect(() => {
+    axios.get('http://localhost:8000/api/accounts', {
+        headers: {
+          authorization: 'Bearer ' + getCookie("auth_token"),
+        }
+      }).then((response) => {
+        // populates the accounts array with data from response
+        let tempAccounts: Account[] = [];
+        for(var account of response.data){
+          tempAccounts.push(
+            {
+              balance: account.balance,
+              description: account.description,
+              id: account.id,
+              institutionID: account.institutionID,
+              name: account.name,
+              bankName: "Plaid",
+              latestUpdate: "February 22, 2022"
+            }
+          );
+        }
+        setAccounts(tempAccounts);
+      });
+
     axios.get('http://localhost:8000/api/link', {
       headers: {
-        authorization: 'Bearer ' + authToken,
+        authorization: 'Bearer ' + getCookie("auth_token"),
       }
     }).then((response) => {
       setToken(response.data.token);
@@ -35,31 +63,45 @@ const PageHeader = () => {
     // send public_token to your server
     // https://plaid.com/docs/api/tokens/#token-exchange-flow
     setPublicToken(publicToken);
-    console.log(publicToken);
 
     // uses public token to retrieve access token for accounts and transactions
-    axios.post('http://localhost:8000/api/link', { token: publicToken},{
+    axios.post('http://localhost:8000/api/link', { token: publicToken },{
       headers: {
-        authorization: 'Bearer ' + authToken,
+        authorization: 'Bearer ' + getCookie("auth_token"),
       }
     }).then(response => {
       setAccessToken(response.data.token);
-    })
+      // retrieve the accounts from server
+      axios.get('http://localhost:8000/api/accounts', {
+        headers: {
+          authorization: 'Bearer ' + getCookie("auth_token"),
+        }
+      }).then((response) => {
 
-    // retrieve the accounts from server
-    axios.get('http://localhost:8000/api/accounts', {
-      headers: {
-        authorization: 'Bearer ' + authToken,
-      }
-    }).then((response) => {
-      // checks to see if the account data is as expected
-      console.log(response);
-    });
+        // populates the accounts array with data from response
+        let tempAccounts: Account[] = [];
+        for(var account of response.data){
+          tempAccounts.push(
+            {
+              balance: account.balance,
+              description: account.description,
+              id: account.id,
+              institutionID: account.institutionID,
+              name: account.name,
+              bankName: "Plaid",
+              latestUpdate: "February 22, 2022"
+            }
+          );
+        }
+        setAccounts(tempAccounts);
+
+      });
+    })
   }, []);
 
   const { open, ready } = usePlaidLink({
     token,
-    onSuccess,
+    onSuccess, 
     // onEvent
     // onExit
   });
@@ -85,6 +127,9 @@ const PageHeader = () => {
           Add Account
 
         </Button>
+
+
+
       </Grid>
     </Grid>
 
@@ -98,17 +143,3 @@ const PageHeader = () => {
 }
 
 export default PageHeader;
-
-  // const [plaidAccounts, setPlaidAccounts] = useState({
-  //   accounts: [
-  //     {
-  //       account_id: "",
-  //       balances: [],
-  //       mask: "",
-  //       name: "",
-  //       official_name: "",
-  //       subtype: "",
-  //       type: "",
-  //     }
-  //   ]
-  // });
