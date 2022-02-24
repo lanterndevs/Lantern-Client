@@ -25,7 +25,6 @@ import TextField from '@mui/material/TextField';
 import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
 import {Transaction, TransactionCategory } from 'src/models/transaction';
 import './TransactionsTable.css'; 
 import React from 'react';
@@ -243,7 +242,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
                       noWrap
                     >
                       {transaction.sourceName}
-                      
+
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
                       {transaction.sourceAccount}
