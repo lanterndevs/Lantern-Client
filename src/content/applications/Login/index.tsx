@@ -23,7 +23,6 @@ const validationSchema = yup.object({
   password: yup.string().required('Password is required'),
 });
 
-
 function Login() {
   const formik = useFormik({
     initialValues: {

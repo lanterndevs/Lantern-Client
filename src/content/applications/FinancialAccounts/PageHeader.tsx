@@ -81,8 +81,8 @@ const PageHeader = () => {
           );
         }
 
+        // updates the states of the financial accounts
         setAccounts(tempAccounts);
-
       });
     })
   }, []);

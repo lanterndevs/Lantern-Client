@@ -85,7 +85,7 @@ return(
                       gutterBottom
                       noWrap
                     >
-                      $ {account.balance}
+                      $ {account.balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                     </Typography>
                   </TableCell>
 
@@ -129,7 +129,6 @@ return(
           </TableBody>
           </Table>
           </TableContainer>
-
     </Card>
   );
 }
