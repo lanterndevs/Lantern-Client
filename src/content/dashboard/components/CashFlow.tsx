@@ -1,4 +1,7 @@
-import { Card, Col } from 'antd';
+import {
+    Card,
+    Divider
+} from '@mui/material';
 import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
     Chart as ChartJS,
@@ -57,24 +60,24 @@ const CashFlow = () => {
             datasets: [
                 {
                     label: "Revenue",
-                    backgroundColor: '#ffffff',
-                    borderWidth: 0,
+                    borderColor: '#000000',
+                    backgroundColor: '#000000',
                     data: revenue,
-                    hoverBackgroundColor: '#ffffff'
+                    tension: 0.1
                 },
                 {
                     label: "Expenses",
-                    backgroundColor: '#ffffff',
-                    borderWidth: 0,
+                    borderColor: '#ff4e33',
+                    backgroundColor: '#ff4e33',
                     data: expenses,
-                    hoverBackgroundColor: '#ffffff'
+                    tension: 0.1
                 },
                 {
                     label: "Profit",
-                    backgroundColor: '#ffffff',
-                    borderWidth: 0,
+                    borderColor: "#3dc5ff",
+                    backgroundColor: '#3dc5ff',
                     data: profit,
-                    hoverBackgroundColor: '#ffffff'
+                    tension: 0.1
                 }
             ]
         }
@@ -106,14 +109,14 @@ const CashFlow = () => {
                 weekExpenses: week.expenses,
                 weekProfit: week.profit,
                 weekLabels: week.labels,
-                monthRevenue: week.revenue,
-                monthExpenses: week.expenses,
-                monthProfit: week.profit,
-                monthLabels: week.labels,
-                yearRevenue: week.revenue,
-                yearExpenses: week.expenses,
-                yearProfit: week.profit,
-                yearLabels: week.labels
+                monthRevenue: month.revenue,
+                monthExpenses: month.expenses,
+                monthProfit: month.profit,
+                monthLabels: month.labels,
+                yearRevenue: year.revenue,
+                yearExpenses: year.expenses,
+                yearProfit: year.profit,
+                yearLabels: year.labels
             });
         });
     }, []);
@@ -159,16 +162,12 @@ const CashFlow = () => {
     console.log(chartData);
 
     return (
-        <Col {...{xs: 24, lg: 12}}>
-            <Card
-                className="cashFlowChart"
-                title={<ChartHeader title="Cash Flow" onClick={handleClick} />}
-                bordered={false}
-            >
-                {/*@ts-ignore*/}
-                <Line data={chartData} options={options}/>
-            </Card>
-        </Col>
+        <Card className="cashFlowChart">
+            <ChartHeader title="Cash Flow" onClick={handleClick} />
+            <Divider/>
+            {/*@ts-ignore*/}
+            <Line data={chartData} options={options}/>
+        </Card>
     );
 };
 

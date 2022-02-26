@@ -7,6 +7,7 @@ import ThemeProvider from './theme/ThemeProvider';
 import { CssBaseline } from '@mui/material';
 import { CookiesProvider } from 'react-cookie';
 import { withCookies } from 'react-cookie';
+import './App.css';
 
 import { AuthenticationProvider } from './content/applications/Login/authenticationContext';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'

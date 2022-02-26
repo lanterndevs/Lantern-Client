@@ -75,6 +75,9 @@ async function retrieveData(start, end) {
         return error;
     });
 
+    console.log("Got transactions:");
+    console.log(transactions);
+
     // Generate date range
     let currentDate = start;
     let dates = [];
@@ -86,9 +89,7 @@ async function retrieveData(start, end) {
     let revenue = new Array(dates.length).fill(0);
     let expenses = new Array(dates.length).fill(0);
 
-    //for (let i = 0; i < transactions.length; i++) {
-    // STRICTLY FOR TEMPORARY TESTING PURPOSES
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < transactions.length; i++) {
         if (transactions[i].amount <= 0) { // REVENUE
             revenue[dates.indexOf(transactions[i].date)] += (transactions[i].amount * -1);
         } else { // EXPENSE
