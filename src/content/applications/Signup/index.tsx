@@ -53,7 +53,7 @@ export default function SignUp() {
     axios.post('http://localhost:8000/api/users/register',
     {
       auth: {
-        email: data.get('email'),
+        email: data.get('email').toString().toLowerCase(),
         password: data.get('password')
       },
       bio: {
