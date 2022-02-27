@@ -43,9 +43,9 @@ const PageHeader = () => {
         authorization: 'Bearer ' + getCookie("auth_token"),
       }
     }).then((response) => {
-      setLinkToken(response.data.token);
+      setToken(response.data.token);
     });
-  }, [authToken]);
+  }, []);
 
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>((publicToken, metadata) => {
