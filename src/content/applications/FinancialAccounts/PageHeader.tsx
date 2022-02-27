@@ -1,29 +1,46 @@
 import { Typography, Button, Grid, Box } from '@mui/material';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import axios from 'axios';
-import { useCallback, useState, useEffect, useContext } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { usePlaidLink, PlaidLinkOnSuccess } from 'react-plaid-link';
 import Accounts from './Accounts';
 import { Account } from 'src/models/account';
-import { AuthenticationContext } from '../Login/authenticationContext';
-
+import moment from 'moment';
+import { getCookie } from 'src/utilities/utils';
 
 const PageHeader = () => {
-
   // will be used to populate the list of plaid accounts
-  let accounts: Account[] = [];
-
-  // eslint-disable-next-line
-  const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
-  const [linkToken, setLinkToken] = useState<string | null>(null); // link token received from Plaid
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [publicToken, setPublicToken] = useState<string | null>(null); // public token received upon adding account with Plaid
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [token, setToken] = useState<string | null>(null); // link token received from Plaid
 
   // initial communication on render between server and Plaid to obtain link to add a new account
   useEffect(() => {
-    axios.get('/api/link', {
+    axios.get('http://localhost:8000/api/accounts', {
+        headers: {
+          authorization: 'Bearer ' + getCookie("auth_token"),
+        }
+      }).then((response) => {
+        // populates the accounts array with data from response
+        let tempAccounts: Account[] = [];
+        for(var account of response.data){
+          tempAccounts.push(
+            {
+              balance: account.balance,
+              description: account.description,
+              id: account.id,
+              institutionID: account.institutionID,
+              name: account.name,
+              bankName: "Plaid",
+              latestUpdate: (moment(new Date())).format('l , LT')
+            }
+          );
+        }
+        setAccounts(tempAccounts);
+      });
+
+    axios.get('http://localhost:8000/api/link', {
       headers: {
-        authorization: 'Bearer ' + authToken,
+        authorization: 'Bearer ' + getCookie("auth_token"),
       }
     }).then((response) => {
       setLinkToken(response.data.token);
@@ -34,31 +51,44 @@ const PageHeader = () => {
   const onSuccess = useCallback<PlaidLinkOnSuccess>((publicToken, metadata) => {
     // send public_token to your server
     // https://plaid.com/docs/api/tokens/#token-exchange-flow
-    setPublicToken(publicToken);
-
     // uses public token to retrieve access token for accounts and transactions
-    axios.post('/api/link', { token: publicToken},{
+    axios.post('http://localhost:8000/api/link', { token: publicToken },{
       headers: {
-        authorization: 'Bearer ' + authToken,
+        authorization: 'Bearer ' + getCookie("auth_token"),
       }
     }).then(response => {
-      setAccessToken(response.data.token);
-    })
+      // retrieve the accounts from server
+      axios.get('http://localhost:8000/api/accounts', {
+        headers: {
+          authorization: 'Bearer ' + getCookie("auth_token"),
+        }
+      }).then((response) => {
 
-    // retrieve the accounts from server
-    axios.get('/api/accounts', {
-      headers: {
-        authorization: 'Bearer ' + authToken,
-      }
-    }).then((response) => {
-      // checks to see if the account data is as expected
-      console.log(response);
-    });
-  }, [authToken]);
+        // populates the accounts array with data from response
+        let tempAccounts: Account[] = [];
+        for(var account of response.data){
+          tempAccounts.push(
+            {
+              balance: account.balance,
+              description: account.description,
+              id: account.id,
+              institutionID: account.institutionID,
+              name: account.name,
+              bankName: "Plaid", // will need to determine how to pull this information from Plaid API
+              latestUpdate: (moment(new Date())).format('l , LT')
+            }
+          );
+        }
+
+        // updates the states of the financial accounts
+        setAccounts(tempAccounts);
+      });
+    })
+  }, []);
 
   const { open, ready } = usePlaidLink({
-    token: linkToken,
-    onSuccess,
+    token,
+    onSuccess, 
     // onEvent
     // onExit
   });
@@ -84,6 +114,7 @@ const PageHeader = () => {
           Add Account
 
         </Button>
+
       </Grid>
     </Grid>
 
@@ -97,17 +128,3 @@ const PageHeader = () => {
 }
 
 export default PageHeader;
-
-  // const [plaidAccounts, setPlaidAccounts] = useState({
-  //   accounts: [
-  //     {
-  //       account_id: "",
-  //       balances: [],
-  //       mask: "",
-  //       name: "",
-  //       official_name: "",
-  //       subtype: "",
-  //       type: "",
-  //     }
-  //   ]
-  // });

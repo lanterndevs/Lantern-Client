@@ -1,59 +1,49 @@
 import { Card } from '@mui/material';
 import {Transaction } from 'src/models/transaction';
 import TransactionsTable from './TransactionsTable';
-import {useEffect, useState} from 'react';
-import { number } from 'prop-types';
+import {useEffect, useState } from 'react';
+import axios from 'axios';
+import { getCookie } from 'src/utilities/utils';
 
 const Transactions = () => {
 
-  // need to update this, remove accounts, items, request_id, total_transactions
-  
-  const [plaidTransactions, setPlaidTransactions] = useState({
-    accounts: [
-      {
-        account_id: "",
-        balances: [],
-        mask: "",
-        name: "",
-        official_name: "",
-        subtype: "",
-        type: "",
-      }
-    ],
-
-    item: "",
-    request_id: "",
-    total_transactions:"",
-    
-    transactions: [
-      {
-        account_id: "",
-        account_owner: "",
-        amount: "",
-        category: [],
-        category_id: number,
-        date: "",
-        iso_currency_code: "",
-        location: "",
-        name: "",
-        payment_meta: "",
-        pending: "",
-        pending_transaction_id: "",
-        transaction_id: "",
-        transaction_type: "",
-        unofficial_currency_code: null
-      }
-    ],
-  })
+    // list of transactions fetched from Plaid API
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   
   // fetches user transactions via Plaid
   const fetchData = () => {
-    fetch("http://localhost:3001/transactions")
-      .then(response => {
-        return response.json()
-      })
-      .then(data => {
-        setPlaidTransactions(data)
+    axios.get('http://localhost:8000/api/transactions', {
+        headers: {
+          authorization: 'Bearer ' + getCookie("auth_token"),
+        }
+      }).then((response) => {
+
+        // also need to get the list of accounts to map transactions
+        // use the map to link the source name and sourceDescription
+
+        // populates the accounts array with data from response
+        let tempTransactions: Transaction[] = [];
+        
+        response.data.forEach((transaction, key) => {
+          
+          // pushes all fetched transactions to temp transactions array
+          tempTransactions.push(
+            { 
+              transactionID: key.toString(),
+              accountID: transaction.accountID,
+              amount: transaction.amount,
+              category: transaction.categories[0],
+              date: transaction.date, 
+              details: transaction.details,
+              name: transaction.name,
+              sourceName: 'Tosin', // name of the bank goes here
+              sourceAccount: 'Tosin', // name of account goes here (Checking, Savings, etc)
+              currency: 'USD', // will need to change this based on the actual currency of the transaction
+            }
+          );
+        });
+
+        setTransactions(tempTransactions);
       })
   }
 
@@ -61,36 +51,14 @@ const Transactions = () => {
     fetchData()
   }, [])
 
-  let transactions: Transaction[] = [];
+  let categoriesSet = new Set<string>();
+  categoriesSet.add('All');
 
-  // if the user has transctions retrieved from Plaid, populate the transcations table
-  if(plaidTransactions.transactions[0].name !== ""){
-
-    // creates a map to accounts to retrive name based on account_id
-    let accounts = new Map();
-    for(var account of plaidTransactions.accounts){
-      accounts.set(account.account_id, [account.name, account.subtype]);
-    }
-
-    // appends new transactions to list of transactions
-    for(var transaction of plaidTransactions.transactions){
-      transactions.push(
-        {id: transaction.transaction_id, 
-        details: transaction.name, 
-        transactionDate: new Date(transaction.date), 
-        category: 'expense', 
-        orderID: 'ZELLE G95BW4HR',
-        sourceName: accounts.get(transaction.account_id)[0],
-        sourceDesc: accounts.get(transaction.account_id)[1],
-        amount: Number(transaction.amount),
-        currency: '$'}
-      )
-    }
-  }
-
+  const categories = Array.from(categoriesSet);
+  
   return (
     <Card>
-      <TransactionsTable transactions={transactions} />
+      <TransactionsTable transactions={transactions} categories={categories}/>
     </Card>
   );
 }

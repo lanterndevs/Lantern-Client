@@ -18,19 +18,11 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { Account } from 'src/models/account';
 import { FC } from 'react';
 
-
 interface AccountProps {
   accounts: Account[];
 }
 
-const Accounts: FC<AccountProps> = ({ accounts }) => {
-
-// This will happen in page header
-// const response = axios.get('/api/accounts', {
-//   headers: {
-//     authorization: 'Bearer ' + authToken,
-//   }
-// })
+const Accounts: FC<AccountProps> = ({accounts}) => {
 
 return(
     <Card>
@@ -53,7 +45,7 @@ return(
                 <TableBody>
                   {accounts.map((account) => {
                     return (
-                    <TableRow hover>
+                    <TableRow hover key={account.id}>
                         <TableCell padding="checkbox"/>
                         
                         {/* Displays the name of the Bank connected */}
@@ -66,7 +58,7 @@ return(
                             gutterBottom
                             noWrap
                         >
-                            {account.bank}
+                            {account.bankName}
                             
                             </Typography>
                         </TableCell>
@@ -80,7 +72,7 @@ return(
                             gutterBottom
                             noWrap
                         >
-                            {account.accountName}
+                            {account.name}
                             </Typography>
                         </TableCell>
 
@@ -93,7 +85,7 @@ return(
                       gutterBottom
                       noWrap
                     >
-                      {account.balance}
+                      {account.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                     </Typography>
                   </TableCell>
 
@@ -137,7 +129,6 @@ return(
           </TableBody>
           </Table>
           </TableContainer>
-
     </Card>
   );
 }

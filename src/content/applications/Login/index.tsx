@@ -16,15 +16,12 @@ import { useNavigate } from 'react-router-dom'
 import { useAlert } from 'react-alert'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useContext } from 'react';
-import { AuthenticationContext } from '../Login/authenticationContext';
 
 const theme = createTheme();
 const validationSchema = yup.object({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup.string().required('Password is required'),
 });
-
 
 function Login() {
   const formik = useFormik({
@@ -41,9 +38,6 @@ function Login() {
   const alert = useAlert()
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['auth_token']);
-
-  // eslint-disable-next-line
-  const {authToken, setAuthToken } = useContext(AuthenticationContext); // the user authentication token
   
   const navigate = useNavigate();
   const handleSubmit = (event) => {
@@ -56,9 +50,7 @@ function Login() {
         password: data.get('password'),
       }).then(res => {
         if (res.data.token != null) {
-          console.log(JSON.stringify(res.data.token));
           alert.removeAll();
-          setAuthToken(res.data.token);
           setCookie('auth_token',res.data.token,{ path: '/', maxAge: 10000000000});
           navigate('/dashboard/overview');
         }
@@ -79,7 +71,7 @@ function Login() {
             alignItems: 'center',
           }}
         >
-          <img src={mainLogo} style={{width: "40px", height: "70px", bottom:"20px", position: "relative"}} alt="lantern-logo"/>
+          <img src={mainLogo} style={{ width: "200px", height: "130px", bottom:"20px", position: "relative"}} alt="lantern-logo"/>
           
           <Typography component="h1" variant="h5">
             Sign In
