@@ -51,7 +51,6 @@ const PageHeader = () => {
   const onSuccess = useCallback<PlaidLinkOnSuccess>((publicToken, metadata) => {
     // send public_token to your server
     // https://plaid.com/docs/api/tokens/#token-exchange-flow
-
     // uses public token to retrieve access token for accounts and transactions
     axios.post('http://localhost:8000/api/link', { token: publicToken },{
       headers: {
