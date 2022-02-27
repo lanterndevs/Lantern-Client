@@ -130,6 +130,7 @@ export default function SignUp() {
                   helperText={formik.touched.lastName && formik.errors.lastName}
                 />
               </Grid>
+            </Grid>
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
@@ -235,6 +236,7 @@ export default function SignUp() {
               </Grid>
             </Box>
           </Box>
+        </Box>
         </Container>
       </ThemeProvider>
   );
