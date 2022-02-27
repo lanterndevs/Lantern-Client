@@ -1,7 +1,7 @@
 <div align="center">
     <h1>
         <br>
-            <img src=".github/lanternlogo.png" height="150" width="150">
+            <img src=".github/lanternlogo.png" height="600" width="600">
     </h1>
 </div>
 
