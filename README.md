@@ -1,3 +1,10 @@
+<div align="center">
+    <h1>
+            <img src=".github/lanternlogo.png" height="250" width="380">
+    </h1>
+</div>
+
+
 # Lantern
 
 Lantern is a free, open source web-application that gives small businesses the ability to track and account all income/cash flow along with providing computed detailed reports and finanical analysis.

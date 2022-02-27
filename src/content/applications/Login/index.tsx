@@ -71,7 +71,7 @@ function Login() {
             alignItems: 'center',
           }}
         >
-          <img src={mainLogo} style={{width: "40px", height: "70px", bottom:"20px", position: "relative"}} alt="lantern-logo"/>
+          <img src={mainLogo} style={{ width: "200px", height: "130px", bottom:"20px", position: "relative"}} alt="lantern-logo"/>
           
           <Typography component="h1" variant="h5">
             Sign In
