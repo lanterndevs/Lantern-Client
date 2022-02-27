@@ -9,7 +9,10 @@ const Transactions = () => {
 
     // list of transactions fetched from Plaid API
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  
+  const [categoriesState, setCategoriesState] = useState<string[]>([]);
+  let categoriesSet = new Set<string>();
+  categoriesSet.add('All');
+
   // fetches user transactions via Plaid
   const fetchData = () => {
     axios.get('http://localhost:8000/api/transactions', {
@@ -18,6 +21,7 @@ const Transactions = () => {
         }
       }).then((response) => {
 
+        console.log(response.data)
         // also need to get the list of accounts to map transactions
         // use the map to link the source name and sourceDescription
 
@@ -41,24 +45,19 @@ const Transactions = () => {
               currency: 'USD', // will need to change this based on the actual currency of the transaction
             }
           );
+          categoriesSet.add(transaction.categories[0]);
+          setCategoriesState(Array.from(categoriesSet));
         });
-
         setTransactions(tempTransactions);
       })
   }
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  let categoriesSet = new Set<string>();
-  categoriesSet.add('All');
-
-  const categories = Array.from(categoriesSet);
+  // eslint-disable-next-lin
+  useEffect(() => { fetchData();}, []);
   
   return (
     <Card>
-      <TransactionsTable transactions={transactions} categories={categories}/>
+      <TransactionsTable transactions={transactions} categories={categoriesState}/>
     </Card>
   );
 }

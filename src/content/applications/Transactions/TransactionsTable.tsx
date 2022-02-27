@@ -79,7 +79,6 @@ const applyPagination = (
 };
 
 const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categories }) => {
-  console.log(categories);
   // eslint-disable-next-line
   const [selectedTransactions, setSelectedTransactions] = useState<string[]>(
     []
