@@ -58,15 +58,11 @@ function Logo() {
         {/* <LogoSign>
           <LogoSignInner />
         </LogoSign> */}
-        <img src={mainLogo} style={{width: "40px", height: "70px", bottom:"20px", left: "6px", position: "relative"}} alt="lantern-logo"/>
+        <img src={mainLogo} style={{width: "170px", height: "80px", bottom:"25px", left: "-43px", position: "relative"}} alt="lantern-logo"/>
       </LogoSignWrapper>
       <Hidden smDown>
         <LogoTextWrapper>
-          {/* Need to remove this, apply CSS changes to center the lantern text */}
-          <Tooltip title="Version 1.0.0" arrow placement="right">
-            <VersionBadge>1.0</VersionBadge>
-          </Tooltip>
-          <LogoText>Lantern</LogoText>
+          <LogoText style={{ bottom: '-9px', left: "33px", position: "relative", fontSize: 20 }} >Lantern</LogoText>
         </LogoTextWrapper>
       </Hidden>
     </LogoWrapper>
