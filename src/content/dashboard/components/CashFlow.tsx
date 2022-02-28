@@ -1,8 +1,4 @@
-import {
-    Card,
-    CardHeader,
-    Divider
-} from '@mui/material';
+import { Card, CardHeader } from '@mui/material';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import {
     Chart as ChartJS,
@@ -16,6 +12,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { retrieveCashFlow } from '../../../utils/cashflow';
+import ChartHeader from './ChartHeader';
 
 ChartJS.register(
     CategoryScale,
@@ -161,7 +158,7 @@ const CashFlow = () => {
     return (
         <Card className="cashFlowChart">
             <CardHeader title="Cash Flow Breakdown" onClick={handleClick}/>
-            <Divider/>
+                <ChartHeader onClick={handleClick} />
             {/*@ts-ignore*/}
             <Line data={chartData} options={options}/>
         </Card>

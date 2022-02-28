@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import {getCookie} from "./cookies";
 import {formatDate} from "./dates";
 
@@ -103,9 +104,12 @@ async function retrieveData(start, end) {
         profit[i] = revenue[i] - expenses[i];
     }
 
+    // reformats the dates
+    dates.forEach((date, index) => {
+        dates[index] = moment(date).format('ll');
+      });
+
     return { revenue: revenue, expenses: expenses, profit: profit, labels: dates };
 }
 
-export {
-    retrieveCashFlow
-};
+export { retrieveCashFlow };

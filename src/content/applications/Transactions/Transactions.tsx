@@ -52,8 +52,8 @@ const Transactions = () => {
       })
   }
 
-  // eslint-disable-next-lin
-  useEffect(() => { fetchData();}, []);
+  // eslint-disable-next-line
+  useEffect(() => { fetchData(); }, []);
   
   return (
     <Card>

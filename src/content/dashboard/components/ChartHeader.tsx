@@ -1,22 +1,17 @@
-import { Button, Col, Row, Typography } from 'antd';
+import { Button } from '@mui/material'
 import React from 'react';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
-const ChartHeader = ({ title, onClick}) => {
-    return (
-        <Row justify="space-between">
-            <Col span={8}>
-                <Typography.Title level={2} className="chartHeader">
-                    {title}
-                </Typography.Title>
-            </Col>
-            <Col span={16} className="buttonGroup">
-                <Button.Group size="small">
-                    <Button onClick={onClick} name="week">Week</Button>
-                    <Button onClick={onClick} name="month">Month</Button>
-                    <Button onClick={onClick} name="year">Year</Button>
-                </Button.Group>
-            </Col>
-        </Row>
+const ChartHeader = ({ onClick}) => {
+    return ( 
+        <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', marginBottom: '20px'}}>
+        <ButtonGroup size="medium">
+            <Button variant="outlined" onClick={onClick} name="week">Week</Button>
+            <Button variant="outlined" onClick={onClick} name="month">Month</Button>
+            <Button variant="outlined" onClick={onClick} name="year">Year</Button>
+        </ButtonGroup> 
+        <br/>
+        </div>
     )
 };
 

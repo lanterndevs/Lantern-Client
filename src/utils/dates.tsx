@@ -9,6 +9,4 @@ function formatDate(date) {
     ].join('');
 }
 
-export {
-    formatDate
-};
+export { formatDate };

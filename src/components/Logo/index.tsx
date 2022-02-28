@@ -1,4 +1,4 @@
-import { Box, Hidden, Tooltip } from '@mui/material';
+import { Box, Hidden } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 
@@ -29,19 +29,6 @@ const LogoTextWrapper = styled(Box)(
 `
 );
 
-const VersionBadge = styled(Box)(
-  ({ theme }) => `
-        background: ${theme.palette.success.main};
-        color: ${theme.palette.success.contrastText};
-        padding: ${theme.spacing(0.4, 1)};
-        border-radius: ${theme.general.borderRadiusSm};
-        text-align: center;
-        display: inline-block;
-        line-height: 1;
-        font-size: ${theme.typography.pxToRem(11)};
-`
-);
-
 const LogoText = styled(Box)(
   ({ theme }) => `
         font-size: ${theme.typography.pxToRem(15)};
@@ -54,10 +41,6 @@ function Logo() {
   return (
     <LogoWrapper to="/overview">
       <LogoSignWrapper>
-        {/* This is where the lantern image will go */}
-        {/* <LogoSign>
-          <LogoSignInner />
-        </LogoSign> */}
         <img src={mainLogo} style={{width: "170px", height: "80px", bottom:"25px", left: "-43px", position: "relative"}} alt="lantern-logo"/>
       </LogoSignWrapper>
       <Hidden smDown>
