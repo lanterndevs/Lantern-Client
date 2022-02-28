@@ -30,9 +30,8 @@ function Dashboard() {
             <UpcomingEvents />
           </Grid>
 
-          {/* Chart that displays the break down of expenses based on transactions */}
           <Grid item lg={4} xs={12}>
-            <UpcomingEvents />
+            {/* <UpcomingEvents /> */}
           </Grid>
           
           <Grid item lg={8} xs={12}>
