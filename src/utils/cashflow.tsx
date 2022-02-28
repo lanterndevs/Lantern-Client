@@ -71,12 +71,12 @@ async function retrieveData(start, end) {
     }).then(res => {
         transactions = res.data;
     }).catch(error => {
-        console.log(error);
+        // console.log(error);
         return error;
     });
 
-    console.log("Got transactions:");
-    console.log(transactions);
+    // console.log("Got transactions:");
+    // console.log(transactions);
 
     // Generate date range
     let currentDate = start;

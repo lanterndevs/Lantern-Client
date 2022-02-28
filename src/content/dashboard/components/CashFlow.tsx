@@ -1,8 +1,9 @@
 import {
     Card,
+    CardHeader,
     Divider
 } from '@mui/material';
-import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -14,8 +15,6 @@ import {
     Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-
-import ChartHeader from "./ChartHeader";
 import { retrieveCashFlow } from '../../../utils/cashflow';
 
 ChartJS.register(
@@ -28,6 +27,10 @@ ChartJS.register(
     Legend
 );
 
+// Sets default values for chart properties
+ChartJS.defaults.font.family = 'Roboto';
+ChartJS.defaults.font.size = 14;
+
 const CashFlow = () => {
     /**
      * The options for the chart.
@@ -39,10 +42,6 @@ const CashFlow = () => {
         plugins: {
             legend: {
                 position: 'top' as const,
-            },
-            title: {
-                display: true,
-                text: 'Chart.js Line Chart',
             }
         }
     };
@@ -102,7 +101,6 @@ const CashFlow = () => {
 
     // retrieves cashflow if component did mount
     useEffect(() => {
-        console.log("Calling retrieveCashFlow!")
         retrieveCashFlow().then(([week, month, year]) => {
             setState({
                 weekRevenue: week.revenue,
@@ -123,28 +121,27 @@ const CashFlow = () => {
 
     // data for the current chart type
     const chartData = useMemo(() => {
-        console.log("Updating chartData!");
         switch (chartType) {
             case 'week':
-                console.log(state.weekLabels);
-                console.log(state.weekRevenue);
-                console.log(state.weekExpenses);
-                console.log(state.weekProfit);
+                // console.log(state.weekLabels);
+                // console.log(state.weekRevenue);
+                // console.log(state.weekExpenses);
+                // console.log(state.weekProfit);
                 return data(state.weekLabels, state.weekRevenue, state.weekExpenses, state.weekProfit);
             case 'month':
-                console.log(state.monthLabels);
-                console.log(state.monthRevenue);
-                console.log(state.monthExpenses);
-                console.log(state.monthProfit);
+                // console.log(state.monthLabels);
+                // console.log(state.monthRevenue);
+                // console.log(state.monthExpenses);
+                // console.log(state.monthProfit);
                 return data(state.monthLabels, state.monthRevenue, state.monthExpenses, state.monthProfit);
             case 'year':
-                console.log(state.yearLabels);
-                console.log(state.yearRevenue);
-                console.log(state.yearExpenses);
-                console.log(state.yearProfit);
+                // console.log(state.yearLabels);
+                // console.log(state.yearRevenue);
+                // console.log(state.yearExpenses);
+                // console.log(state.yearProfit);
                 return data(state.yearLabels, state.yearRevenue, state.yearExpenses, state.yearProfit);
             default:
-                console.log("Default taken!");
+                // console.log("Default taken!");
                 return [];
         }
     }, [chartType, state]);
@@ -153,17 +150,17 @@ const CashFlow = () => {
     const handleClick = useCallback((e) => {
         e.preventDefault();
         const type = e.target.outerText.toLowerCase();
-        console.log(e);
-        console.log(type);
+        // console.log(e);
+        // console.log(type);
         setChartType(type);
     }, [setChartType]);
 
-    console.log("chartData:");
-    console.log(chartData);
+    // console.log("chartData:");
+    // console.log(chartData);
 
     return (
         <Card className="cashFlowChart">
-            <ChartHeader title="Cash Flow" onClick={handleClick} />
+            <CardHeader title="Cash Flow Breakdown" onClick={handleClick}/>
             <Divider/>
             {/*@ts-ignore*/}
             <Line data={chartData} options={options}/>
