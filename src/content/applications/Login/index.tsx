@@ -44,7 +44,7 @@ function Login() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    axios.post('http://localhost:8000/api/users/authenticate',
+    axios.post('/api/users/authenticate',
       {
         email: data.get('email').toString().toLowerCase(),
         password: data.get('password'),
