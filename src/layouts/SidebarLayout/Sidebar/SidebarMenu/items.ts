@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
+import EventNoteTwoToneIcon from '@mui/icons-material/EventNoteTwoTone';
 import BallotTwoToneIcon from '@mui/icons-material/BallotTwoTone';
-import BeachAccessTwoToneIcon from '@mui/icons-material/BeachAccessTwoTone';
+import CalculateTwoToneIcon from '@mui/icons-material/CalculateTwoTone';
 import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import AccountBalanceTwoToneIcon from '@mui/icons-material/AccountBalanceTwoTone';
@@ -15,7 +16,6 @@ export interface MenuItem {
   badge?: string;
   items?: MenuItem[];
   name: string;
-  
 }
 
 export interface MenuItems {
@@ -58,17 +58,33 @@ const menuItems: MenuItems[] = [
       {
         name: 'Reports',
         icon: BallotTwoToneIcon,
-        link: '/components/buttons'
+        link: '/finances/reports'
       },
       {
         name: 'Budget',
         icon: SavingsTwoToneIcon,
-        link: '/components/modals'
+        link: '/finances/budget'
       },
       {
         name: 'Goals',
         icon: EmojiEventsTwoToneIcon,
-        link: '/components/accordions'
+        link: '/finances/goals'
+      }
+    ]
+  },
+
+  {
+    heading: 'Tools',
+    items: [
+      {
+        name: 'Calculators',
+        icon: CalculateTwoToneIcon,
+        link: '/tools/calculators'
+      },
+      {
+        name: 'Calendar',
+        icon: EventNoteTwoToneIcon,
+        link: '/tools/calendar'
       }
     ]
   },

@@ -3,46 +3,52 @@ import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
+import UpcomingEvents from '../components/UpcomingEvents';
+import CashFlow from '../components/CashFlow';
 
-import AccountBalance from './AccountBalance';
-import Wallets from './Wallets';
-import AccountSecurity from './AccountSecurity';
-import WatchList from './WatchList';
+function Dashboard() {
 
-function DashboardCrypto() {
   return (
     <>
       <Helmet>
         <title>Overview</title>
       </Helmet>
+      
       <PageTitleWrapper>
         <PageHeader />
       </PageTitleWrapper>
+      
       <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
-          spacing={3}
-        >
-          <Grid item xs={12}>
-            <AccountBalance />
-          </Grid>
+        <Grid container direction="row" justifyContent="left" alignItems="stretch" spacing={3}>
           <Grid item lg={8} xs={12}>
-            <Wallets />
+            {/* Cash Flow Statement that displays weekly, monthly, and yearly net revenue */}
+            <CashFlow />
           </Grid>
+          
+          {/* Account Balance */}
           <Grid item lg={4} xs={12}>
-            <AccountSecurity />
+            <UpcomingEvents />
           </Grid>
+
+          <Grid item lg={4} xs={12}>
+            {/* <UpcomingEvents /> */}
+          </Grid>
+          
+          <Grid item lg={8} xs={12}>
+            
+            {/* <Wallets /> */}
+          </Grid>
+          
           <Grid item xs={12}>
-            <WatchList />
+            {/* <WatchList /> */}
           </Grid>
+
         </Grid>
       </Container>
+      
       <Footer />
     </>
   );
 }
 
-export default DashboardCrypto;
+export default Dashboard;

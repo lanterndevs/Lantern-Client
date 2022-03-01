@@ -3,10 +3,11 @@ import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
+import Transactions from './Transactions';
 
-import RecentOrders from './RecentOrders';
 
 function ApplicationsTransactions() {
+  
   return (
     <>
       <Helmet>
@@ -24,7 +25,7 @@ function ApplicationsTransactions() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <RecentOrders />
+            <Transactions/>
           </Grid>
         </Grid>
       </Container>

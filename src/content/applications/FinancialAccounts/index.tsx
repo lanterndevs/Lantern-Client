@@ -1,17 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
-
-import RecentOrders from './RecentOrders';
-import { useState } from 'react';
-import NoAccount from './NoAccount';
-
-
-function ApplicationsFinancialAccount() {
-
-  const [hasAccount, setHasAccount] = useState(false); 
+  
+function FinancialAccount() {
   
   return (
     <>
@@ -19,30 +11,11 @@ function ApplicationsFinancialAccount() {
         <title>Financial Accounts</title>
       </Helmet>
       <PageTitleWrapper>
-        <PageHeader />
+          <PageHeader /> 
       </PageTitleWrapper>
-      <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
-          spacing={3}
-        >
-          <Grid item xs={12}>
-
-            {/* Loads Financial Accounts Component if the user has an account connected */}
-            {hasAccount && <RecentOrders />}
-            
-            {/* Loads No Accounts Component if the user does not have an account connected */}
-            {!hasAccount && <NoAccount />}
-
-          </Grid>
-        </Grid>
-      </Container>
       <Footer />
     </>
   );
 }
 
-export default ApplicationsFinancialAccount;
+export default FinancialAccount;
