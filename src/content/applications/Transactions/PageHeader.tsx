@@ -9,7 +9,7 @@ function PageHeader() {
           Transactions
         </Typography>
         <Typography variant="subtitle2">
-          Below are your recent transactions
+          Below are your recent transactions from all connected accounts
         </Typography>
       </Grid>
       <Grid item>

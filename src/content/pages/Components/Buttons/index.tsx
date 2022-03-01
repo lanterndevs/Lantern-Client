@@ -10,13 +10,13 @@ function Buttons() {
   return (
     <>
       <Helmet>
-        <title>Buttons - Components</title>
+        <title>Financial Reports</title>
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          heading="Buttons"
-          subHeading="Buttons allow users to take actions, and make choices, with a single tap."
-          docs="https://material-ui.com/components/buttons/" />
+          heading="Financial Reports"
+          subHeading="Below are all of the financial reports available from retrived data"
+        />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -28,10 +28,10 @@ function Buttons() {
         >
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Contained Buttons" />
+              <CardHeader title="Balance Sheet" />
               <Divider />
               <CardContent>
-                <Button sx={{ margin: 1 }} variant="contained">Default</Button>
+                {/* <Button sx={{ margin: 1 }} variant="contained">Default</Button>
                 <Button sx={{ margin: 1 }} variant="contained" color="primary">
                   Primary
                 </Button>
@@ -43,27 +43,27 @@ function Buttons() {
                 </Button>
                 <Button sx={{ margin: 1 }} variant="contained" color="primary" href="#contained-buttons">
                   Link
-                </Button>
+                </Button> */}
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Text Buttons" />
+              <CardHeader title="Expenses Breakdown" />
               <Divider />
               <CardContent>
-                <Button sx={{ margin: 1 }}>Default</Button>
+                {/* <Button sx={{ margin: 1 }}>Default</Button>
                 <Button sx={{ margin: 1 }} color="primary">Primary</Button>
                 <Button sx={{ margin: 1 }} color="secondary">Secondary</Button>
                 <Button sx={{ margin: 1 }} disabled>Disabled</Button>
                 <Button sx={{ margin: 1 }} href="#text-buttons" color="primary">
                   Link
-                </Button>
+                </Button> */}
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12}>
-            <Card>
+            {/* <Card>
               <CardHeader title="Outlined Buttons" />
               <Divider />
               <CardContent>
@@ -81,10 +81,10 @@ function Buttons() {
                   Link
                 </Button>
               </CardContent>
-            </Card>
+            </Card> */}
           </Grid>
           <Grid item xs={12}>
-            <Card>
+            {/* <Card>
               <CardHeader title="Sizes" />
               <Divider />
               <CardContent>
@@ -138,7 +138,7 @@ function Buttons() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
           </Grid>
         </Grid>
       </Container>

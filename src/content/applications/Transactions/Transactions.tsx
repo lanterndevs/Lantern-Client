@@ -10,26 +10,37 @@ const Transactions = () => {
     // list of transactions fetched from Plaid API
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [categoriesState, setCategoriesState] = useState<string[]>([]);
+  let accounts = new Map();
   let categoriesSet = new Set<string>();
   categoriesSet.add('All');
 
-  // fetches user transactions via Plaid
-  const fetchData = () => {
+  const fetchData = async () => {
+    
+    // retrieves accounts from the user
+    await axios.get('http://localhost:8000/api/accounts', {
+      headers: {
+        authorization: 'Bearer ' + getCookie("auth_token"),
+      }
+    }).then((response) => {
+      
+      // stores the accounts in a map that will be used to link each transaction to respective account
+      for(var account of response.data){
+        accounts.set(account.id, account.name);
+      }
+    })
+    
+    // retrieves the transactions from the user
     axios.get('http://localhost:8000/api/transactions', {
         headers: {
           authorization: 'Bearer ' + getCookie("auth_token"),
         }
       }).then((response) => {
 
-        console.log(response.data)
-        // also need to get the list of accounts to map transactions
-        // use the map to link the source name and sourceDescription
-
         // populates the accounts array with data from response
         let tempTransactions: Transaction[] = [];
         
         response.data.forEach((transaction, key) => {
-          
+
           // pushes all fetched transactions to temp transactions array
           tempTransactions.push(
             { 
@@ -40,11 +51,12 @@ const Transactions = () => {
               date: transaction.date, 
               details: transaction.details,
               name: transaction.name,
-              sourceName: 'Tosin', // name of the bank goes here
-              sourceAccount: 'Tosin', // name of account goes here (Checking, Savings, etc)
+              sourceName: accounts.get(transaction.accountID),
+              sourceAccount: '*****' + transaction.accountID.substring(transaction.accountID.length - 8),
               currency: 'USD',
             }
           );
+
           categoriesSet.add(transaction.categories[0]);
           setCategoriesState(Array.from(categoriesSet));
         });
