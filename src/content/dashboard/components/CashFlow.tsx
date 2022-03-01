@@ -35,6 +35,15 @@ const CashFlow = () => {
      * @type Object
      */
     const options = {
+        scales:{
+            y: {
+                ticks: {
+                    callback: function (value){
+                        return '$' + value;
+                    }
+                }
+            }
+        },
         responsive: true,
         plugins: {
             legend: {
