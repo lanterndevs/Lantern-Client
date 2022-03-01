@@ -6,10 +6,10 @@ function PageHeader() {
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Transactions
+          Financial Reports
         </Typography>
         <Typography variant="subtitle2">
-          Below are your recent transactions from all connected accounts
+          Below are all of the financial reports available from retrived data
         </Typography>
       </Grid>
       <Grid item>

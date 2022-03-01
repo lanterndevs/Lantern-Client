@@ -35,6 +35,15 @@ const CashFlow = () => {
      * @type Object
      */
     const options = {
+        scales:{
+            y: {
+                ticks: {
+                    callback: function (value){
+                        return '$' + value;
+                    }
+                }
+            }
+        },
         responsive: true,
         plugins: {
             legend: {
@@ -119,26 +128,20 @@ const CashFlow = () => {
     // data for the current chart type
     const chartData = useMemo(() => {
         switch (chartType) {
+            // displays data by the recent week
             case 'week':
-                // console.log(state.weekLabels);
-                // console.log(state.weekRevenue);
-                // console.log(state.weekExpenses);
-                // console.log(state.weekProfit);
                 return data(state.weekLabels, state.weekRevenue, state.weekExpenses, state.weekProfit);
+            
+            // displays data by the recent month
             case 'month':
-                // console.log(state.monthLabels);
-                // console.log(state.monthRevenue);
-                // console.log(state.monthExpenses);
-                // console.log(state.monthProfit);
                 return data(state.monthLabels, state.monthRevenue, state.monthExpenses, state.monthProfit);
+            
+            // displays data by the recent year
             case 'year':
-                // console.log(state.yearLabels);
-                // console.log(state.yearRevenue);
-                // console.log(state.yearExpenses);
-                // console.log(state.yearProfit);
                 return data(state.yearLabels, state.yearRevenue, state.yearExpenses, state.yearProfit);
+            
+            // default display
             default:
-                // console.log("Default taken!");
                 return [];
         }
     }, [chartType, state]);
@@ -147,13 +150,8 @@ const CashFlow = () => {
     const handleClick = useCallback((e) => {
         e.preventDefault();
         const type = e.target.outerText.toLowerCase();
-        // console.log(e);
-        // console.log(type);
         setChartType(type);
     }, [setChartType]);
-
-    // console.log("chartData:");
-    // console.log(chartData);
 
     return (
         <Card className="cashFlowChart">

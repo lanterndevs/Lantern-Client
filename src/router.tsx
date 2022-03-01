@@ -31,7 +31,7 @@ const UserProfile = Loader(lazy(() => import('src/content/applications/Users/pro
 const UserSettings = Loader(lazy(() => import('src/content/applications/Users/settings'))); // *** Won't need this ***
 
 // Components
-const Buttons = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
+const Reports = Loader(lazy(() => import('src/content/pages/Components/Reports')));
 
 // Status
 const Status404 = Loader(lazy(() => import('src/content/pages/Status/Status404')));
@@ -216,7 +216,7 @@ const routes: PartialRouteObject[] = [
       },
       {
         path: 'reports',
-        element: <Buttons />
+        element: <Reports />
       },
       {
         path: 'budget',
