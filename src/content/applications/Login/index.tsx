@@ -46,7 +46,7 @@ function Login() {
 
     axios.post('/api/users/authenticate',
       {
-        email: data.get('email'),
+        email: data.get('email').toString().toLowerCase(),
         password: data.get('password'),
       }).then(res => {
         if (res.data.token != null) {
