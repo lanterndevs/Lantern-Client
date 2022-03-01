@@ -1,24 +1,21 @@
 import { Helmet } from 'react-helmet-async';
 import PageTitle from 'src/components/PageTitle';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Button, Container, IconButton, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
 import Footer from 'src/components/Footer';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import PageHeader from './PageHeader';
 
-function Buttons() {
+function Reports() {
   return (
     <>
       <Helmet>
         <title>Financial Reports</title>
       </Helmet>
       <PageTitleWrapper>
-        <PageTitle
-          heading="Financial Reports"
-          subHeading="Below are all of the financial reports available from retrived data"
-        />
+        <PageHeader/>
       </PageTitleWrapper>
       <Container maxWidth="lg">
+        
         <Grid
           container
           direction="row"
@@ -49,7 +46,7 @@ function Buttons() {
           </Grid>
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Expenses Breakdown" />
+              <CardHeader title="Expense Breakdown" />
               <Divider />
               <CardContent>
                 {/* <Button sx={{ margin: 1 }}>Default</Button>
@@ -147,4 +144,4 @@ function Buttons() {
   );
 }
 
-export default Buttons;
+export default Reports;
