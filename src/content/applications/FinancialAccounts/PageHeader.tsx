@@ -6,7 +6,7 @@ import { usePlaidLink, PlaidLinkOnSuccess } from 'react-plaid-link';
 import Accounts from './Accounts';
 import { Account } from 'src/models/account';
 import moment from 'moment';
-import { getCookie } from 'src/utilities/utils';
+import { getCookie } from 'src/utils/cookies';
 
 const PageHeader = () => {
   // will be used to populate the list of plaid accounts
@@ -17,7 +17,7 @@ const PageHeader = () => {
   useEffect(() => {
     axios.get('http://localhost:8000/api/accounts', {
         headers: {
-          authorization: 'Bearer ' + getCookie("auth_token"),
+          authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
         }
       }).then((response) => {
         // populates the accounts array with data from response
@@ -40,7 +40,7 @@ const PageHeader = () => {
 
     axios.get('http://localhost:8000/api/link', {
       headers: {
-        authorization: 'Bearer ' + getCookie("auth_token"),
+        authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
       }
     }).then((response) => {
       setToken(response.data.token);
@@ -54,13 +54,13 @@ const PageHeader = () => {
     // uses public token to retrieve access token for accounts and transactions
     axios.post('http://localhost:8000/api/link', { token: publicToken },{
       headers: {
-        authorization: 'Bearer ' + getCookie("auth_token"),
+        authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
       }
     }).then(response => {
       // retrieve the accounts from server
       axios.get('http://localhost:8000/api/accounts', {
         headers: {
-          authorization: 'Bearer ' + getCookie("auth_token"),
+          authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
         }
       }).then((response) => {
 

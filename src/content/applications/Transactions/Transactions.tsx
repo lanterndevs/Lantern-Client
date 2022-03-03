@@ -3,7 +3,7 @@ import {Transaction } from 'src/models/transaction';
 import TransactionsTable from './TransactionsTable';
 import {useEffect, useState } from 'react';
 import axios from 'axios';
-import { getCookie } from 'src/utilities/utils';
+import { getCookie } from 'src/utils/cookies';
 
 const Transactions = () => {
 
@@ -19,7 +19,7 @@ const Transactions = () => {
     // retrieves accounts from the user
     await axios.get('http://localhost:8000/api/accounts', {
       headers: {
-        authorization: 'Bearer ' + getCookie("auth_token"),
+        authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
       }
     }).then((response) => {
       
@@ -32,7 +32,7 @@ const Transactions = () => {
     // retrieves the transactions from the user
     axios.get('http://localhost:8000/api/transactions', {
         headers: {
-          authorization: 'Bearer ' + getCookie("auth_token"),
+          authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
         }
       }).then((response) => {
 
