@@ -91,6 +91,7 @@ const CashFlow = () => {
     const [chartType, setChartType] = useState('month');
     const [state, setState] =
         useState({
+            loaded: false,
             weekRevenue: [],
             weekExpenses: [],
             weekProfit: [],
@@ -107,23 +108,26 @@ const CashFlow = () => {
 
     // retrieves cashflow if component did mount
     useEffect(() => {
-        retrieveCashFlow().then(([week, month, year]) => {
-            setState({
-                weekRevenue: week.revenue,
-                weekExpenses: week.expenses,
-                weekProfit: week.profit,
-                weekLabels: week.labels,
-                monthRevenue: month.revenue,
-                monthExpenses: month.expenses,
-                monthProfit: month.profit,
-                monthLabels: month.labels,
-                yearRevenue: year.revenue,
-                yearExpenses: year.expenses,
-                yearProfit: year.profit,
-                yearLabels: year.labels
+        if (!state.loaded) {
+            retrieveCashFlow().then(([week, month, year]) => {
+                setState({
+                    loaded: true,
+                    weekRevenue: week.revenue,
+                    weekExpenses: week.expenses,
+                    weekProfit: week.profit,
+                    weekLabels: week.labels,
+                    monthRevenue: month.revenue,
+                    monthExpenses: month.expenses,
+                    monthProfit: month.profit,
+                    monthLabels: month.labels,
+                    yearRevenue: year.revenue,
+                    yearExpenses: year.expenses,
+                    yearProfit: year.profit,
+                    yearLabels: year.labels
+                });
             });
-        });
-    }, []);
+        }
+    }, [state.loaded]);
 
     // data for the current chart type
     const chartData = useMemo(() => {
@@ -131,15 +135,15 @@ const CashFlow = () => {
             // displays data by the recent week
             case 'week':
                 return data(state.weekLabels, state.weekRevenue, state.weekExpenses, state.weekProfit);
-            
+
             // displays data by the recent month
             case 'month':
                 return data(state.monthLabels, state.monthRevenue, state.monthExpenses, state.monthProfit);
-            
+
             // displays data by the recent year
             case 'year':
                 return data(state.yearLabels, state.yearRevenue, state.yearExpenses, state.yearProfit);
-            
+
             // default display
             default:
                 return [];
@@ -156,7 +160,7 @@ const CashFlow = () => {
     return (
         <Card className="cashFlowChart">
             <CardHeader title="Cash Flow Breakdown" onClick={handleClick}/>
-                <ChartHeader onClick={handleClick} />
+            <ChartHeader onClick={handleClick} />
             {/*@ts-ignore*/}
             <Line data={chartData} options={options}/>
         </Card>
