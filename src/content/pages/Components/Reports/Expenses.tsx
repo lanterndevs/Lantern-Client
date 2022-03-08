@@ -1,28 +1,42 @@
-import { Helmet } from 'react-helmet-async';
-
-import PageTitle from 'src/components/PageTitle';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Container, Grid, Card, CardHeader, CardContent, Divider, ButtonGroup, Button } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Footer from 'src/components/Footer';
+import axios from 'axios';
+import { getCookie } from 'src/utils/cookies';
+import { useEffect, useState } from 'react';
 
-function Accordions() {
+function Expenses() {
 
-  return (
-    <>
-      <Helmet>
-        <title>Accordions - Components</title>
-      </Helmet>
-      <PageTitleWrapper>
-        <PageTitle
-          heading="Accordions"
-          subHeading="Accordions contain creation flows and allow lightweight editing of an element."
-          docs="https://material-ui.com/components/accordion/" />
-      </PageTitleWrapper>
+    // eslint-disable-next-line
+    const [categoriesState, setCategoriesState] = useState({});
+
+    useEffect(() => {
+        // retrieves the transactions from the user
+        axios.get('/api/transactions', {
+            headers: {
+                authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
+            }
+            }).then((response) => {
+                // creates a list of categories based on the user's transactions
+                var tempCategories = {};
+                response.data.forEach(transaction => tempCategories[transaction.categories[0]] = (tempCategories[transaction.categories[0]] || 0) + 1);
+                setCategoriesState(tempCategories);
+        })
+    }, []);
+
+    return (
+        <>
+
+        <ButtonGroup size="medium" sx={{ justifyContent: 'right', display: 'flex', marginRight: '25px' }}>
+            <Button variant="outlined" name="Chart">Chart</Button>
+            <Button variant="outlined" name="Normal">Normal</Button>
+        </ButtonGroup> 
+
+
       <Container maxWidth="lg">
         <Grid
           container
@@ -85,4 +99,4 @@ function Accordions() {
   );
 }
 
-export default Accordions;
+export default Expenses;

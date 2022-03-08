@@ -3,6 +3,7 @@ import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
 import Footer from 'src/components/Footer';
 import PageHeader from './PageHeader';
+import Expenses from './Expenses';
 
 function Reports() {
   return (
@@ -27,19 +28,9 @@ function Reports() {
               <CardHeader title="Balance Sheet" />
               <Divider />
               <CardContent>
-                {/* <Button sx={{ margin: 1 }} variant="contained">Default</Button>
-                <Button sx={{ margin: 1 }} variant="contained" color="primary">
-                  Primary
-                </Button>
-                <Button sx={{ margin: 1 }} variant="contained" color="secondary">
-                  Secondary
-                </Button>
-                <Button sx={{ margin: 1 }} variant="contained" disabled>
-                  Disabled
-                </Button>
-                <Button sx={{ margin: 1 }} variant="contained" color="primary" href="#contained-buttons">
-                  Link
-                </Button> */}
+
+                    Balance Sheet goes here
+
               </CardContent>
             </Card>
           </Grid>
@@ -48,13 +39,9 @@ function Reports() {
               <CardHeader title="Expense Breakdown" />
               <Divider />
               <CardContent>
-                {/* <Button sx={{ margin: 1 }}>Default</Button>
-                <Button sx={{ margin: 1 }} color="primary">Primary</Button>
-                <Button sx={{ margin: 1 }} color="secondary">Secondary</Button>
-                <Button sx={{ margin: 1 }} disabled>Disabled</Button>
-                <Button sx={{ margin: 1 }} href="#text-buttons" color="primary">
-                  Link
-                </Button> */}
+              
+                <Expenses/>
+
               </CardContent>
             </Card>
           </Grid>
