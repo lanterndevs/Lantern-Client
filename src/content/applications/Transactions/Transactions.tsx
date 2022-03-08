@@ -5,11 +5,13 @@ import {useEffect, useState } from 'react';
 import axios from 'axios';
 import { getCookie } from 'src/utilities/utils';
 
+
 const Transactions = () => {
 
     // list of transactions fetched from Plaid API
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [categoriesState, setCategoriesState] = useState<string[]>([]);
+  const [loaded, setLoaded] = useState<boolean>(false);
   let accounts = new Map();
   let categoriesSet = new Set<string>();
   categoriesSet.add('All');
@@ -61,6 +63,7 @@ const Transactions = () => {
           setCategoriesState(Array.from(categoriesSet));
         });
         setTransactions(tempTransactions);
+        setLoaded(true);
       })
   }
 
@@ -69,7 +72,7 @@ const Transactions = () => {
   
   return (
     <Card>
-      <TransactionsTable transactions={transactions} categories={categoriesState}/>
+      <TransactionsTable transactions={transactions} categories={categoriesState} loaded={loaded}/>
     </Card>
   );
 }
