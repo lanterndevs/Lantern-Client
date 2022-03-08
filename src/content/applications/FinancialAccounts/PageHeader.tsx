@@ -15,7 +15,7 @@ const PageHeader = () => {
 
   // initial communication on render between server and Plaid to obtain link to add a new account
   useEffect(() => {
-    axios.get('http://localhost:8000/api/accounts', {
+    axios.get('/api/accounts', {
         headers: {
           authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
         }
@@ -39,7 +39,7 @@ const PageHeader = () => {
         setAccounts(tempAccounts);
       });
 
-    axios.get('http://localhost:8000/api/link', {
+    axios.get('/api/link', {
       headers: {
         authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
       }
@@ -53,13 +53,13 @@ const PageHeader = () => {
     // send public_token to your server
     // https://plaid.com/docs/api/tokens/#token-exchange-flow
     // uses public token to retrieve access token for accounts and transactions
-    axios.post('http://localhost:8000/api/link', { token: publicToken },{
+    axios.post('/api/link', { token: publicToken },{
       headers: {
         authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
       }
     }).then(response => {
       // retrieve the accounts from server
-      axios.get('http://localhost:8000/api/accounts', {
+      axios.get('/api/accounts', {
         headers: {
           authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
         }

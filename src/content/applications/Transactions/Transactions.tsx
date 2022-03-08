@@ -17,7 +17,7 @@ const Transactions = () => {
   const fetchData = async () => {
     
     // retrieves accounts from the user
-    await axios.get('http://localhost:8000/api/accounts', {
+    await axios.get('/api/accounts', {
       headers: {
         authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
       }
@@ -30,7 +30,7 @@ const Transactions = () => {
     })
     
     // retrieves the transactions from the user
-    axios.get('http://localhost:8000/api/transactions', {
+    axios.get('/api/transactions', {
         headers: {
           authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
         }
