@@ -20,6 +20,7 @@ const PageHeader = () => {
           authorization: 'Bearer ' + getCookie(document.cookie, "auth_token"),
         }
       }).then((response) => {
+ 
         // populates the accounts array with data from response
         let tempAccounts: Account[] = [];
         for(var account of response.data){
