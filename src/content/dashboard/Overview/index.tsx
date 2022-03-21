@@ -6,7 +6,14 @@ import Footer from 'src/components/Footer';
 import UpcomingEvents from '../components/UpcomingEvents';
 import CashFlow from '../components/CashFlow';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../redux/index'
+import { useEffect } from 'react';
+import {saveTransactions} from '../../../redux/modules/transactions'
+
 function Dashboard() {
+  const dispatch = useDispatch();
+  const transactionsState = useSelector((state: RootState) => state.transactions);
 
   return (
     <>

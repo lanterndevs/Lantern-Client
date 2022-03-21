@@ -5,9 +5,11 @@ import {useEffect, useState } from 'react';
 import axios from 'axios';
 import { getCookie } from 'src/utilities/utils';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../redux/index'
 
 const Transactions = () => {
-
+  const screenState = useSelector((state: RootState) => state.transactions);
     // list of transactions fetched from Plaid API
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [categoriesState, setCategoriesState] = useState<string[]>([]);
@@ -72,6 +74,7 @@ const Transactions = () => {
   
   return (
     <Card>
+      <p>{screenState.transactions}</p>
       <TransactionsTable transactions={transactions} categories={categoriesState} loaded={loaded}/>
     </Card>
   );
