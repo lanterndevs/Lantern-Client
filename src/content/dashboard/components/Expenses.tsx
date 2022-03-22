@@ -1,9 +1,7 @@
 import {
     Card,
     CardHeader,
-    Divider,
-    Grid,
-    Box
+    Divider
   } from '@mui/material';
 
 import axios from 'axios';
@@ -43,9 +41,10 @@ function Expenses() {
     ]
     
     const pieOptions = {
-      title: 'Total Expense Breakdown',
-      pieHole: 0.4,
+      // title: 'Total Expense Breakdown',
+      legend: { position: 'bottom', alignment: 'end' },
       is3D: true,
+      alignment: 'center',
     }
 
     useEffect(() => {
@@ -63,10 +62,8 @@ function Expenses() {
       <Card>
         <CardHeader title="Expenses" />
         <Divider />
-        <Box display="flex" alignItems="left">
-        {/* <Grid container direction="row" justifyContent="right" sx={{ marginLeft: 1 }}> */}
         <Chart
-          width={'150%'}
+          width={'900px'}
           height={'450px'}
           chartType="PieChart"
           loader={<div>Loading Chart</div>}
@@ -74,8 +71,6 @@ function Expenses() {
           options={pieOptions}
           rootProps={{ 'data-testid': '3' }}
         />
-        </Box>
-        {/* </Grid> */}
       </Card>
     );
   }

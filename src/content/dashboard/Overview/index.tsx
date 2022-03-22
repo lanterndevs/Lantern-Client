@@ -24,7 +24,6 @@ function Dashboard() {
         <Grid container direction="row" justifyContent="left" alignItems="stretch" spacing={3}>
           
           {/* FIRST SECTION: CASH FLOW , ACCOUNT BALANCE, UPCOMING EVENTS */}
-
           <Grid item lg={8} xs={12}>
             {/* Cash Flow Breakdown that displays weekly, monthly, and yearly net revenue */}
             <CashFlow />
@@ -46,6 +45,7 @@ function Dashboard() {
             
             {/* Expenses */}
             <Expenses />
+
           </Grid>      
        
         </Grid>
