@@ -68,12 +68,18 @@ async function retrieveData(start, end) {
     await axios.get('/api/transactions', {
         headers: {
             authorization: 'Bearer ' + authToken,
+        },
+        params: {
+            start_date: formatDate(start),
+            end_date: formatDate(end)
         }
     }).then(res => {
-        transactions = res.data;
+        transactions = res.data.transactions;
     }).catch(error => {
         return error;
     });
+
+    console.log(transactions);
 
     // Generate date range
     let currentDate = start;
