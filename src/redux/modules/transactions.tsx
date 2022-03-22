@@ -7,13 +7,26 @@ export function typedAction(type: string, payload?: any) {
   return { type, payload };
 }
 
+type Transaction = {
+  transactionID: string;
+  accountID: string;
+  amount: number;
+  categories: string;
+  date: Date;
+  details: string;
+  name: string;
+  currency: string;
+}
+
 type TransactionState =  {
-    transactions : Object[] | null;
+    transactions : Transaction[] | null;
 }
 
 const initialState: TransactionState = { transactions: [] };
 
-export const saveTransactions = (transactions: Object[]) => {
+
+
+export const saveTransactions = (transactions: Transaction[]) => {
     return typedAction('saveTransactions',transactions);
 };
 

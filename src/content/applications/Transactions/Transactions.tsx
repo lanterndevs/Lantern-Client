@@ -6,10 +6,12 @@ import axios from 'axios';
 import { getCookie } from 'src/utilities/utils';
 
 import {useDispatch, useSelector} from 'react-redux';
+import {saveTransactions} from '../../../redux/modules/transactions'
 import {RootState} from '../../../redux/index'
 
 const Transactions = () => {
-  const screenState = useSelector((state: RootState) => state.transactions);
+  const dispatch = useDispatch();
+  const transactionsState = useSelector((state: RootState) => state.transactions);
     // list of transactions fetched from Plaid API
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [categoriesState, setCategoriesState] = useState<string[]>([]);
@@ -18,6 +20,32 @@ const Transactions = () => {
   let categoriesSet = new Set<string>();
   categoriesSet.add('All');
 
+  useEffect(()=>{
+    let tempTransactions: Transaction[] = [];
+    transactionsState.transactions.forEach((transaction, key) => {
+      console.log(transaction);
+      // pushes all fetched transactions to temp transactions array
+      tempTransactions.push(
+        { 
+          transactionID: key.toString(),
+          accountID: transaction.accountID,
+          amount: transaction.amount,
+          category: transaction.categories[0],
+          date: transaction.date, 
+          details: transaction.details,
+          name: transaction.name,
+          sourceName: accounts.get(transaction.accountID),
+          sourceAccount: '*****' + transaction.accountID.substring(transaction.accountID.length - 8),
+          currency: 'USD',
+        }
+      );
+
+      categoriesSet.add(transaction.categories[0]);
+      setCategoriesState(Array.from(categoriesSet));
+    });
+    setTransactions(tempTransactions);
+  },[transactionsState])
+  
   const fetchData = async () => {
     
     // retrieves accounts from the user
@@ -39,33 +67,9 @@ const Transactions = () => {
           authorization: 'Bearer ' + getCookie("auth_token"),
         }
       }).then((response) => {
-
-        // populates the accounts array with data from response
-        let tempTransactions: Transaction[] = [];
-        
-        response.data.forEach((transaction, key) => {
-
-          // pushes all fetched transactions to temp transactions array
-          tempTransactions.push(
-            { 
-              transactionID: key.toString(),
-              accountID: transaction.accountID,
-              amount: transaction.amount,
-              category: transaction.categories[0],
-              date: transaction.date, 
-              details: transaction.details,
-              name: transaction.name,
-              sourceName: accounts.get(transaction.accountID),
-              sourceAccount: '*****' + transaction.accountID.substring(transaction.accountID.length - 8),
-              currency: 'USD',
-            }
-          );
-
-          categoriesSet.add(transaction.categories[0]);
-          setCategoriesState(Array.from(categoriesSet));
-        });
-        setTransactions(tempTransactions);
         setLoaded(true);
+        dispatch(saveTransactions(response.data))
+        // populates the accounts array with data from response
       })
   }
 
@@ -74,7 +78,6 @@ const Transactions = () => {
   
   return (
     <Card>
-      <p>{screenState.transactions}</p>
       <TransactionsTable transactions={transactions} categories={categoriesState} loaded={loaded}/>
     </Card>
   );
