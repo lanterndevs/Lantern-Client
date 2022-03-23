@@ -9,8 +9,8 @@ import { CookiesProvider } from 'react-cookie';
 import { withCookies } from 'react-cookie';
 import './App.css';
 
-import { transitions, positions, Provider as AlertProvider } from 'react-alert'
-import AlertTemplate from 'react-alert-template-basic'
+import { transitions, positions, Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 
 // Axios global default config
 const axios = require('axios');
@@ -23,10 +23,9 @@ const options = {
   offset: '30px',
   // you can also just use 'scale'
   transition: transitions.SCALE
-}
+};
 
 const App = () => {
-
   const content = useRoutes(routes);
 
   return (
@@ -35,11 +34,11 @@ const App = () => {
         <ThemeProvider>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <CssBaseline />
-              {content}
+            {content}
           </LocalizationProvider>
         </ThemeProvider>
       </CookiesProvider>
     </AlertProvider>
   );
-}
+};
 export default withCookies(App);

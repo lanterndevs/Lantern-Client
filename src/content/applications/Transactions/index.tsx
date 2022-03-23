@@ -5,9 +5,7 @@ import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 import Transactions from './Transactions';
 
-
 function ApplicationsTransactions() {
-  
   return (
     <>
       <Helmet>
@@ -25,7 +23,7 @@ function ApplicationsTransactions() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <Transactions/>
+            <Transactions />
           </Grid>
         </Grid>
       </Container>
