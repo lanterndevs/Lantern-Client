@@ -16,7 +16,7 @@ const Transactions = () => {
   const fetchData = async () => {
     // retrieves accounts from the user
     await axios
-      .get('http://localhost:8000/api/accounts', {
+      .get('api/accounts', {
         headers: {
           authorization: 'Bearer ' + getCookie(document.cookie, 'auth_token')
         }
@@ -30,9 +30,10 @@ const Transactions = () => {
 
     let plaidTransactions: Transaction[] = [];
     let totalTransactions = 1;
+
     while (plaidTransactions.length < totalTransactions) {
       // retrieves the transactions from the user (PAGINATED)
-      let response = await axios.get('http://localhost:8000/api/transactions', {
+      let response = await axios.get('/api/transactions', {
         headers: {
           authorization: 'Bearer ' + getCookie(document.cookie, 'auth_token')
         },
