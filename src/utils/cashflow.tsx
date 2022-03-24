@@ -2,56 +2,59 @@ import axios from "axios";
 import moment from "moment";
 import {getCookie} from "./cookies";
 import {formatDate} from "./dates";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux";
 
 /**
  * Retrieves week, month, and year breakdowns and labels.
- *
+ * @param {Object[]} transactions - The ending date.
  * @returns {Promise<Object[]>} - The array containing the week, month, and year breakdowns and labels.
  */
-async function retrieveCashFlow() {
-    const promises = [getWeekCashFlow(), getMonthCashFlow(), getYearCashFlow()];
+async function RetrieveCashFlow(transactions) {
+    const promises = [getWeekCashFlow(transactions), getMonthCashFlow(transactions), getYearCashFlow(transactions)];
     const [week, month, year] = await Promise.all(promises);
     return [week, month, year];
 }
 
 /**
  * Retrieves expenses for past week from API.
- *
+ * @param {Object[]} transactions - The ending date.
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
-function getWeekCashFlow() {
+function getWeekCashFlow(transactions) {
     const sixDaysAgo = new Date();
     sixDaysAgo.setDate(sixDaysAgo.getDate() - 6);
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return retrieveData(sixDaysAgo, tomorrow);
+    return RetrieveData(sixDaysAgo, tomorrow, transactions);
 }
 
 /**
  * Retrieves expenses for past month from API.
- *
+ * @param {Object[]} transactions - The ending date.
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
-function getMonthCashFlow() {
+function getMonthCashFlow(transactions) {
     const fiveWeeksAgo = new Date();
     fiveWeeksAgo.setDate(fiveWeeksAgo.getDate() - 5 * 7);
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return retrieveData(fiveWeeksAgo, tomorrow);
+    return RetrieveData(fiveWeeksAgo, tomorrow, transactions);
 }
 
 /**
  * Retrieves expenses for past year from API.
  *
+ * @param {Object[]} transactions - The ending date.
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
-function getYearCashFlow() {
+function getYearCashFlow(transactions) {
     const twelveMonthsAgo = new Date();
     twelveMonthsAgo.setDate(1);
     twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 11);
     const nextMonth = new Date();
     nextMonth.setFullYear(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 1);
-    return retrieveData(twelveMonthsAgo, nextMonth);
+    return RetrieveData(twelveMonthsAgo, nextMonth, transactions);
 }
 
 /**
@@ -59,21 +62,22 @@ function getYearCashFlow() {
  *
  * @param {Date} start - The starting date.
  * @param {Date} end - The ending date.
+ * @param {Object[]} transactions - The ending date.
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
-async function retrieveData(start, end) {
-    let transactions = [];
-    // Get auth cookie
-    let authToken = getCookie(document.cookie, "auth_token");
-    await axios.get('/api/transactions', {
-        headers: {
-            authorization: 'Bearer ' + authToken,
-        }
-    }).then(res => {
-        transactions = res.data;
-    }).catch(error => {
-        return error;
-    });
+async function RetrieveData(start, end, transactions) {
+    // let transactions = [];
+    // // Get auth cookie
+    // let authToken = getCookie(document.cookie, "auth_token");
+    // await axios.get('/api/transactions', {
+    //     headers: {
+    //         authorization: 'Bearer ' + authToken,
+    //     }
+    // }).then(res => {
+    //     transactions = res.data;
+    // }).catch(error => {
+    //     return error;
+    // });
 
     // Generate date range
     let currentDate = start;
@@ -108,4 +112,4 @@ async function retrieveData(start, end) {
     return { revenue: revenue, expenses: expenses, profit: profit, labels: dates };
 }
 
-export { retrieveCashFlow };
+export { RetrieveCashFlow };

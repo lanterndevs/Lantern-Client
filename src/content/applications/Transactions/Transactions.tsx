@@ -6,7 +6,7 @@ import axios from 'axios';
 import { getCookie } from 'src/utilities/utils';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {saveTransactions} from '../../../redux/modules/transactions'
+import {saveTransactions, setTransactionLoading} from '../../../redux/modules/transactions'
 import {RootState} from '../../../redux/index'
 
 const Transactions = () => {
@@ -20,10 +20,9 @@ const Transactions = () => {
   let categoriesSet = new Set<string>();
   categoriesSet.add('All');
 
-  useEffect(()=>{
+  const formatTransactions = () => {
     let tempTransactions: Transaction[] = [];
     transactionsState.transactions.forEach((transaction, key) => {
-      console.log(transaction);
       // pushes all fetched transactions to temp transactions array
       tempTransactions.push(
         { 
@@ -44,6 +43,10 @@ const Transactions = () => {
       setCategoriesState(Array.from(categoriesSet));
     });
     setTransactions(tempTransactions);
+  }
+
+  useEffect(()=>{
+    formatTransactions();
   },[transactionsState])
   
   const fetchData = async () => {
@@ -62,19 +65,25 @@ const Transactions = () => {
     })
     
     // retrieves the transactions from the user
-    axios.get('http://localhost:8000/api/transactions', {
+    if (transactionsState.loading) {
+      axios.get('http://localhost:8000/api/transactions', {
         headers: {
           authorization: 'Bearer ' + getCookie("auth_token"),
         }
       }).then((response) => {
         setLoaded(true);
-        dispatch(saveTransactions(response.data))
+        dispatch(saveTransactions(response.data));
+        dispatch(setTransactionLoading(false));
         // populates the accounts array with data from response
       })
+    } else {
+      setLoaded(true);
+    }
+    
   }
 
   // eslint-disable-next-line
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => { fetchData(); formatTransactions();}, []);
   
   return (
     <Card>

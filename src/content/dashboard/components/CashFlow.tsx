@@ -11,8 +11,14 @@ import {
     Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { retrieveCashFlow } from '../../../utils/cashflow';
+import { RetrieveCashFlow } from '../../../utils/cashflow';
 import ChartHeader from './ChartHeader';
+import {RootState} from '../../../redux/index'
+import axios from 'axios';
+import { getCookie } from 'src/utilities/utils';
+import {useDispatch, useSelector} from 'react-redux';
+import {saveTransactions, setTransactionLoading} from '../../../redux/modules/transactions'
+import { SettingsRemoteSharp } from '@mui/icons-material';
 
 ChartJS.register(
     CategoryScale,
@@ -28,7 +34,49 @@ ChartJS.register(
 ChartJS.defaults.font.family = 'Roboto';
 ChartJS.defaults.font.size = 14;
 
+type Transaction = {
+    transactionID: string;
+    accountID: string;
+    amount: number;
+    categories: string;
+    date: Date;
+    details: string;
+    name: string;
+    currency: string;
+}
+
 const CashFlow = () => {
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [loaded, setLoaded] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const transactionsState = useSelector((state: RootState) => state.transactions);
+
+    const fetchData = async () => {
+        // retrieves the transactions from the user
+        if (transactionsState.loading) {
+            axios.get('http://localhost:8000/api/transactions', {
+            headers: {
+                authorization: 'Bearer ' + getCookie("auth_token"),
+            }
+            }).then((response) => {
+            setLoaded(true);
+            dispatch(saveTransactions(response.data));
+            dispatch(setTransactionLoading(false));
+            // populates the accounts array with data from response
+            })
+        } else {
+            setLoaded(true);
+        }   
+    }
+
+    useEffect(()=>{
+        setTransactions(transactionsState.transactions);
+    },[transactionsState])
+    
+    useEffect(() => {
+        fetchData();
+        setTransactions(transactionsState.transactions);
+    }, []);
     /**
      * The options for the chart.
      *
@@ -108,26 +156,24 @@ const CashFlow = () => {
 
     // retrieves cashflow if component did mount
     useEffect(() => {
-        if (!state.loaded) {
-            retrieveCashFlow().then(([week, month, year]) => {
-                setState({
-                    loaded: true,
-                    weekRevenue: week.revenue,
-                    weekExpenses: week.expenses,
-                    weekProfit: week.profit,
-                    weekLabels: week.labels,
-                    monthRevenue: month.revenue,
-                    monthExpenses: month.expenses,
-                    monthProfit: month.profit,
-                    monthLabels: month.labels,
-                    yearRevenue: year.revenue,
-                    yearExpenses: year.expenses,
-                    yearProfit: year.profit,
-                    yearLabels: year.labels
-                });
+        RetrieveCashFlow(transactionsState.transactions).then(([week, month, year]) => {
+            setState({
+                loaded: true,
+                weekRevenue: week.revenue,
+                weekExpenses: week.expenses,
+                weekProfit: week.profit,
+                weekLabels: week.labels,
+                monthRevenue: month.revenue,
+                monthExpenses: month.expenses,
+                monthProfit: month.profit,
+                monthLabels: month.labels,
+                yearRevenue: year.revenue,
+                yearExpenses: year.expenses,
+                yearProfit: year.profit,
+                yearLabels: year.labels
             });
-        }
-    }, [state.loaded]);
+        });
+    }, [transactionsState]);
 
     // data for the current chart type
     const chartData = useMemo(() => {

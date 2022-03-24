@@ -30,8 +30,6 @@ import './TransactionsTable.css';
 import React from 'react';
 import LoadingWheel from '../../pages/Components/LoadingWheel/index'
 
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../redux/index'
 
 interface TransactionsTableProps {
   className?: string;
