@@ -71,7 +71,6 @@ const LogoSignInner = styled(Box)(
 );
 
 function Logo() {
-
   return (
     <Tooltip title="Lantern Dashboard" arrow>
       <LogoWrapper to="/overview">

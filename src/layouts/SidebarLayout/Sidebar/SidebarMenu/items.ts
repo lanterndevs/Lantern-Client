@@ -34,20 +34,19 @@ const menuItems: MenuItems[] = [
       }
     ]
   },
-  
+
   {
     heading: 'Banking',
     items: [
       {
         name: 'Financial Accounts',
         icon: AccountBalanceTwoToneIcon,
-        link: '/banking/financialaccounts',
+        link: '/banking/financialaccounts'
       },
       {
         name: 'Transactions',
         icon: ReceiptLongTwoToneIcon,
         link: '/banking/transactions'
-        
       }
     ]
   },

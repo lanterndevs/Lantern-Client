@@ -82,7 +82,6 @@ const AccordionSummaryWrapper = styled(AccordionSummary)(
 );
 
 function TopBarContent() {
-
   const theme = useTheme();
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -93,12 +92,10 @@ function TopBarContent() {
 
   const [expanded, setExpanded] = useState<string | false>('section1');
 
-  const handleChange = (section: string) => (
-    _event: SyntheticEvent,
-    isExpanded: boolean
-  ) => {
-    setExpanded(isExpanded ? section : false);
-  };
+  const handleChange =
+    (section: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? section : false);
+    };
 
   return (
     <>

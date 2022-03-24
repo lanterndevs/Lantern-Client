@@ -83,7 +83,7 @@ SidebarMenuItem.propTypes = {
 
 SidebarMenuItem.defaultProps = {
   open: false,
-  active: false,
+  active: false
 };
 
 export default SidebarMenuItem;

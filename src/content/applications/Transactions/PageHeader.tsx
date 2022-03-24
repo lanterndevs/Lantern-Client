@@ -1,7 +1,6 @@
 import { Typography, Grid } from '@mui/material';
 
 function PageHeader() {
-
   return (
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
@@ -12,8 +11,7 @@ function PageHeader() {
           Below are your recent transactions from all connected accounts
         </Typography>
       </Grid>
-      <Grid item>
-      </Grid>
+      <Grid item></Grid>
     </Grid>
   );
 }

@@ -128,10 +128,12 @@ function ExpenseBreakdown() {
                         gutterBottom
                         noWrap
                       >
+                        {/* Displays the name of the category */}
                         {category.name}
                       </Typography>
                     </TableCell>
                     <TableCell align="center">
+                      {/* Displays the percentage that the category makes up */}
                       <ProgressBar
                         done={((category.value / totalExpenses) * 100).toFixed(
                           2
