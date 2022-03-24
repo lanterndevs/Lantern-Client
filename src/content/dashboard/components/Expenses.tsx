@@ -7,7 +7,7 @@ import { getCookie } from 'src/utils/cookies';
 
 function getCount(data) {
   // `map` out the data by type
-  const typeArr = data.map((object) => object.categories[0]);
+  const typeArr = data.transactions.map((object) => object.categories[0]);
 
   // Iterate over the type data. We pass in an initial
   // object to capture the counts, so we need to use

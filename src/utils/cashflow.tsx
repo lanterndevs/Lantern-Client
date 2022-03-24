@@ -82,8 +82,6 @@ async function retrieveData(start, end) {
       return error;
     });
 
-  console.log(transactions);
-
   // Generate date range
   let currentDate = start;
   let dates = [];
