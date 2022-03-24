@@ -16,7 +16,7 @@ const Transactions = () => {
   const fetchData = async () => {
     // retrieves accounts from the user
     await axios
-      .get('/api/accounts', {
+      .get('http://localhost:8000/api/accounts', {
         headers: {
           authorization: 'Bearer ' + getCookie(document.cookie, 'auth_token')
         }
@@ -28,43 +28,48 @@ const Transactions = () => {
         }
       });
 
-    // retrieves the transactions from the user
-    axios
-      .get('/api/transactions', {
+    let plaidTransactions: Transaction[] = [];
+    let totalTransactions = 1;
+    while (plaidTransactions.length < totalTransactions) {
+      // retrieves the transactions from the user (PAGINATED)
+      let response = await axios.get('http://localhost:8000/api/transactions', {
         headers: {
           authorization: 'Bearer ' + getCookie(document.cookie, 'auth_token')
+        },
+        params: {
+          offset: plaidTransactions.length
         }
-      })
-      .then((response) => {
-        // populates the accounts array with data from response
-        let tempTransactions: Transaction[] = [];
-
-        response.data.forEach((transaction, key) => {
-          // pushes all fetched transactions to temp transactions array
-          tempTransactions.push({
-            transactionID: key.toString(),
-            accountID: transaction.accountID,
-            amount: transaction.amount,
-            category: transaction.categories[0],
-            date: transaction.date,
-            details: transaction.details,
-            name: transaction.name,
-            sourceName: accounts.get(transaction.accountID),
-            sourceAccount:
-              '*****' +
-              transaction.accountID.substring(transaction.accountID.length - 8),
-            currency: 'USD'
-          });
-
-          categoriesSet.add(transaction.categories[0]);
-          setCategoriesState(Array.from(categoriesSet));
-        });
-        setTransactions(tempTransactions);
       });
+
+      totalTransactions = response.data.total_transactions;
+
+      // populates the transactions array with data from response
+      response.data.transactions.forEach((transaction, key) => {
+        // pushes all fetched transactions to temp transactions array
+        plaidTransactions.push({
+          transactionID: key.toString(),
+          accountID: transaction.accountID,
+          amount: transaction.amount,
+          category: transaction.categories[0],
+          date: transaction.date,
+          details: transaction.details,
+          name: transaction.name,
+          sourceName: accounts.get(transaction.accountID),
+          sourceAccount:
+            '*****' +
+            transaction.accountID.substring(transaction.accountID.length - 8),
+          currency: 'USD'
+        });
+
+        categoriesSet.add(transaction.categories[0]);
+        setCategoriesState(Array.from(categoriesSet));
+      });
+      setTransactions(plaidTransactions);
+    }
   };
 
   // eslint-disable-next-line
-  useEffect(() => { fetchData(); }, []);
+    useEffect(() => { fetchData(); }, []);
 
   return (
     <Card>
