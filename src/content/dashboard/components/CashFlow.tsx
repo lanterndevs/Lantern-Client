@@ -45,7 +45,7 @@ type Transaction = {
 }
 
 const CashFlow = () => {
-    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    //const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [loaded, setLoaded] = useState<boolean>(false);
     const dispatch = useDispatch();
     const transactionsState = useSelector((state: RootState) => state.transactions);
@@ -59,7 +59,7 @@ const CashFlow = () => {
             }
             }).then((response) => {
             setLoaded(true);
-            dispatch(saveTransactions(response.data));
+            dispatch(saveTransactions(response.data.transactions));
             dispatch(setTransactionLoading(false));
             // populates the accounts array with data from response
             })
@@ -68,13 +68,13 @@ const CashFlow = () => {
         }   
     }
 
-    useEffect(()=>{
-        setTransactions(transactionsState.transactions);
-    },[transactionsState])
+    // useEffect(()=>{
+    //     setTransactions(transactionsState.transactions);
+    // },[transactionsState])
     
     useEffect(() => {
         fetchData();
-        setTransactions(transactionsState.transactions);
+        //setTransactions(transactionsState.transactions);
     }, []);
     /**
      * The options for the chart.

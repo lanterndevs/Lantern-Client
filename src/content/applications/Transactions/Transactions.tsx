@@ -66,16 +66,28 @@ const Transactions = () => {
     
     // retrieves the transactions from the user
     if (transactionsState.loading) {
-      axios.get('http://localhost:8000/api/transactions', {
-        headers: {
-          authorization: 'Bearer ' + getCookie("auth_token"),
-        }
-      }).then((response) => {
+      let plaidTransactions = [];
+      let totalTransactions = 1;
+      while (plaidTransactions.length < totalTransactions) {
+        // retrieves the transactions from the user (PAGINATED)
+        let response = await axios.get('http://localhost:8000/api/transactions', {
+            headers: {
+                authorization: 'Bearer ' + getCookie("auth_token"),
+            },
+            params: {
+                offset: plaidTransactions.length
+            }
+        });
+
+        totalTransactions = response.data.total_transactions;
+        response.data.transactions.forEach((transaction, key) => {
+          plaidTransactions.push(transaction);
+        })
         setLoaded(true);
-        dispatch(saveTransactions(response.data));
+        console.log(plaidTransactions)
+        dispatch(saveTransactions(plaidTransactions));
         dispatch(setTransactionLoading(false));
-        // populates the accounts array with data from response
-      })
+      }
     } else {
       setLoaded(true);
     }

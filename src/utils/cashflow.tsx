@@ -63,18 +63,8 @@ function getYearCashFlow(transactions) {
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 async function RetrieveData(start, end, transactions) {
-    // let transactions = [];
-    // // Get auth cookie
-    // let authToken = getCookie(document.cookie, "auth_token");
-    // await axios.get('/api/transactions', {
-    //     headers: {
-    //         authorization: 'Bearer ' + authToken,
-    //     }
-    // }).then(res => {
-    //     transactions = res.data;
-    // }).catch(error => {
-    //     return error;
-    // });
+
+    console.log(transactions);
 
     // Generate date range
     let currentDate = start;
