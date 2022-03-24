@@ -18,7 +18,6 @@ import axios from 'axios';
 import { getCookie } from 'src/utilities/utils';
 import {useDispatch, useSelector} from 'react-redux';
 import {saveTransactions, setTransactionLoading} from '../../../redux/modules/transactions'
-import { SettingsRemoteSharp } from '@mui/icons-material';
 
 ChartJS.register(
     CategoryScale,

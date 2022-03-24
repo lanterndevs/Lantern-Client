@@ -1,9 +1,6 @@
-import axios from "axios";
 import moment from "moment";
-import {getCookie} from "./cookies";
 import {formatDate} from "./dates";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux";
+
 
 /**
  * Retrieves week, month, and year breakdowns and labels.
