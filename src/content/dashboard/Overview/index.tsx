@@ -7,7 +7,6 @@ import UpcomingEvents from '../components/UpcomingEvents';
 import CashFlow from '../components/CashFlow';
 
 function Dashboard() {
-
   return (
     <>
       <Helmet>

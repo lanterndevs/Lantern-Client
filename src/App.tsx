@@ -12,6 +12,10 @@ import './App.css';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 
+import { Provider as ReduxProvider } from 'react-redux';
+import { createStore} from 'redux';
+import { rootReducer } from './redux';
+
 // Axios global default config
 const axios = require('axios');
 axios.defaults.baseURL = 'http://localhost:8000';
@@ -25,21 +29,25 @@ const options = {
   transition: transitions.SCALE
 }
 
+const store = createStore(rootReducer);
+
 const App = () => {
 
   const content = useRoutes(routes);
 
   return (
-    <AlertProvider template={AlertTemplate} {...options}>
-      <CookiesProvider>
-        <ThemeProvider>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <CssBaseline />
-              {content}
-          </LocalizationProvider>
-        </ThemeProvider>
-      </CookiesProvider>
-    </AlertProvider>
+    <ReduxProvider store={store}>
+      <AlertProvider template={AlertTemplate} {...options}>
+        <CookiesProvider>
+          <ThemeProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <CssBaseline />
+                {content}
+            </LocalizationProvider>
+          </ThemeProvider>
+        </CookiesProvider>
+      </AlertProvider>
+    </ReduxProvider>
   );
 }
 export default withCookies(App);
