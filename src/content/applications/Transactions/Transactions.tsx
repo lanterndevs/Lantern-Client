@@ -1,7 +1,7 @@
 import { Card } from '@mui/material';
 import {Transaction } from 'src/models/transaction';
 import TransactionsTable from './TransactionsTable';
-import {useEffect, useState } from 'react';
+import {useEffect, useState, useCallback, useMemo} from 'react';
 import axios from 'axios';
 import { getCookie } from 'src/utilities/utils';
 
@@ -16,11 +16,11 @@ const Transactions = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [categoriesState, setCategoriesState] = useState<string[]>([]);
   const [loaded, setLoaded] = useState<boolean>(false);
-  let accounts = new Map();
-  let categoriesSet = new Set<string>();
+  let accounts = useMemo(() => new Map(), []);
+  let categoriesSet = useMemo(() => new Set<string>(), []);
   categoriesSet.add('All');
 
-  const formatTransactions = () => {
+  const formatTransactions = useCallback(() => {
     let tempTransactions: Transaction[] = [];
     transactionsState.transactions.forEach((transaction, key) => {
       // pushes all fetched transactions to temp transactions array
@@ -43,11 +43,7 @@ const Transactions = () => {
       setCategoriesState(Array.from(categoriesSet));
     });
     setTransactions(tempTransactions);
-  }
-
-  useEffect(()=>{
-    formatTransactions();
-  },[transactionsState])
+  }, [accounts, categoriesSet, transactionsState.transactions]);
   
   const fetchData = async () => {
     

@@ -4,7 +4,7 @@ import {formatDate} from "./dates";
 
 /**
  * Retrieves week, month, and year breakdowns and labels.
- * @param {Object[]} transactions - The ending date.
+ * @param {Object[]} transactions - Array of transactions.
  * @returns {Promise<Object[]>} - The array containing the week, month, and year breakdowns and labels.
  */
 async function RetrieveCashFlow(transactions) {
@@ -15,7 +15,7 @@ async function RetrieveCashFlow(transactions) {
 
 /**
  * Retrieves expenses for past week from API.
- * @param {Object[]} transactions - The ending date.
+ * @param {Object[]} transactions - Array of transactions.
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 function getWeekCashFlow(transactions) {
@@ -28,7 +28,7 @@ function getWeekCashFlow(transactions) {
 
 /**
  * Retrieves expenses for past month from API.
- * @param {Object[]} transactions - The ending date.
+ * @param {Object[]} transactions - Array of transactions
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 function getMonthCashFlow(transactions) {
@@ -42,7 +42,7 @@ function getMonthCashFlow(transactions) {
 /**
  * Retrieves expenses for past year from API.
  *
- * @param {Object[]} transactions - The ending date.
+ * @param {Object[]} transactions - Array of transactions
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 function getYearCashFlow(transactions) {
@@ -59,7 +59,7 @@ function getYearCashFlow(transactions) {
  *
  * @param {Date} start - The starting date.
  * @param {Date} end - The ending date.
- * @param {Object[]} transactions - The ending date.
+ * @param {Object[]} transactions - Array of transactions.
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 async function RetrieveData(start, end, transactions) {
