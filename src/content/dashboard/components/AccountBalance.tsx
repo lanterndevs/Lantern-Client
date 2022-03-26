@@ -99,10 +99,10 @@ function AccountBalance() {
                 {' '}
                 Net change of{' '}
                 {checked ? (
-                  totalChange > 0 ? (
-                    <Text color="success"> {'+3.32%'} </Text>
+                  totalChange === 0 ? (
+                    <Text color="success"> {'+0.00%'} </Text>
                   ) : (
-                    <Text color="error"> {'-2.32%'} </Text>
+                    <Text color="error"> {'-0.00%'} </Text>
                   )
                 ) : (
                   '****'

@@ -55,7 +55,7 @@ function ExpenseBreakdown() {
       })
       .then((response) => {
         // creates an array of arrays from the response data storing the category and number of expenses made for respective category
-        var categoryData = getCount(response.data);
+        var categoryData = getCount(response.data.transactions);
 
         // computes the total number of expenses made
         var total = 0;

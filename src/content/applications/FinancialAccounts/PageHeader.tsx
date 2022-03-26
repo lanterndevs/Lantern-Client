@@ -29,9 +29,9 @@ const PageHeader = () => {
             balance: account.balance,
             description: account.description,
             id: account.id,
-            institutionID: account.institutionID,
+            institutionID: account.institution.id,
             name: account.name,
-            bankName: 'Plaid',
+            bankName: account.institution.name,
             latestUpdate: moment(new Date()).format('l , LT')
           });
         }
