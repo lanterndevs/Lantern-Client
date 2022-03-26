@@ -33,20 +33,19 @@ ChartJS.register(
 ChartJS.defaults.font.family = 'Roboto';
 ChartJS.defaults.font.size = 14;
 
-type Transaction = {
-    transactionID: string;
-    accountID: string;
-    amount: number;
-    categories: string;
-    date: Date;
-    details: string;
-    name: string;
-    currency: string;
-}
+// type Transaction = {
+//     transactionID: string;
+//     accountID: string;
+//     amount: number;
+//     categories: string;
+//     date: Date;
+//     details: string;
+//     name: string;
+//     currency: string;
+// }
 
 const CashFlow = () => {
     //const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [loaded, setLoaded] = useState<boolean>(false);
     const dispatch = useDispatch();
     const transactionsState = useSelector((state: RootState) => state.transactions);
 
@@ -58,13 +57,12 @@ const CashFlow = () => {
                 authorization: 'Bearer ' + getCookie("auth_token"),
             }
             }).then((response) => {
-            setLoaded(true);
             dispatch(saveTransactions(response.data.transactions));
             dispatch(setTransactionLoading(false));
             // populates the accounts array with data from response
             })
         } else {
-            setLoaded(true);
+            dispatch(setTransactionLoading(false));
         }   
     }
 
@@ -75,7 +73,7 @@ const CashFlow = () => {
     useEffect(() => {
         fetchData();
         //setTransactions(transactionsState.transactions);
-    }, []);
+    });
     /**
      * The options for the chart.
      *

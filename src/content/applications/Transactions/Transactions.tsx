@@ -47,7 +47,7 @@ const Transactions = () => {
 
   useEffect(()=>{
     formatTransactions();
-  },[transactionsState])
+  });
   
   const fetchData = async () => {
     
