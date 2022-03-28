@@ -11,8 +11,13 @@ import {
   Legend
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { retrieveCashFlow } from '../../../utils/cashflow';
+import { RetrieveCashFlow } from '../../../utils/cashflow';
 import ChartHeader from './ChartHeader';
+import {RootState} from '../../../redux/index'
+import axios from 'axios';
+import { getCookie } from 'src/utilities/utils';
+import {useDispatch, useSelector} from 'react-redux';
+import {saveTransactions, setTransactionLoading} from '../../../redux/modules/transactions'
 
 ChartJS.register(
   CategoryScale,
@@ -27,6 +32,18 @@ ChartJS.register(
 // Sets default values for chart properties
 ChartJS.defaults.font.family = 'Roboto';
 ChartJS.defaults.font.size = 14;
+
+// Currently unused, but should be useful in the future
+// type Transaction = {
+//     transactionID: string;
+//     accountID: string;
+//     amount: number;
+//     categories: string;
+//     date: Date;
+//     details: string;
+//     name: string;
+//     currency: string;
+// }
 
 const CashFlow = () => {
   /**
