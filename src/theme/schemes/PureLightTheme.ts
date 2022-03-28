@@ -31,14 +31,12 @@ const colors = {
       '0px 1px 4px rgba(68, 214, 0, 0.25), 0px 3px 12px 2px rgba(68, 214, 0, 0.35)',
     error:
       '0px 1px 4px rgba(255, 25, 67, 0.25), 0px 3px 12px 2px rgba(255, 25, 67, 0.35)',
-    info:
-      '0px 1px 4px rgba(51, 194, 255, 0.25), 0px 3px 12px 2px rgba(51, 194, 255, 0.35)',
+    info: '0px 1px 4px rgba(51, 194, 255, 0.25), 0px 3px 12px 2px rgba(51, 194, 255, 0.35)',
     primary:
       '0px 1px 4px rgba(85, 105, 255, 0.25), 0px 3px 12px 2px rgba(85, 105, 255, 0.35)',
     warning:
       '0px 1px 4px rgba(255, 163, 25, 0.25), 0px 3px 12px 2px rgba(255, 163, 25, 0.35)',
-    card:
-      '0px 9px 16px rgba(159, 162, 191, 0.18), 0px 2px 2px rgba(159, 162, 191, 0.32)',
+    card: '0px 9px 16px rgba(159, 162, 191, 0.18), 0px 2px 2px rgba(159, 162, 191, 0.32)',
     cardSm:
       '0px 2px 3px rgba(159, 162, 191, 0.18), 0px 1px 1px rgba(159, 162, 191, 0.32)',
     cardLg:
@@ -58,7 +56,7 @@ const colors = {
       menuItemBgActive: '#f2f5f9',
       menuItemIconColor: lighten(themeColors.secondary, 0.3),
       menuItemIconColorActive: themeColors.primary,
-      menuItemHeadingColor: darken(themeColors.secondary, 0.3),
+      menuItemHeadingColor: darken(themeColors.secondary, 0.3)
     }
   },
   alpha: {
@@ -337,7 +335,7 @@ export const PureLightTheme = createTheme({
 
           '&.MuiBackdrop-invisible': {
             backgroundColor: 'transparent',
-            backdropFilter: 'blur(2px)',
+            backdropFilter: 'blur(2px)'
           }
         }
       }
@@ -415,7 +413,7 @@ export const PureLightTheme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiInputAdornment-positionEnd.MuiInputAdornment-outlined': {
-            paddingRight: 6,
+            paddingRight: 6
           },
           '&:hover .MuiOutlinedInput-notchedOutline': {
             borderColor: colors.alpha.black[50]
@@ -664,7 +662,7 @@ export const PureLightTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          padding: 0,
+          padding: 0
         },
         elevation0: {
           boxShadow: 'none'
@@ -823,9 +821,10 @@ export const PureLightTheme = createTheme({
           margin: 1
         },
         root: {
-          '.MuiAutocomplete-inputRoot.MuiOutlinedInput-root .MuiAutocomplete-endAdornment': {
-            right: 14
-          }
+          '.MuiAutocomplete-inputRoot.MuiOutlinedInput-root .MuiAutocomplete-endAdornment':
+            {
+              right: 14
+            }
         },
         clearIndicator: {
           background: colors.error.lighter,
@@ -1099,7 +1098,7 @@ export const PureLightTheme = createTheme({
       fontSize: 14
     },
     body2: {
-      fontSize: 14,
+      fontSize: 14
     },
     button: {
       fontSize: 14,

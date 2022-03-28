@@ -38,13 +38,11 @@ const AvatarWrapperWarning = styled(Avatar)(
 );
 
 function UpcomingEvents() {
-
   return (
     <Card>
       <CardHeader title="Upcoming Events" />
       <Divider />
       <List disablePadding>
-
         {/* Hardcoded -- first compoent from list */}
         <ListItem sx={{ py: 2 }}>
           <ListItemAvatar>
@@ -61,10 +59,10 @@ function UpcomingEvents() {
               gutterBottom: true,
               noWrap: true
             }}
-            secondary={<Text > 6:00 PM </Text>}
+            secondary={<Text> 6:00 PM </Text>}
             secondaryTypographyProps={{ variant: 'body2', noWrap: true }}
           />
-            <Checkbox />
+          <Checkbox />
         </ListItem>
 
         <Divider />
@@ -85,10 +83,10 @@ function UpcomingEvents() {
               gutterBottom: true,
               noWrap: true
             }}
-            secondary={<Text > 6:00 PM </Text>}
+            secondary={<Text> 6:00 PM </Text>}
             secondaryTypographyProps={{ variant: 'body2', noWrap: true }}
           />
-            <Checkbox />
+          <Checkbox />
         </ListItem>
 
         <Divider />
@@ -109,10 +107,10 @@ function UpcomingEvents() {
               gutterBottom: true,
               noWrap: true
             }}
-            secondary={<Text > 6:00 PM </Text>}
+            secondary={<Text> 6:00 PM </Text>}
             secondaryTypographyProps={{ variant: 'body2', noWrap: true }}
           />
-            <Checkbox />
+          <Checkbox />
         </ListItem>
       </List>
     </Card>

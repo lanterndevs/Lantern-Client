@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
-import {
-  Box,
-  Typography,
-  Container,
-  Divider,
-  Button
-} from '@mui/material';
-import { useNavigate } from "react-router-dom";
+import { Box, Typography, Container, Divider, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import { styled } from '@mui/material/styles';
@@ -37,7 +31,6 @@ const TypographyH3 = styled(Typography)(
 );
 
 function StatusComingSoon() {
-
   const calculateTimeLeft = () => {
     const difference = +new Date(`2022`) - +new Date();
     let timeLeft = {};
@@ -77,11 +70,11 @@ function StatusComingSoon() {
     );
   });
 
-  let navigate = useNavigate(); 
-  const routeChange = () =>{ 
-    let path = "/dashboard/overview"; 
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = '/dashboard/overview';
     navigate(path);
-  }
+  };
 
   return (
     <>
@@ -114,8 +107,7 @@ function StatusComingSoon() {
 
           <Container maxWidth="sm">
             <Box sx={{ textAlign: 'center', p: 2 }}>
-
-              <Button variant="contained" size="large" onClick = {routeChange}>
+              <Button variant="contained" size="large" onClick={routeChange}>
                 Return Home
               </Button>
 

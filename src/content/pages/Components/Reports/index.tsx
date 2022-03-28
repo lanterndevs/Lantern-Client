@@ -1,8 +1,20 @@
 import { Helmet } from 'react-helmet-async';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
+import {
+  Container,
+  Grid,
+  Card,
+  CardHeader,
+  CardContent,
+  Divider,
+  Accordion,
+  AccordionSummary,
+  Typography
+} from '@mui/material';
 import Footer from 'src/components/Footer';
 import PageHeader from './PageHeader';
+import ExpenseBreakdown from './ExpenseBreakdown';
+import AccordionDetails from '@mui/material/AccordionDetails';
 
 function Reports() {
   return (
@@ -11,10 +23,9 @@ function Reports() {
         <title>Financial Reports</title>
       </Helmet>
       <PageTitleWrapper>
-        <PageHeader/>
+        <PageHeader />
       </PageTitleWrapper>
       <Container maxWidth="lg">
-        
         <Grid
           container
           direction="row"
@@ -26,36 +37,40 @@ function Reports() {
             <Card>
               <CardHeader title="Balance Sheet" />
               <Divider />
-              <CardContent>
-                {/* <Button sx={{ margin: 1 }} variant="contained">Default</Button>
-                <Button sx={{ margin: 1 }} variant="contained" color="primary">
-                  Primary
-                </Button>
-                <Button sx={{ margin: 1 }} variant="contained" color="secondary">
-                  Secondary
-                </Button>
-                <Button sx={{ margin: 1 }} variant="contained" disabled>
-                  Disabled
-                </Button>
-                <Button sx={{ margin: 1 }} variant="contained" color="primary" href="#contained-buttons">
-                  Link
-                </Button> */}
-              </CardContent>
+              <CardContent>Balance Sheet goes here</CardContent>
             </Card>
           </Grid>
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Expense Breakdown" />
-              <Divider />
-              <CardContent>
-                {/* <Button sx={{ margin: 1 }}>Default</Button>
-                <Button sx={{ margin: 1 }} color="primary">Primary</Button>
-                <Button sx={{ margin: 1 }} color="secondary">Secondary</Button>
-                <Button sx={{ margin: 1 }} disabled>Disabled</Button>
-                <Button sx={{ margin: 1 }} href="#text-buttons" color="primary">
-                  Link
-                </Button> */}
-              </CardContent>
+              <CardHeader
+                title={
+                  <Typography
+                    variant="h3"
+                    sx={{ top: '14px', position: 'relative' }}
+                  >
+                    Expense Breakdown
+                  </Typography>
+                }
+              />
+              <Accordion>
+                <AccordionSummary
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  sx={{
+                    bottom: '60px',
+                    marginRight: '30px',
+                    position: 'relative'
+                  }}
+                />
+
+                <Divider />
+
+                <CardContent>
+                  <AccordionDetails>
+                    <ExpenseBreakdown />
+                  </AccordionDetails>
+                </CardContent>
+              </Accordion>
             </Card>
           </Grid>
           <Grid item xs={12}>
