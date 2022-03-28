@@ -1,24 +1,20 @@
 import { Helmet } from 'react-helmet-async';
-import PageTitle from 'src/components/PageTitle';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Button, Container, IconButton, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
 import Footer from 'src/components/Footer';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import PageHeader from './PageHeader';
 
-function Buttons() {
+function Reports() {
   return (
     <>
       <Helmet>
-        <title>Buttons - Components</title>
+        <title>Financial Reports</title>
       </Helmet>
       <PageTitleWrapper>
-        <PageTitle
-          heading="Buttons"
-          subHeading="Buttons allow users to take actions, and make choices, with a single tap."
-          docs="https://material-ui.com/components/buttons/" />
+        <PageHeader/>
       </PageTitleWrapper>
       <Container maxWidth="lg">
+        
         <Grid
           container
           direction="row"
@@ -28,10 +24,10 @@ function Buttons() {
         >
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Contained Buttons" />
+              <CardHeader title="Balance Sheet" />
               <Divider />
               <CardContent>
-                <Button sx={{ margin: 1 }} variant="contained">Default</Button>
+                {/* <Button sx={{ margin: 1 }} variant="contained">Default</Button>
                 <Button sx={{ margin: 1 }} variant="contained" color="primary">
                   Primary
                 </Button>
@@ -43,27 +39,27 @@ function Buttons() {
                 </Button>
                 <Button sx={{ margin: 1 }} variant="contained" color="primary" href="#contained-buttons">
                   Link
-                </Button>
+                </Button> */}
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Text Buttons" />
+              <CardHeader title="Expense Breakdown" />
               <Divider />
               <CardContent>
-                <Button sx={{ margin: 1 }}>Default</Button>
+                {/* <Button sx={{ margin: 1 }}>Default</Button>
                 <Button sx={{ margin: 1 }} color="primary">Primary</Button>
                 <Button sx={{ margin: 1 }} color="secondary">Secondary</Button>
                 <Button sx={{ margin: 1 }} disabled>Disabled</Button>
                 <Button sx={{ margin: 1 }} href="#text-buttons" color="primary">
                   Link
-                </Button>
+                </Button> */}
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12}>
-            <Card>
+            {/* <Card>
               <CardHeader title="Outlined Buttons" />
               <Divider />
               <CardContent>
@@ -81,10 +77,10 @@ function Buttons() {
                   Link
                 </Button>
               </CardContent>
-            </Card>
+            </Card> */}
           </Grid>
           <Grid item xs={12}>
-            <Card>
+            {/* <Card>
               <CardHeader title="Sizes" />
               <Divider />
               <CardContent>
@@ -138,7 +134,7 @@ function Buttons() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
           </Grid>
         </Grid>
       </Container>
@@ -147,4 +143,4 @@ function Buttons() {
   );
 }
 
-export default Buttons;
+export default Reports;

@@ -1,7 +1,6 @@
-import { Box, Hidden, Tooltip } from '@mui/material';
+import { Box, Hidden } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-
 
 import mainLogo from './lantern.png';
 
@@ -24,72 +23,9 @@ const LogoSignWrapper = styled(Box)(
 `
 );
 
-const LogoSign = styled(Box)(
-  ({ theme }) => `
-        background: ${theme.general.reactFrameworkColor};
-        width: 18px;
-        height: 18px;
-        border-radius: ${theme.general.borderRadiusSm};
-        position: relative;
-        transform: rotate(45deg);
-        top: 3px;
-        left: 17px;
-
-        &:after, 
-        &:before {
-            content: "";
-            display: block;
-            width: 18px;
-            height: 18px;
-            position: absolute;
-            top: -1px;
-            right: -20px;
-            transform: rotate(0deg);
-            border-radius: ${theme.general.borderRadiusSm};
-        }
-
-        &:before {
-            background: ${theme.palette.primary.main};
-            right: auto;
-            left: 0;
-            top: 20px;
-        }
-
-        &:after {
-            background: ${theme.palette.secondary.main};
-        }
-`
-);
-
-const LogoSignInner = styled(Box)(
-  ({ theme }) => `
-        width: 16px;
-        height: 16px;
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        z-index: 5;
-        border-radius: ${theme.general.borderRadiusSm};
-        background: ${theme.header.background};
-`
-);
-
 const LogoTextWrapper = styled(Box)(
   ({ theme }) => `
         padding-left: ${theme.spacing(1)};
-`
-);
-
-const VersionBadge = styled(Box)(
-  ({ theme }) => `
-        background: ${theme.palette.success.main};
-        color: ${theme.palette.success.contrastText};
-        padding: ${theme.spacing(0.4, 1)};
-        border-radius: ${theme.general.borderRadiusSm};
-        text-align: center;
-        display: inline-block;
-        line-height: 1;
-        font-size: ${theme.typography.pxToRem(11)};
 `
 );
 
@@ -100,35 +36,16 @@ const LogoText = styled(Box)(
 `
 );
 
-// const LogoTest = {
-//   // width: 18px,
-//   // height: 18px,
-//   // border-radius: ${theme.general.borderRadiusSm},
-//   position: relative,
-//   transform: rotate(45deg),
-//   top: 3px,
-//   left: 17px,
-// };
-
-
 function Logo() {
 
   return (
     <LogoWrapper to="/overview">
       <LogoSignWrapper>
-        {/* This is where the lantern image will go */}
-        {/* <LogoSign>
-          <LogoSignInner />
-        </LogoSign> */}
-        <img src={mainLogo} style={{width: "40px", height: "70px", bottom:"20px", left: "6px", position: "relative"}} alt="lantern-logo"/>
+        <img src={mainLogo} style={{width: "170px", height: "80px", bottom:"25px", left: "-43px", position: "relative"}} alt="lantern-logo"/>
       </LogoSignWrapper>
       <Hidden smDown>
         <LogoTextWrapper>
-          {/* Need to remove this, apply CSS changes to center the lantern text */}
-          <Tooltip title="Version 1.0.0" arrow placement="right">
-            <VersionBadge>1.0</VersionBadge>
-          </Tooltip>
-          <LogoText>Lantern</LogoText>
+          <LogoText style={{ bottom: '-9px', left: "33px", position: "relative", fontSize: 20 }} >Lantern</LogoText>
         </LogoTextWrapper>
       </Hidden>
     </LogoWrapper>
