@@ -25,14 +25,17 @@ import TextField from '@mui/material/TextField';
 import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import {Transaction, TransactionCategory } from 'src/models/transaction';
-import './TransactionsTable.css'; 
+import { Transaction, TransactionCategory } from 'src/models/transaction';
+import './TransactionsTable.css';
 import React from 'react';
+import LoadingWheel from '../../pages/Components/LoadingWheel/index'
+
 
 interface TransactionsTableProps {
   className?: string;
   transactions: Transaction[];
   categories: string[];
+  loaded: boolean;
 }
 
 interface Filters {
@@ -53,14 +56,14 @@ const applyFilters = (
     }
 
     // filters the current date range selected
-    if(filters.date[0] !== null && filters.date[1] !== null){
+    if (filters.date[0] !== null && filters.date[1] !== null) {
       let start = filters.date[0].getTime();
       let end = filters.date[1].getTime();
 
       let transactionDate = new Date(transaction.date).getTime();
 
       // checks if the transaction is within start and end bounds
-      if(transactionDate >= end || transactionDate <= start){
+      if (transactionDate >= end || transactionDate <= start) {
         matches = false;
       }
     }
@@ -77,7 +80,10 @@ const applyPagination = (
   return transactions.slice(page * limit, page * limit + limit);
 };
 
-const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categories }) => {
+const TransactionsTable: FC<TransactionsTableProps> = ({
+  transactions,
+  categories
+}) => {
   // eslint-disable-next-line
   const [selectedTransactions, setSelectedTransactions] = useState<string[]>(
     []
@@ -86,13 +92,13 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    category: null, date: [null, null]
+    category: null,
+    date: [null, null]
   });
 
   const [dates, setDates] = React.useState<DateRange<Date>>([null, null]);
 
   const handleCateogryChange = (e: ChangeEvent<HTMLInputElement>): void => {
-
     let value = null;
 
     if (e.target.value !== 'All') {
@@ -101,18 +107,17 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      category: value, date: dates
+      category: value,
+      date: dates
     }));
   };
 
   const handleDateSearch = (e: any): void => {
-
     setFilters((prevFilters) => ({
       ...prevFilters,
       date: dates
     }));
   };
-
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
@@ -131,11 +136,11 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
 
   return (
     <Card>
-        <CardHeader
-          action={
-            <div className="cardheader">
-            <Box width={300} >
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <CardHeader
+        action={
+          <div className="cardheader">
+            <Box width={300}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateRangePicker
                   startText="Start Date"
                   endText="End Date"
@@ -151,13 +156,17 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
                     </React.Fragment>
                   )}
                 />
-            </LocalizationProvider>
-            
+              </LocalizationProvider>
             </Box>
 
             <Box mr={3}>
-            <Button onClick = {handleDateSearch} variant="outlined" style={{height:'53px', width: '100px'}}>Search
-            </Button>
+              <Button
+                onClick={handleDateSearch}
+                variant="outlined"
+                style={{ height: '53px', width: '100px' }}
+              >
+                Search
+              </Button>
             </Box>
 
             <Box width={150}>
@@ -177,11 +186,12 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
                 </Select>
               </FormControl>
             </Box>
-            </div>
-          }
-          title="Filters"
-        />
+          </div>
+        }
+        title="Filters"
+      />
       <Divider />
+      <LoadingWheel loaded = {loaded}>
       <TableContainer>
         <Table>
           <TableHead>
@@ -205,8 +215,8 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
                   key={transaction.transactionID}
                   selected={isTransactionSelected}
                 >
-                  <TableCell padding="checkbox"/>
-                  
+                  <TableCell padding="checkbox" />
+
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -215,11 +225,8 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
                       gutterBottom
                       noWrap
                     >
-                      {(moment(transaction.date)).format('dddd, MMM DD YYYY')}
+                      {moment(transaction.date).format('dddd, MMM DD YYYY')}
                     </Typography>
-                    {/* <Typography variant="body2" color="text.secondary" noWrap>
-                      {(moment(transaction.transactionDate)).format('dddd, MMM DD YYYY')}
-                    </Typography> */}
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -241,7 +248,6 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
                       noWrap
                     >
                       {transaction.sourceName}
-
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
                       {transaction.sourceAccount}
@@ -251,24 +257,25 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
                     <Typography
                       variant="body1"
                       fontWeight="bold"
-                      color={transaction.amount > 0 ? "red" : "green"}
+                      color={transaction.amount > 0 ? 'red' : 'green'}
                       gutterBottom
                       noWrap
                     >
-
-                      {(-transaction.amount).toLocaleString('en-US', { style: 'currency', currency: transaction.currency })}
-
+                      {(-transaction.amount).toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: transaction.currency
+                      })}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography	
-                      variant="body1"	
-                      fontWeight="bold"	
-                      color="text.primary"	
-                      gutterBottom	
-                      noWrap	
-                    >	
-                      {transaction.category}	
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {transaction.category}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -277,6 +284,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ transactions, categorie
           </TableBody>
         </Table>
       </TableContainer>
+      </LoadingWheel>
       <Box p={2}>
         <TablePagination
           component="div"

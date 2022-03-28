@@ -37,15 +37,33 @@ const LogoText = styled(Box)(
 );
 
 function Logo() {
-
   return (
     <LogoWrapper to="/overview">
       <LogoSignWrapper>
-        <img src={mainLogo} style={{width: "170px", height: "80px", bottom:"25px", left: "-43px", position: "relative"}} alt="lantern-logo"/>
+        <img
+          src={mainLogo}
+          style={{
+            width: '170px',
+            height: '80px',
+            bottom: '25px',
+            left: '-43px',
+            position: 'relative'
+          }}
+          alt="lantern-logo"
+        />
       </LogoSignWrapper>
       <Hidden smDown>
         <LogoTextWrapper>
-          <LogoText style={{ bottom: '-9px', left: "33px", position: "relative", fontSize: 20 }} >Lantern</LogoText>
+          <LogoText
+            style={{
+              bottom: '-9px',
+              left: '33px',
+              position: 'relative',
+              fontSize: 20
+            }}
+          >
+            Lantern
+          </LogoText>
         </LogoTextWrapper>
       </Hidden>
     </LogoWrapper>

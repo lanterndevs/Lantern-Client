@@ -27,9 +27,7 @@ const Input = styled('input')({
 });
 
 function BottomBarContent() {
-
-  const user =
-  {
+  const user = {
     name: 'Catherine Pike',
     avatar: '/static/images/avatars/1.jpg'
   };
@@ -52,12 +50,12 @@ function BottomBarContent() {
       </Tooltip>
       <Input accept="image/*" id="messenger-upload-file" type="file" />
       <Tooltip arrow placement="top" title="Attach a file">
-        < label htmlFor="messenger-upload-file" >
+        <label htmlFor="messenger-upload-file">
           <IconButton color="primary" component="span">
             <AttachFileTwoToneIcon />
           </IconButton>
-        </label >
-      </Tooltip >
+        </label>
+      </Tooltip>
       <Hidden mdDown>
         <DividerWrapper orientation="vertical" flexItem />
         <Button startIcon={<SendTwoToneIcon />} variant="contained">
