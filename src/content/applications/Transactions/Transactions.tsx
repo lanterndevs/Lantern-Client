@@ -45,6 +45,10 @@ const Transactions = () => {
     setTransactions(tempTransactions);
   }, [accounts, categoriesSet, transactionsState.transactions]);
   
+  useEffect(()=>{
+    formatTransactions();
+  },[transactionsState])
+  
   const fetchData = async () => {
     
     // retrieves accounts from the user
