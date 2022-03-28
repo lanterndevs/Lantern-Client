@@ -77,6 +77,7 @@ const Transactions = () => {
       <TransactionsTable
         transactions={transactions}
         categories={categoriesState}
+        loaded={false}
       />
     </Card>
   );

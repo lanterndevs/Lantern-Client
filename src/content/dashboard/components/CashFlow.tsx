@@ -11,13 +11,8 @@ import {
   Legend
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { RetrieveCashFlow } from '../../../utils/cashflow';
+import { retrieveCashFlow } from '../../../utils/cashflow';
 import ChartHeader from './ChartHeader';
-import {RootState} from '../../../redux/index'
-import axios from 'axios';
-import { getCookie } from 'src/utilities/utils';
-import {useDispatch, useSelector} from 'react-redux';
-import {saveTransactions, setTransactionLoading} from '../../../redux/modules/transactions'
 
 ChartJS.register(
   CategoryScale,

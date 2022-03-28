@@ -28,8 +28,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { Transaction, TransactionCategory } from 'src/models/transaction';
 import './TransactionsTable.css';
 import React from 'react';
-import LoadingWheel from '../../pages/Components/LoadingWheel/index'
-
+import LoadingWheel from '../../pages/Components/LoadingWheel/index';
 
 interface TransactionsTableProps {
   className?: string;
@@ -191,99 +190,99 @@ const TransactionsTable: FC<TransactionsTableProps> = ({
         title="Filters"
       />
       <Divider />
-      <LoadingWheel loaded = {loaded}>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox"></TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Transaction Name</TableCell>
-              <TableCell>Source</TableCell>
-              <TableCell>Amount</TableCell>
-              <TableCell>Category</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedTransactions.map((transaction) => {
-              const isTransactionSelected = selectedTransactions.includes(
-                transaction.transactionID
-              );
-              return (
-                <TableRow
-                  hover
-                  key={transaction.transactionID}
-                  selected={isTransactionSelected}
-                >
-                  <TableCell padding="checkbox" />
+      <LoadingWheel loaded={true}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell padding="checkbox"></TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>Transaction Name</TableCell>
+                <TableCell>Source</TableCell>
+                <TableCell>Amount</TableCell>
+                <TableCell>Category</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {paginatedTransactions.map((transaction) => {
+                const isTransactionSelected = selectedTransactions.includes(
+                  transaction.transactionID
+                );
+                return (
+                  <TableRow
+                    hover
+                    key={transaction.transactionID}
+                    selected={isTransactionSelected}
+                  >
+                    <TableCell padding="checkbox" />
 
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {moment(transaction.date).format('dddd, MMM DD YYYY')}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {transaction.name}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {transaction.sourceName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {transaction.sourceAccount}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color={transaction.amount > 0 ? 'red' : 'green'}
-                      gutterBottom
-                      noWrap
-                    >
-                      {(-transaction.amount).toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: transaction.currency
-                      })}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {transaction.category}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                    <TableCell>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color="text.primary"
+                        gutterBottom
+                        noWrap
+                      >
+                        {moment(transaction.date).format('dddd, MMM DD YYYY')}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color="text.primary"
+                        gutterBottom
+                        noWrap
+                      >
+                        {transaction.name}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color="text.primary"
+                        gutterBottom
+                        noWrap
+                      >
+                        {transaction.sourceName}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" noWrap>
+                        {transaction.sourceAccount}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color={transaction.amount > 0 ? 'red' : 'green'}
+                        gutterBottom
+                        noWrap
+                      >
+                        {(-transaction.amount).toLocaleString('en-US', {
+                          style: 'currency',
+                          currency: transaction.currency
+                        })}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color="text.primary"
+                        gutterBottom
+                        noWrap
+                      >
+                        {transaction.category}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </LoadingWheel>
       <Box p={2}>
         <TablePagination
