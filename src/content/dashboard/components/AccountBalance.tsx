@@ -38,7 +38,7 @@ function AccountBalance() {
   axios
     .get('/api/accounts', {
       headers: {
-        authorization: 'Bearer ' + getCookie(document.cookie, 'auth_token')
+        authorization: 'Bearer ' + getCookie('auth_token')
       }
     })
     .then((response) => {

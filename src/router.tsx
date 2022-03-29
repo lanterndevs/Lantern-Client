@@ -61,12 +61,12 @@ const StatusMaintenance = Loader(
 );
 
 function PrivateComponent({ component: Component, ...rest }) {
-  const loggedIn = getCookie(document.cookie, 'auth_token') != null;
+  const loggedIn = getCookie('auth_token') != null;
   return loggedIn ? <Component /> : <Navigate to={{ pathname: '/login' }} />;
 }
 
 function SignedOutOnlyComponent({ component: Component, ...rest }) {
-  const loggedOut = getCookie(document.cookie, 'auth_token') == null;
+  const loggedOut = getCookie('auth_token') == null;
   return loggedOut ? <Component /> : <Navigate to={{ pathname: '/' }} />;
 }
 

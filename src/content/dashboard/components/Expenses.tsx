@@ -48,7 +48,7 @@ function Expenses() {
     axios
       .get('/api/transactions', {
         headers: {
-          authorization: 'Bearer ' + getCookie(document.cookie, 'auth_token')
+          authorization: 'Bearer ' + getCookie('auth_token')
         }
       })
       .then((response) => {
