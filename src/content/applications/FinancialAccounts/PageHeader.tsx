@@ -6,7 +6,7 @@ import { usePlaidLink, PlaidLinkOnSuccess } from 'react-plaid-link';
 import Accounts from './Accounts';
 import { Account } from 'src/models/account';
 import moment from 'moment';
-import { getCookie } from 'src/utilities/utils';
+import { getCookie } from 'src/utils/cookies';
 
 const PageHeader = () => {
   // will be used to populate the list of plaid accounts

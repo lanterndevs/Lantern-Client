@@ -15,7 +15,7 @@ import { RetrieveCashFlow } from '../../../utils/cashflow';
 import ChartHeader from './ChartHeader';
 import {RootState} from '../../../redux/index'
 import axios from 'axios';
-import { getCookie } from 'src/utilities/utils';
+import { getCookie } from 'src/utils/cookies';
 import {useDispatch, useSelector} from 'react-redux';
 import {saveTransactions, setTransactionLoading} from '../../../redux/modules/transactions'
 

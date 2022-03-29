@@ -22,7 +22,6 @@ function getTotals(data) {
       // If the key doesn't exist in the accumulator object
       // create it and create a new array at its value
       if (curr.amount < 0) {
-          console.log(curr)
         res[curr.categories[0]] = res[curr.categories[0]] || -curr.amount;
         res[curr.categories[0]]-=curr.amount;
       }

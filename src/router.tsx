@@ -40,7 +40,7 @@ const StatusComingSoon = Loader(lazy(() => import('src/content/pages/Status/Comi
 const StatusMaintenance = Loader(lazy(() => import('src/content/pages/Status/Maintenance')));
 
 function PrivateComponent({component: Component, ...rest}) {
-  const loggedIn = getCookie(document.cookie, "auth_token") != null;
+  const loggedIn = getCookie("auth_token") != null;
   return(
     loggedIn ?
       <Component/> :
@@ -49,7 +49,7 @@ function PrivateComponent({component: Component, ...rest}) {
 }
 
 function SignedOutOnlyComponent({component: Component, ...rest}) {
-  const loggedOut = getCookie(document.cookie, "auth_token") == null;
+  const loggedOut = getCookie("auth_token") == null;
   return(
     loggedOut ?
       <Component/> :

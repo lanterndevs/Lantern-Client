@@ -3,7 +3,7 @@ import {Transaction } from 'src/models/transaction';
 import TransactionsTable from './TransactionsTable';
 import {useEffect, useState, useCallback, useMemo} from 'react';
 import axios from 'axios';
-import { getCookie } from 'src/utilities/utils';
+import { getCookie } from 'src/utils/cookies';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {saveTransactions, setTransactionLoading} from '../../../redux/modules/transactions'
@@ -34,8 +34,10 @@ const Transactions = () => {
           details: transaction.details,
           name: transaction.name,
           sourceName: accounts.get(transaction.accountID),
-          sourceAccount: '*****' + transaction.accountID.substring(transaction.accountID.length - 8),
-          currency: 'USD',
+          sourceAccount:
+            '*****' +
+            transaction.accountID.substring(transaction.accountID.length - 8),
+          currency: 'USD'
         }
       );
 
