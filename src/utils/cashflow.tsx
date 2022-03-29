@@ -66,7 +66,7 @@ function getYearCashFlow() {
 async function retrieveData(start, end) {
   let transactions = [];
   // Get auth cookie
-  let authToken = getCookie(document.cookie, 'auth_token');
+  let authToken = getCookie('auth_token');
   await axios
     .get('/api/transactions', {
       headers: {
