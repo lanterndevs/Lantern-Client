@@ -23,7 +23,7 @@ import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -61,9 +61,7 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
-
-  const user =
-  {
+  const user = {
     name: 'User',
     avatar: '',
     jobtitle: 'Owner'
@@ -73,7 +71,7 @@ function HeaderUserbox() {
   const [isOpen, setOpen] = useState<boolean>(false);
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleOpen = (): void => {
     setOpen(true);
@@ -84,7 +82,7 @@ function HeaderUserbox() {
   };
 
   const handleSignOut = (): void => {
-    removeCookie('auth_token', {path:'/'});
+    removeCookie('auth_token', { path: '/' });
     navigate('/login');
   };
 
@@ -132,11 +130,7 @@ function HeaderUserbox() {
             <AccountBoxTwoToneIcon fontSize="small" />
             <ListItemText primary="My Profile" />
           </ListItem>
-          <ListItem
-            button
-            to="/dashboards/messenger"
-            component={NavLink}
-          >
+          <ListItem button to="/dashboards/messenger" component={NavLink}>
             <InboxTwoToneIcon fontSize="small" />
             <ListItemText primary="Messenger" />
           </ListItem>

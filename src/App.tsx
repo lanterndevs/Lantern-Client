@@ -9,11 +9,10 @@ import { CookiesProvider } from 'react-cookie';
 import { withCookies } from 'react-cookie';
 import './App.css';
 
-import { transitions, positions, Provider as AlertProvider } from 'react-alert'
-import AlertTemplate from 'react-alert-template-basic'
+import { transitions, positions, Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 
-import { Provider as ReduxProvider } from 'react-redux';
-import { createStore} from 'redux';
+import { createStore } from 'redux';
 import { rootReducer } from './redux';
 
 // Axios global default config
@@ -27,27 +26,25 @@ const options = {
   offset: '30px',
   // you can also just use 'scale'
   transition: transitions.SCALE
-}
+};
 
+// eslint-disable-next-line
 const store = createStore(rootReducer);
 
 const App = () => {
-
   const content = useRoutes(routes);
 
   return (
-    <ReduxProvider store={store}>
-      <AlertProvider template={AlertTemplate} {...options}>
-        <CookiesProvider>
-          <ThemeProvider>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <CssBaseline />
-                {content}
-            </LocalizationProvider>
-          </ThemeProvider>
-        </CookiesProvider>
-      </AlertProvider>
-    </ReduxProvider>
+    <AlertProvider template={AlertTemplate} {...options}>
+      <CookiesProvider>
+        <ThemeProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <CssBaseline />
+            {content}
+          </LocalizationProvider>
+        </ThemeProvider>
+      </CookiesProvider>
+    </AlertProvider>
   );
-}
+};
 export default withCookies(App);

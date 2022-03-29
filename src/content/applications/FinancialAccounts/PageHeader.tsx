@@ -15,116 +15,122 @@ const PageHeader = () => {
 
   // initial communication on render between server and Plaid to obtain link to add a new account
   useEffect(() => {
-    axios.get('http://localhost:8000/api/accounts', {
+    axios
+      .get('/api/accounts', {
         headers: {
-          authorization: 'Bearer ' + getCookie("auth_token"),
+          authorization: 'Bearer ' + getCookie('auth_token')
         }
-      }).then((response) => {
+      })
+      .then((response) => {
         // populates the accounts array with data from response
         let tempAccounts: Account[] = [];
-        for(var account of response.data){
-          tempAccounts.push(
-            {
-              balance: account.balance,
-              description: account.description,
-              id: account.id,
-              institutionID: account.institutionID,
-              name: account.name,
-              bankName: "Plaid",
-              latestUpdate: (moment(new Date())).format('l , LT')
-            }
-          );
+        for (var account of response.data) {
+          tempAccounts.push({
+            balance: account.balance,
+            description: account.description,
+            id: account.id,
+            institutionID: account.institution.id,
+            name: account.name,
+            bankName: account.institution.name,
+            latestUpdate: moment(new Date()).format('l , LT')
+          });
         }
         setAccounts(tempAccounts);
       });
 
-    axios.get('http://localhost:8000/api/link', {
-      headers: {
-        authorization: 'Bearer ' + getCookie("auth_token"),
-      }
-    }).then((response) => {
-      setToken(response.data.token);
-    });
+    axios
+      .get('/api/link', {
+        headers: {
+          authorization: 'Bearer ' + getCookie('auth_token')
+        }
+      })
+      .then((response) => {
+        setToken(response.data.token);
+      });
   }, []);
-
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>((publicToken, metadata) => {
     // send public_token to your server
     // https://plaid.com/docs/api/tokens/#token-exchange-flow
     // uses public token to retrieve access token for accounts and transactions
-    axios.post('http://localhost:8000/api/link', { token: publicToken },{
-      headers: {
-        authorization: 'Bearer ' + getCookie("auth_token"),
-      }
-    }).then(response => {
-      // retrieve the accounts from server
-      axios.get('http://localhost:8000/api/accounts', {
-        headers: {
-          authorization: 'Bearer ' + getCookie("auth_token"),
+    axios
+      .post(
+        '/api/link',
+        { token: publicToken },
+        {
+          headers: {
+            authorization: 'Bearer ' + getCookie('auth_token')
+          }
         }
-      }).then((response) => {
-
-        // populates the accounts array with data from response
-        let tempAccounts: Account[] = [];
-        for(var account of response.data){
-          tempAccounts.push(
-            {
-              balance: account.balance,
-              description: account.description,
-              id: account.id,
-              institutionID: account.institutionID,
-              name: account.name,
-              bankName: "Plaid", // will need to determine how to pull this information from Plaid API
-              latestUpdate: (moment(new Date())).format('l , LT')
+      )
+      .then((response) => {
+        // retrieve the accounts from server
+        axios
+          .get('/api/accounts', {
+            headers: {
+              authorization:
+                'Bearer ' + getCookie('auth_token')
             }
-          );
-        }
+          })
+          .then((response) => {
+            // populates the accounts array with data from response
+            let tempAccounts: Account[] = [];
+            for (var account of response.data) {
+              tempAccounts.push({
+                balance: account.balance,
+                description: account.description,
+                id: account.id,
+                institutionID: account.institutionID,
+                name: account.name,
+                bankName: 'Plaid', // will need to determine how to pull this information from Plaid API
+                latestUpdate: moment(new Date()).format('l , LT')
+              });
+            }
 
-        // updates the states of the financial accounts
-        setAccounts(tempAccounts);
+            // updates the states of the financial accounts
+            setAccounts(tempAccounts);
+          });
       });
-    })
   }, []);
 
   const { open, ready } = usePlaidLink({
     token,
-    onSuccess, 
+    onSuccess
     // onEvent
     // onExit
   });
 
   return (
     <>
-    <Grid container justifyContent="space-between" alignItems="center">
-      <Grid item>
-        <Typography variant="h3" component="h3" gutterBottom>
-          Financial Accounts
-        </Typography>
-        <Typography variant="subtitle2">
-          Below are the bank accounts that you have linked with Lantern
-        </Typography>
+      <Grid container justifyContent="space-between" alignItems="center">
+        <Grid item>
+          <Typography variant="h3" component="h3" gutterBottom>
+            Financial Accounts
+          </Typography>
+          <Typography variant="subtitle2">
+            Below are the bank accounts that you have linked with Lantern
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Button
+            sx={{ mt: { xs: 2, md: 0 } }}
+            variant="contained"
+            startIcon={<AddTwoToneIcon fontSize="small" />}
+            onClick={() => open()}
+            disabled={!ready}
+          >
+            Add Account
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item>
-        <Button
-          sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-          startIcon={<AddTwoToneIcon fontSize="small" />}
-          onClick={() => open()} disabled={!ready}
-        >
-          Add Account
 
-        </Button>
+      {/* Creates space in between page header and accounts */}
+      <Box m={1} pt={2} />
 
-      </Grid>
-    </Grid>
-
-    {/* Creates space in between page header and accounts */}
-    <Box m={1} pt={2}/>
-
-    {/* Displays the connected accounts */}
-    <Accounts accounts={accounts}/>
+      {/* Displays the connected accounts */}
+      <Accounts accounts={accounts} />
     </>
   );
-}
+};
 
 export default PageHeader;

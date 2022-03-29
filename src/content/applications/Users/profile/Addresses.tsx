@@ -11,8 +11,6 @@ import {
 import { ArrowForwardTwoTone } from '@mui/icons-material';
 
 function Addresses() {
-
-
   const addresses = {
     delivery: 12,
     shipping: 8
