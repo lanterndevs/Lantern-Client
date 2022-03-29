@@ -1,6 +1,4 @@
-import axios from 'axios';
 import moment from 'moment';
-import { getCookie } from './cookies';
 import { formatDate } from './dates';
 
 /**
@@ -8,8 +6,8 @@ import { formatDate } from './dates';
  * @param {Object[]} transactions - Array of transactions.
  * @returns {Promise<Object[]>} - The array containing the week, month, and year breakdowns and labels.
  */
-async function retrieveCashFlow() {
-  const promises = [getWeekCashFlow(), getMonthCashFlow(), getYearCashFlow()];
+async function RetrieveCashFlow(transactions) {
+  const promises = [getWeekCashFlow(transactions), getMonthCashFlow(transactions), getYearCashFlow(transactions)];
   const [week, month, year] = await Promise.all(promises);
   return [week, month, year];
 }
@@ -19,12 +17,12 @@ async function retrieveCashFlow() {
  * @param {Object[]} transactions - Array of transactions.
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
-function getWeekCashFlow() {
+function getWeekCashFlow(transactions) {
   const sixDaysAgo = new Date();
   sixDaysAgo.setDate(sixDaysAgo.getDate() - 6);
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  return retrieveData(sixDaysAgo, tomorrow);
+  return RetrieveData(sixDaysAgo, tomorrow, transactions);
 }
 
 /**
@@ -32,12 +30,12 @@ function getWeekCashFlow() {
  * @param {Object[]} transactions - Array of transactions
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
-function getMonthCashFlow() {
+function getMonthCashFlow(transactions) {
   const fiveWeeksAgo = new Date();
   fiveWeeksAgo.setDate(fiveWeeksAgo.getDate() - 5 * 7);
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  return retrieveData(fiveWeeksAgo, tomorrow);
+  return RetrieveData(fiveWeeksAgo, tomorrow, transactions);
 }
 
 /**
@@ -46,13 +44,13 @@ function getMonthCashFlow() {
  * @param {Object[]} transactions - Array of transactions
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
-function getYearCashFlow() {
+function getYearCashFlow(transactions) {
   const twelveMonthsAgo = new Date();
   twelveMonthsAgo.setDate(1);
   twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 11);
   const nextMonth = new Date();
   nextMonth.setFullYear(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 1);
-  return retrieveData(twelveMonthsAgo, nextMonth);
+  return RetrieveData(twelveMonthsAgo, nextMonth, transactions);
 }
 
 /**
@@ -63,27 +61,7 @@ function getYearCashFlow() {
  * @param {Object[]} transactions - Array of transactions.
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
-async function retrieveData(start, end) {
-  let transactions = [];
-  // Get auth cookie
-  let authToken = getCookie('auth_token');
-  await axios
-    .get('/api/transactions', {
-      headers: {
-        authorization: 'Bearer ' + authToken
-      },
-      params: {
-        start_date: formatDate(start),
-        end_date: formatDate(end)
-      }
-    })
-    .then((res) => {
-      transactions = res.data.transactions;
-    })
-    .catch((error) => {
-      return error;
-    });
-
+async function RetrieveData(start, end, transactions) {
   // Generate date range
   let currentDate = start;
   let dates = [];
@@ -125,4 +103,4 @@ async function retrieveData(start, end) {
   };
 }
 
-export { retrieveCashFlow };
+export { RetrieveCashFlow };
