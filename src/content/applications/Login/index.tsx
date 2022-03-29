@@ -12,15 +12,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import mainLogo from 'src/components/Logo/lantern.png';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom'
-import { useAlert } from 'react-alert'
+import { useNavigate } from 'react-router-dom';
+import { useAlert } from 'react-alert';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 const theme = createTheme();
 const validationSchema = yup.object({
-  email: yup.string().email('Enter a valid email').required('Email is required'),
-  password: yup.string().required('Password is required'),
+  email: yup
+    .string()
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: yup.string().required('Password is required')
 });
 
 function Login() {
@@ -29,34 +32,39 @@ function Login() {
       email: '',
       password: ''
     },
-    validationSchema: validationSchema ,    
-    onSubmit: values => {     
-        // Handle Submit
-    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      // Handle Submit
+    }
   });
 
-  const alert = useAlert()
+  const alert = useAlert();
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['auth_token']);
-  
+
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    axios.post('/api/users/authenticate',
-      {
+    axios
+      .post('/api/users/authenticate', {
         email: data.get('email').toString().toLowerCase(),
-        password: data.get('password'),
-      }).then(res => {
+        password: data.get('password')
+      })
+      .then((res) => {
         if (res.data.token != null) {
           alert.removeAll();
-          setCookie('auth_token',res.data.token,{ path: '/', maxAge: 10000000000});
+          setCookie('auth_token', res.data.token, {
+            path: '/',
+            maxAge: 10000000000
+          });
           navigate('/dashboard/overview');
         }
-    }).catch(err => {
-      alert.show("Invalid login. Try again");
-    });
+      })
+      .catch((err) => {
+        alert.show('Invalid login. Try again');
+      });
   };
 
   return (
@@ -68,15 +76,29 @@ function Login() {
             marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'center'
           }}
         >
-          <img src={mainLogo} style={{ width: "200px", height: "130px", bottom:"20px", position: "relative"}} alt="lantern-logo"/>
-          
+          <img
+            src={mainLogo}
+            style={{
+              width: '200px',
+              height: '130px',
+              bottom: '20px',
+              position: 'relative'
+            }}
+            alt="lantern-logo"
+          />
+
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -85,7 +107,7 @@ function Login() {
               label="Email Address"
               name="email"
               autoComplete="email"
-              inputProps={{style: {textTransform: 'lowercase'}}}                
+              inputProps={{ style: { textTransform: 'lowercase' } }}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}

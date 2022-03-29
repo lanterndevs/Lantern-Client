@@ -34,8 +34,10 @@ const Transactions = () => {
           details: transaction.details,
           name: transaction.name,
           sourceName: accounts.get(transaction.accountID),
-          sourceAccount: '*****' + transaction.accountID.substring(transaction.accountID.length - 8),
-          currency: 'USD',
+          sourceAccount:
+            '*****' +
+            transaction.accountID.substring(transaction.accountID.length - 8),
+          currency: 'USD'
         }
       );
 
