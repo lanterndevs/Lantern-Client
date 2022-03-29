@@ -60,22 +60,14 @@ const StatusMaintenance = Loader(
   lazy(() => import('src/content/pages/Status/Maintenance'))
 );
 
-function PrivateComponent({component: Component, ...rest}) {
-  const loggedIn = getCookie("auth_token") != null;
-  return(
-    loggedIn ?
-      <Component/> :
-      <Navigate to={{ pathname: '/login'}} />
-  );
+function PrivateComponent({ component: Component, ...rest }) {
+  const loggedIn = getCookie('auth_token') != null;
+  return loggedIn ? <Component /> : <Navigate to={{ pathname: '/login' }} />;
 }
 
-function SignedOutOnlyComponent({component: Component, ...rest}) {
-  const loggedOut = getCookie("auth_token") == null;
-  return(
-    loggedOut ?
-      <Component/> :
-      <Navigate to={{ pathname: '/'}} />
-  );
+function SignedOutOnlyComponent({ component: Component, ...rest }) {
+  const loggedOut = getCookie('auth_token') == null;
+  return loggedOut ? <Component /> : <Navigate to={{ pathname: '/' }} />;
 }
 
 const routes: PartialRouteObject[] = [

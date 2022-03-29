@@ -68,8 +68,7 @@ const PageHeader = () => {
         axios
           .get('/api/accounts', {
             headers: {
-              authorization:
-                'Bearer ' + getCookie('auth_token')
+              authorization: 'Bearer ' + getCookie('auth_token')
             }
           })
           .then((response) => {
