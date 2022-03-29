@@ -5,6 +5,7 @@ import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 import UpcomingEvents from '../components/UpcomingEvents';
 import CashFlow from '../components/CashFlow';
+import RevenueBreakdown from '../components/RevenueBreakdown';
 
 function Dashboard() {
   return (
@@ -30,7 +31,7 @@ function Dashboard() {
           </Grid>
 
           <Grid item lg={4} xs={12}>
-            {/* <UpcomingEvents /> */}
+            <RevenueBreakdown/>
           </Grid>
           
           <Grid item lg={8} xs={12}>
