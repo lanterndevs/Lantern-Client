@@ -1,9 +1,6 @@
 import { Card, CardHeader, Divider } from '@mui/material';
-
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Chart from 'react-google-charts';
-import { getCookie } from 'src/utils/cookies';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/index';
 import LoadingWheel from '../../pages/Components/LoadingWheel';
@@ -48,7 +45,6 @@ function RevenueBreakdown() {
   };
 
   useEffect(() => {
-    console.log(getTotals(transactionsState.transactions));
     setRevenueCategories(getTotals(transactionsState.transactions));
     console.log(pieData);
   }, [transactionsState]);

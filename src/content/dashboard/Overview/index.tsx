@@ -44,6 +44,7 @@ function Dashboard() {
           </Grid>
           {/* SECOND SECTION: EXPENSES, GOALS (?), ETC (?) */}
           <Grid item lg={9} xs={12}>
+            <RevenueBreakdown/>
             {/* Expenses */}
             <Expenses />
           </Grid>

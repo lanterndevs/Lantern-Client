@@ -1,13 +1,12 @@
 import { Card, CardHeader, Divider } from '@mui/material';
-
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Chart from 'react-google-charts';
-import { getCookie } from 'src/utils/cookies';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/index';
 
 function getCount(data) {
   // `map` out the data by type
-  const typeArr = data.transactions.map((object) => object.categories[0]);
+  const typeArr = data.map((object) => object.categories[0]);
 
   // Iterate over the type data. We pass in an initial
   // object to capture the counts, so we need to use
@@ -29,6 +28,9 @@ function getCount(data) {
 }
 
 function Expenses() {
+  const transactionsState = useSelector(
+    (state: RootState) => state.transactions
+  );
   const [expenseCategories, setExpenseCategories] = useState([]);
 
   const pieData = [
@@ -44,17 +46,8 @@ function Expenses() {
   };
 
   useEffect(() => {
-    // retrieves the transactions from the user
-    axios
-      .get('/api/transactions', {
-        headers: {
-          authorization: 'Bearer ' + getCookie('auth_token')
-        }
-      })
-      .then((response) => {
-        setExpenseCategories(getCount(response.data));
-      });
-  }, []);
+    setExpenseCategories(getCount(transactionsState.transactions));
+  }, [transactionsState]);
 
   return (
     <Card>
