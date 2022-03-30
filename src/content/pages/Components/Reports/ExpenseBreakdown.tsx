@@ -9,7 +9,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography
+  Typography,
+  Box
 } from '@mui/material';
 import Footer from 'src/components/Footer';
 import axios from 'axios';
@@ -68,6 +69,8 @@ function getFrequent(transactions) {
 function ExpenseBreakdown() {
   const [expenseCategories, setExpenseCategories] = useState([]);
   const [totalExpenses, setTotalExepnses] = useState(0);
+
+  // eslint-disable-next-line
   const [detailedExpenses, setDetailedExpenses] = useState({
     highestExpenseCateogry: '',
     leastExpenseCategory: '',
@@ -211,6 +214,27 @@ function ExpenseBreakdown() {
               </TableBody>
             </Table>
           </TableContainer>
+          <Box sx={{ mt: 5 }}>
+            <Typography
+              variant="h3"
+              fontWeight="bold"
+              color="text.primary"
+              gutterBottom
+              noWrap
+            >
+              Detailed Report
+            </Typography>
+            <br /> Highest Categorized Expense:{' '}
+            {detailedExpenses.highestExpenseCateogry} <br />
+            Least Categorized Expense: {
+              detailedExpenses.leastExpenseCategory
+            }{' '}
+            <br />
+            Largest Transaction: {detailedExpenses.largestTransaction[0]} $
+            {detailedExpenses.largestTransaction[1]}{' '}
+            {detailedExpenses.largestTransaction[2]} <br />
+            Most Frequent Transaction: {detailedExpenses.frequentExpenses[0]}
+          </Box>
         </Grid>
       </Container>
       <Footer />
