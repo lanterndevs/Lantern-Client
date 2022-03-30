@@ -12,8 +12,9 @@ import './App.css';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Provider as ReduxProvider } from 'react-redux';
-import { createStore} from 'redux';
+import { createStore } from 'redux';
 import { rootReducer } from './redux';
 
 // Axios global default config
@@ -29,6 +30,7 @@ const options = {
   transition: transitions.SCALE
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const store = createStore(rootReducer);
 
 const App = () => {

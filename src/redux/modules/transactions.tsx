@@ -16,24 +16,26 @@ type Transaction = {
   details: string;
   name: string;
   currency: string;
-}
+};
 
-type TransactionState =  {
-    transactions : Transaction[] | null;
-    loading : boolean;
-}
+type TransactionState = {
+  transactions: Transaction[] | null;
+  loading: boolean;
+};
 
 const initialState: TransactionState = { transactions: [], loading: true };
 
 export const saveTransactions = (transactions: Transaction[]) => {
-    return typedAction('saveTransactions',transactions);
+  return typedAction('saveTransactions', transactions);
 };
 
 export const setTransactionLoading = (loading: boolean) => {
-  return typedAction('setTransactionLoading',loading);
+  return typedAction('setTransactionLoading', loading);
 };
 
-type TransactionAction = ReturnType<typeof saveTransactions | typeof setTransactionLoading>;
+type TransactionAction = ReturnType<
+  typeof saveTransactions | typeof setTransactionLoading
+>;
 
 export function transactionReducer(
   state = initialState,
@@ -41,9 +43,9 @@ export function transactionReducer(
 ): TransactionState {
   switch (action.type) {
     case 'saveTransactions':
-      return { transactions: action.payload, loading:state.loading };
+      return { transactions: action.payload, loading: state.loading };
     case 'setTransactionLoading':
-      return { transactions: state.transactions, loading:action.payload};
+      return { transactions: state.transactions, loading: action.payload };
     default:
       return state;
   }

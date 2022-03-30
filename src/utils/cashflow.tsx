@@ -3,7 +3,6 @@ import moment from 'moment';
 import { getCookie } from './cookies';
 import { formatDate } from './dates';
 
-
 /**
  * Retrieves week, month, and year breakdowns and labels.
  * @param {Object[]} transactions - Array of transactions.
@@ -126,4 +125,4 @@ async function retrieveData(start, end) {
   };
 }
 
-export { RetrieveCashFlow };
+export { retrieveCashFlow };
