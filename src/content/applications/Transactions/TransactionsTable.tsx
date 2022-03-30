@@ -28,11 +28,14 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { Transaction, TransactionCategory } from 'src/models/transaction';
 import './TransactionsTable.css';
 import React from 'react';
+import LoadingWheel from '../../pages/Components/LoadingWheel/index'
+
 
 interface TransactionsTableProps {
   className?: string;
   transactions: Transaction[];
   categories: string[];
+  loaded: boolean;
 }
 
 interface Filters {
@@ -188,6 +191,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({
         title="Filters"
       />
       <Divider />
+      <LoadingWheel loaded = {loaded}>
       <TableContainer>
         <Table>
           <TableHead>
@@ -280,6 +284,7 @@ const TransactionsTable: FC<TransactionsTableProps> = ({
           </TableBody>
         </Table>
       </TableContainer>
+      </LoadingWheel>
       <Box p={2}>
         <TablePagination
           component="div"

@@ -3,9 +3,10 @@ import moment from 'moment';
 import { getCookie } from './cookies';
 import { formatDate } from './dates';
 
+
 /**
  * Retrieves week, month, and year breakdowns and labels.
- *
+ * @param {Object[]} transactions - Array of transactions.
  * @returns {Promise<Object[]>} - The array containing the week, month, and year breakdowns and labels.
  */
 async function retrieveCashFlow() {
@@ -16,7 +17,7 @@ async function retrieveCashFlow() {
 
 /**
  * Retrieves expenses for past week from API.
- *
+ * @param {Object[]} transactions - Array of transactions.
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 function getWeekCashFlow() {
@@ -29,7 +30,7 @@ function getWeekCashFlow() {
 
 /**
  * Retrieves expenses for past month from API.
- *
+ * @param {Object[]} transactions - Array of transactions
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 function getMonthCashFlow() {
@@ -43,6 +44,7 @@ function getMonthCashFlow() {
 /**
  * Retrieves expenses for past year from API.
  *
+ * @param {Object[]} transactions - Array of transactions
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 function getYearCashFlow() {
@@ -59,6 +61,7 @@ function getYearCashFlow() {
  *
  * @param {Date} start - The starting date.
  * @param {Date} end - The ending date.
+ * @param {Object[]} transactions - Array of transactions.
  * @returns {Promise<Object>} - An object with the list of tags and list of expenses (sorted in decreasing order).
  */
 async function retrieveData(start, end) {
@@ -123,4 +126,4 @@ async function retrieveData(start, end) {
   };
 }
 
-export { retrieveCashFlow };
+export { RetrieveCashFlow };
