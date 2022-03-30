@@ -17,6 +17,7 @@ import axios from 'axios';
 import { getCookie } from 'src/utils/cookies';
 import { useEffect, useState } from 'react';
 import ProgressBar from './ProgressBar';
+import moment from 'moment';
 
 function getCount(data) {
   // `map` out the data by type
@@ -72,6 +73,7 @@ function ExpenseBreakdown() {
 
   // eslint-disable-next-line
   const [detailedExpenses, setDetailedExpenses] = useState({
+    totalTransactions: '',
     highestExpenseCateogry: '',
     leastExpenseCategory: '',
     frequentExpenses: [],
@@ -120,6 +122,7 @@ function ExpenseBreakdown() {
 
         // stores detailed breakdown into an object
         setDetailedExpenses({
+          totalTransactions: response.data.total_transactions,
           highestExpenseCateogry: categoryObject[0].name,
           leastExpenseCategory: categoryObject[categoryObject.length - 1].name,
           frequentExpenses: getFrequent(response.data.transactions),
@@ -224,16 +227,36 @@ function ExpenseBreakdown() {
             >
               Detailed Report
             </Typography>
-            <br /> Highest Categorized Expense:{' '}
-            {detailedExpenses.highestExpenseCateogry} <br />
-            Least Categorized Expense: {
-              detailedExpenses.leastExpenseCategory
-            }{' '}
-            <br />
-            Largest Transaction: {detailedExpenses.largestTransaction[0]} $
-            {detailedExpenses.largestTransaction[1]}{' '}
-            {detailedExpenses.largestTransaction[2]} <br />
-            Most Frequent Transaction: {detailedExpenses.frequentExpenses[0]}
+            <p style={{ lineHeight: '300%' }}>
+              <b>Total Transactions:</b> {detailedExpenses.totalTransactions}{' '}
+              <br />
+              <b>Highest Categorized Expense:</b>{' '}
+              {detailedExpenses.highestExpenseCateogry} <br />
+              <b>Least Categorized Expense:</b>{' '}
+              {detailedExpenses.leastExpenseCategory} <br />
+              <b>Largest Transaction:</b>{' '}
+              {detailedExpenses.largestTransaction.length ? (
+                <div>
+                  &emsp;&emsp;Name: {detailedExpenses.largestTransaction[0]}
+                  <br /> &emsp;&emsp;Date:{' '}
+                  {moment(detailedExpenses.largestTransaction[2]).format(
+                    'dddd MMMM DD, YYYY'
+                  )}
+                  <br /> &emsp;&emsp;Amount: $
+                  {detailedExpenses.largestTransaction[1]}
+                </div>
+              ) : (
+                <br />
+              )}
+              <b>Most Frequent Transaction:</b>{' '}
+              {detailedExpenses.frequentExpenses[0]}
+              {', '}
+              {detailedExpenses.frequentExpenses.length
+                ? '(' +
+                  detailedExpenses.frequentExpenses[1] +
+                  ' Total Transactions)'
+                : ' '}
+            </p>
           </Box>
         </Grid>
       </Container>
