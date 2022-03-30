@@ -227,9 +227,10 @@ function ExpenseBreakdown() {
             >
               Detailed Report
             </Typography>
+            <hr style={{ borderTop: '2px solid black' }} />
             <p style={{ lineHeight: '300%' }}>
-              <b>Total Transactions:</b> {detailedExpenses.totalTransactions}{' '}
-              <br />
+              <b>Total Transactions over Time Span:</b>{' '}
+              {detailedExpenses.totalTransactions} <br />
               <b>Highest Categorized Expense:</b>{' '}
               {detailedExpenses.highestExpenseCateogry} <br />
               <b>Least Categorized Expense:</b>{' '}
@@ -242,8 +243,14 @@ function ExpenseBreakdown() {
                   {moment(detailedExpenses.largestTransaction[2]).format(
                     'dddd MMMM DD, YYYY'
                   )}
-                  <br /> &emsp;&emsp;Amount: $
-                  {detailedExpenses.largestTransaction[1]}
+                  <br /> &emsp;&emsp;Amount:{' '}
+                  {detailedExpenses.largestTransaction[1].toLocaleString(
+                    'en-US',
+                    {
+                      style: 'currency',
+                      currency: 'USD'
+                    }
+                  )}
                 </div>
               ) : (
                 <br />
