@@ -18,7 +18,7 @@ const PageHeader = () => {
     axios
       .get('/api/accounts', {
         headers: {
-          authorization: 'Bearer ' + getCookie(document.cookie, 'auth_token')
+          authorization: 'Bearer ' + getCookie('auth_token')
         }
       })
       .then((response) => {
@@ -41,7 +41,7 @@ const PageHeader = () => {
     axios
       .get('/api/link', {
         headers: {
-          authorization: 'Bearer ' + getCookie(document.cookie, 'auth_token')
+          authorization: 'Bearer ' + getCookie('auth_token')
         }
       })
       .then((response) => {
@@ -59,7 +59,7 @@ const PageHeader = () => {
         { token: publicToken },
         {
           headers: {
-            authorization: 'Bearer ' + getCookie(document.cookie, 'auth_token')
+            authorization: 'Bearer ' + getCookie('auth_token')
           }
         }
       )
@@ -68,8 +68,7 @@ const PageHeader = () => {
         axios
           .get('/api/accounts', {
             headers: {
-              authorization:
-                'Bearer ' + getCookie(document.cookie, 'auth_token')
+              authorization: 'Bearer ' + getCookie('auth_token')
             }
           })
           .then((response) => {

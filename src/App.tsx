@@ -30,23 +30,25 @@ const options = {
   transition: transitions.SCALE
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line
 const store = createStore(rootReducer);
 
 const App = () => {
   const content = useRoutes(routes);
 
   return (
-    <AlertProvider template={AlertTemplate} {...options}>
-      <CookiesProvider>
-        <ThemeProvider>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <CssBaseline />
-            {content}
-          </LocalizationProvider>
-        </ThemeProvider>
-      </CookiesProvider>
-    </AlertProvider>
+    <ReduxProvider store={store}>
+      <AlertProvider template={AlertTemplate} {...options}>
+        <CookiesProvider>
+          <ThemeProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <CssBaseline />
+              {content}
+            </LocalizationProvider>
+          </ThemeProvider>
+        </CookiesProvider>
+      </AlertProvider>
+    </ReduxProvider>
   );
 };
 export default withCookies(App);

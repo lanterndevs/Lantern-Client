@@ -55,7 +55,6 @@ const CardAddAction = styled(Card)(
 );
 
 function Wallets() {
-
   return (
     <>
       <Box

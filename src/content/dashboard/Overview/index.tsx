@@ -5,6 +5,7 @@ import { Grid, Container, Box } from '@mui/material';
 import Footer from 'src/components/Footer';
 import UpcomingEvents from '../components/UpcomingEvents';
 import CashFlow from '../components/CashFlow';
+import RevenueBreakdown from '../components/RevenueBreakdown';
 import AccountBalance from '../components/AccountBalance';
 import Expenses from '../components/Expenses';
 
@@ -36,10 +37,8 @@ function Dashboard() {
           {/* Account Balance */}
           <Grid item lg={4} xs={12}>
             <AccountBalance />
-
             {/* Space Divider */}
             <Box sx={{ m: 5.2 }} />
-
             {/* Upcoming Events */}
             <UpcomingEvents />
           </Grid>
