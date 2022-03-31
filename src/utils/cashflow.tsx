@@ -7,7 +7,11 @@ import { formatDate } from './dates';
  * @returns {Promise<Object[]>} - The array containing the week, month, and year breakdowns and labels.
  */
 async function RetrieveCashFlow(transactions) {
-  const promises = [getWeekCashFlow(transactions), getMonthCashFlow(transactions), getYearCashFlow(transactions)];
+  const promises = [
+    getWeekCashFlow(transactions),
+    getMonthCashFlow(transactions),
+    getYearCashFlow(transactions)
+  ];
   const [week, month, year] = await Promise.all(promises);
   return [week, month, year];
 }
@@ -103,4 +107,4 @@ async function RetrieveData(start, end, transactions) {
   };
 }
 
-export { retrieveCashFlow };
+export { RetrieveCashFlow };
