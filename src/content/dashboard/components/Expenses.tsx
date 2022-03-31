@@ -40,7 +40,6 @@ function Expenses() {
 
   const pieOptions = {
     // title: 'Total Expense Breakdown',
-    legend: { position: 'bottom', alignment: 'end' },
     is3D: true,
     alignment: 'center'
   };
@@ -54,8 +53,6 @@ function Expenses() {
       <CardHeader title="Expenses" />
       <Divider />
       <Chart
-        width={'900px'}
-        height={'450px'}
         chartType="PieChart"
         loader={<div>Loading Chart</div>}
         data={pieData}

@@ -14,13 +14,7 @@ import { Line } from 'react-chartjs-2';
 import { RetrieveCashFlow } from 'src/utils/cashflow';
 import ChartHeader from './ChartHeader';
 import { RootState } from 'src/redux/index';
-import axios from 'axios';
-import { getCookie } from 'src/utils/cookies';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  saveTransactions,
-  setTransactionLoading
-} from '../../../redux/modules/transactions';
+import { useSelector } from 'react-redux';
 
 ChartJS.register(
   CategoryScale,
@@ -49,31 +43,7 @@ type Transaction = {
 
 const CashFlow = () => {
   //const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [loaded, setLoaded] = useState<boolean>(false);
-  const dispatch = useDispatch();
   const transactionsState = useSelector((state: RootState) => state.transactions);
-
-  const fetchData = async () => {
-      // retrieves the transactions from the user
-    if (transactionsState.loading) {
-      axios.get('http://localhost:8000/api/transactions', {
-        headers: {
-          authorization: 'Bearer ' + getCookie("auth_token"),
-        }
-          }).then((response) => {
-          setLoaded(true);
-         dispatch(saveTransactions(response.data.transactions));
-         dispatch(setTransactionLoading(false));
-            // populates the accounts array with data from response
-            })
-        } else {
-            setLoaded(true);
-        }   
-    }
-  useEffect(() => {
-    fetchData();
-    //setTransactions(transactionsState.transactions);
-  }, []);
   /**
    * The options for the chart.
    *

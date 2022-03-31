@@ -46,7 +46,6 @@ function RevenueBreakdown() {
 
   useEffect(() => {
     setRevenueCategories(getTotals(transactionsState.transactions));
-    console.log(pieData);
   }, [transactionsState]);
 
   return (
