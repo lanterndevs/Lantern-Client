@@ -59,7 +59,7 @@ const Transactions = () => {
     await axios
       .get('http://localhost:8000/api/accounts', {
         headers: {
-          authorization: 'Bearer ' + getCookie(document.cookie, 'auth_token')
+          authorization: 'Bearer ' + getCookie('auth_token')
         }
       })
       .then((response) => {
@@ -79,8 +79,7 @@ const Transactions = () => {
           'http://localhost:8000/api/transactions',
           {
             headers: {
-              authorization:
-                'Bearer ' + getCookie(document.cookie, 'auth_token')
+              authorization: 'Bearer ' + getCookie('auth_token')
             },
             params: {
               offset: plaidTransactions.length
