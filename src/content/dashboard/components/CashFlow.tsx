@@ -15,6 +15,7 @@ import { RetrieveCashFlow } from 'src/utils/cashflow';
 import ChartHeader from './ChartHeader';
 import { RootState } from 'src/redux/index';
 import { useSelector } from 'react-redux';
+import LoadingWheel from 'src/content/pages/Components/LoadingWheel';
 
 ChartJS.register(
   CategoryScale,
@@ -191,8 +192,10 @@ const CashFlow = () => {
     <Card className="cashFlowChart">
       <CardHeader title="Cash Flow Breakdown" onClick={handleClick} />
       <ChartHeader onClick={handleClick} />
-      {/*@ts-ignore*/}
-      <Line data={chartData} options={options} />
+      <LoadingWheel loaded={!transactionsState.loading}>
+        {/*@ts-ignore*/}
+        <Line data={chartData} options={options} />
+      </LoadingWheel>
     </Card>
   );
 };

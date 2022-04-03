@@ -19,25 +19,17 @@ import {
 } from 'src/redux/modules/transactions';
 import { useEffect } from 'react';
 
-type Transaction = {
-  transactionID: string;
-  accountID: string;
-  amount: number;
-  categories: string;
-  date: Date;
-  details: string;
-  name: string;
-  currency: string;
-}
-
 function Dashboard() {
   const dispatch = useDispatch();
-  const transactionsState = useSelector((state: RootState) => state.transactions);
+  const transactionsState = useSelector(
+    (state: RootState) => state.transactions
+  );
 
   const fetchData = async (force) => {
     // retrieves the transactions from the user
     if (transactionsState.loading || force) {
-      axios.get('http://localhost:8000/api/transactions', {
+      axios.get(
+        'http://localhost:8000/api/transactions', {
         headers: {
           authorization: 'Bearer ' + getCookie("auth_token"),
         }
@@ -53,9 +45,9 @@ function Dashboard() {
   useEffect(() => {
     fetchData(false);
     const interval=setInterval(()=>{
-      fetchData(true)
+      fetchData(true);
      },1000 * 60 * 10)
-    return()=>clearInterval(interval)
+    return()=>clearInterval(interval);
   }, []);
 
   return (

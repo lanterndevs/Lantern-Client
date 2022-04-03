@@ -2,6 +2,7 @@ import { Card, CardHeader, Divider } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Chart from 'react-google-charts';
 import { useSelector } from 'react-redux';
+import LoadingWheel from 'src/content/pages/Components/LoadingWheel';
 import { RootState } from '../../../redux/index';
 
 function getCount(data) {
@@ -52,13 +53,15 @@ function Expenses() {
     <Card>
       <CardHeader title="Expenses" />
       <Divider />
-      <Chart
-        chartType="PieChart"
-        loader={<div>Loading Chart</div>}
-        data={pieData}
-        options={pieOptions}
-        rootProps={{ 'data-testid': '3' }}
-      />
+      <LoadingWheel loaded={!transactionsState.loading}>
+        <Chart
+          chartType="PieChart"
+          loader={<div>Loading Chart</div>}
+          data={pieData}
+          options={pieOptions}
+          rootProps={{ 'data-testid': '3' }}
+        />
+      </LoadingWheel>
     </Card>
   );
 }
