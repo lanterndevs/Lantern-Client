@@ -15,6 +15,7 @@ import { getCookie } from 'src/utils/cookies';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   saveTransactions,
+  saveTotalTransactions,
   setTransactionLoading,
   setTransactionTimestamp
 } from 'src/redux/modules/transactions';
@@ -36,6 +37,7 @@ function Dashboard() {
         }
       }).then((response) => {
         dispatch(saveTransactions(response.data.transactions));
+        dispatch(saveTotalTransactions(response.data.total_transactions));
         dispatch(setTransactionLoading(false));
         dispatch(setTransactionTimestamp(Date.now()));
         // populates the accounts array with data from response

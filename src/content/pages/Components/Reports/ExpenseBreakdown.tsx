@@ -13,12 +13,12 @@ import {
   Box
 } from '@mui/material';
 import Footer from 'src/components/Footer';
-import axios from 'axios';
-import { getCookie } from 'src/utils/cookies';
 import { useEffect, useState } from 'react';
 import ProgressBar from './ProgressBar';
 import moment from 'moment';
 import { getCount, getFrequent } from './ReportHelpers';
+import { RootState } from 'src/redux/index';
+import { useSelector } from 'react-redux';
 
 function ExpenseBreakdown() {
   const [expenseCategories, setExpenseCategories] = useState([]);
@@ -33,60 +33,55 @@ function ExpenseBreakdown() {
     largestTransaction: []
   });
 
+  const transactionsState = useSelector((state: RootState) => state.transactions);
+
   useEffect(() => {
-    // retrieves the transactions from the user
-    axios
-      .get('/api/transactions', {
-        headers: {
-          authorization: 'Bearer ' + getCookie('auth_token')
-        }
-      })
-      .then((response) => {
-        // creates an array of arrays from the response data storing the category and number of expenses made for respective category
-        var categoryData = getCount(response.data.transactions);
+    if (!transactionsState.loading) {
+      // creates an array of arrays from the response data storing the category and number of expenses made for respective category
+      let categoryData = getCount(transactionsState.transactions);
 
-        // computes the total number of expenses made
-        var total = 0;
-        categoryData.forEach((category) => {
-          total += category[1];
-        });
-        setTotalExpenses(total);
-
-        // corverts category data to array of objects
-        var categoryObject = categoryData.map(([name, value]) => ({
-          name,
-          value
-        }));
-
-        // stores array of cateogories into variable
-        setExpenseCategories(categoryObject);
-
-        // performs detailed analysis of expenses
-
-        // sorts the category list from highest to least
-        categoryObject.sort((a, b) => {
-          return b.value - a.value;
-        });
-
-        // computes the largest transaction from transactions
-        const largestTransaction = response.data.transactions.reduce((a, b) =>
-          a.amount > b.amount ? a : b
-        );
-
-        // stores detailed breakdown into an object
-        setDetailedExpenses({
-          totalTransactions: response.data.total_transactions,
-          highestExpenseCategory: categoryObject[0].name,
-          leastExpenseCategory: categoryObject[categoryObject.length - 1].name,
-          frequentExpenses: getFrequent(response.data.transactions),
-          largestTransaction: [
-            largestTransaction.name,
-            largestTransaction.amount,
-            largestTransaction.date
-          ]
-        });
+      // computes the total number of expenses made
+      let total = 0;
+      categoryData.forEach((category) => {
+        total += category[1];
       });
-  }, []);
+      setTotalExpenses(total);
+
+      // Converts category data to array of objects
+      let categoryObject = categoryData.map(([name, value]) => ({
+        name,
+        value
+      }));
+
+      // stores array of categories into variable
+      setExpenseCategories(categoryObject);
+
+      // performs detailed analysis of expenses
+
+      // sorts the category list from highest to least
+      categoryObject.sort((a, b) => {
+        return b.value - a.value;
+      });
+
+      // computes the largest transaction from transactions
+      const largestTransaction = transactionsState.transactions.reduce((a, b) =>
+          a.amount > b.amount ? a : b
+      );
+
+      // stores detailed breakdown into an object
+      setDetailedExpenses({
+        totalTransactions: transactionsState.transactions.total_transactions,
+        highestExpenseCategory: categoryObject[0].name,
+        leastExpenseCategory: categoryObject[categoryObject.length - 1].name,
+        frequentExpenses: getFrequent(transactionsState.transactions),
+        largestTransaction: [
+          largestTransaction.name,
+          largestTransaction.amount,
+          largestTransaction.date
+        ]
+      });
+    }
+  }, [transactionsState]);
 
   return (
     <>
