@@ -70,7 +70,7 @@ function ExpenseBreakdown() {
 
       // stores detailed breakdown into an object
       setDetailedExpenses({
-        totalTransactions: transactionsState.transactions.total_transactions,
+        totalTransactions: transactionsState.total_transactions.toString(),
         highestExpenseCategory: categoryObject[0].name,
         leastExpenseCategory: categoryObject[categoryObject.length - 1].name,
         frequentExpenses: getFrequent(transactionsState.transactions),
