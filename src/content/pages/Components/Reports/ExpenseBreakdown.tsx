@@ -18,63 +18,16 @@ import { getCookie } from 'src/utils/cookies';
 import { useEffect, useState } from 'react';
 import ProgressBar from './ProgressBar';
 import moment from 'moment';
-
-function getCount(data) {
-  // `map` out the data by type
-  const typeArr = data.map((object) => object.categories[0]);
-
-  // Iterate over the type data. We pass in an initial
-  // object to capture the counts, so we need to use
-  // `Object.values` to grab the object values at the end
-  // of the iteration
-  return Object.values(
-    typeArr.reduce((acc, id) => {
-      // If the key doesn't exist in the accumulator object
-      // create it and create a new array at its value
-      acc[id] = acc[id] || [id, 0];
-
-      // Increment the second index (the count)
-      acc[id][1]++;
-
-      // Return the object for the next iteration
-      return acc;
-    }, {})
-  );
-}
-
-function getFrequent(transactions) {
-  let itemsMap = {};
-  let maxValue = 0;
-  let maxCount = 0;
-
-  // iterates through the list of transactions
-  for (let transaction of transactions) {
-    // counts how many time each transaction is recorded
-    if (itemsMap[transaction.name] == null) {
-      itemsMap[transaction.name] = 1;
-    } else {
-      itemsMap[transaction.name]++;
-    }
-
-    // determines the transactrion with the most occurences
-    if (itemsMap[transaction.name] > maxCount) {
-      maxValue = transaction.name;
-      maxCount = itemsMap[transaction.name];
-    }
-  }
-
-  // returns an array with the transaction with the most occurences
-  return [maxValue, maxCount];
-}
+import { getCount, getFrequent } from './ReportHelpers';
 
 function ExpenseBreakdown() {
   const [expenseCategories, setExpenseCategories] = useState([]);
-  const [totalExpenses, setTotalExepnses] = useState(0);
+  const [totalExpenses, setTotalExpenses] = useState(0);
 
   // eslint-disable-next-line
   const [detailedExpenses, setDetailedExpenses] = useState({
     totalTransactions: '',
-    highestExpenseCateogry: '',
+    highestExpenseCategory: '',
     leastExpenseCategory: '',
     frequentExpenses: [],
     largestTransaction: []
@@ -97,7 +50,7 @@ function ExpenseBreakdown() {
         categoryData.forEach((category) => {
           total += category[1];
         });
-        setTotalExepnses(total);
+        setTotalExpenses(total);
 
         // corverts category data to array of objects
         var categoryObject = categoryData.map(([name, value]) => ({
@@ -123,7 +76,7 @@ function ExpenseBreakdown() {
         // stores detailed breakdown into an object
         setDetailedExpenses({
           totalTransactions: response.data.total_transactions,
-          highestExpenseCateogry: categoryObject[0].name,
+          highestExpenseCategory: categoryObject[0].name,
           leastExpenseCategory: categoryObject[categoryObject.length - 1].name,
           frequentExpenses: getFrequent(response.data.transactions),
           largestTransaction: [
@@ -232,7 +185,7 @@ function ExpenseBreakdown() {
               <b>Total Transactions over Time Span:</b>{' '}
               {detailedExpenses.totalTransactions} <br />
               <b>Highest Categorized Expense:</b>{' '}
-              {detailedExpenses.highestExpenseCateogry} <br />
+              {detailedExpenses.highestExpenseCategory} <br />
               <b>Least Categorized Expense:</b>{' '}
               {detailedExpenses.leastExpenseCategory} <br />
               <b>Largest Transaction:</b>{' '}
