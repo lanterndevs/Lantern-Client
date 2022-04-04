@@ -9,14 +9,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography
+  Typography,
+  Box
 } from '@mui/material';
 import Footer from 'src/components/Footer';
 import axios from 'axios';
 import { getCookie } from 'src/utils/cookies';
 import { useEffect, useState } from 'react';
-import Paper from '@mui/material/Paper';
 import ProgressBar from './ProgressBar';
+import moment from 'moment';
 
 function getCount(data) {
   // `map` out the data by type
@@ -41,9 +42,43 @@ function getCount(data) {
   );
 }
 
+function getFrequent(transactions) {
+  let itemsMap = {};
+  let maxValue = 0;
+  let maxCount = 0;
+
+  // iterates through the list of transactions
+  for (let transaction of transactions) {
+    // counts how many time each transaction is recorded
+    if (itemsMap[transaction.name] == null) {
+      itemsMap[transaction.name] = 1;
+    } else {
+      itemsMap[transaction.name]++;
+    }
+
+    // determines the transactrion with the most occurences
+    if (itemsMap[transaction.name] > maxCount) {
+      maxValue = transaction.name;
+      maxCount = itemsMap[transaction.name];
+    }
+  }
+
+  // returns an array with the transaction with the most occurences
+  return [maxValue, maxCount];
+}
+
 function ExpenseBreakdown() {
   const [expenseCategories, setExpenseCategories] = useState([]);
   const [totalExpenses, setTotalExepnses] = useState(0);
+
+  // eslint-disable-next-line
+  const [detailedExpenses, setDetailedExpenses] = useState({
+    totalTransactions: '',
+    highestExpenseCateogry: '',
+    leastExpenseCategory: '',
+    frequentExpenses: [],
+    largestTransaction: []
+  });
 
   useEffect(() => {
     // retrieves the transactions from the user
@@ -70,7 +105,33 @@ function ExpenseBreakdown() {
           value
         }));
 
+        // stores array of cateogories into variable
         setExpenseCategories(categoryObject);
+
+        // performs detailed analysis of expenses
+
+        // sorts the category list from highest to least
+        categoryObject.sort((a, b) => {
+          return b.value - a.value;
+        });
+
+        // computes the largest transaction from transactions
+        const largestTransaction = response.data.transactions.reduce((a, b) =>
+          a.amount > b.amount ? a : b
+        );
+
+        // stores detailed breakdown into an object
+        setDetailedExpenses({
+          totalTransactions: response.data.total_transactions,
+          highestExpenseCateogry: categoryObject[0].name,
+          leastExpenseCategory: categoryObject[categoryObject.length - 1].name,
+          frequentExpenses: getFrequent(response.data.transactions),
+          largestTransaction: [
+            largestTransaction.name,
+            largestTransaction.amount,
+            largestTransaction.date
+          ]
+        });
       });
   }, []);
 
@@ -104,7 +165,7 @@ function ExpenseBreakdown() {
           alignItems="stretch"
           spacing={1}
         >
-          <TableContainer component={Paper}>
+          <TableContainer>
             <Table sx={{ minWidth: 650 }}>
               <TableHead>
                 <TableRow>
@@ -156,6 +217,54 @@ function ExpenseBreakdown() {
               </TableBody>
             </Table>
           </TableContainer>
+          <Box sx={{ mt: 5 }}>
+            <Typography
+              variant="h3"
+              fontWeight="bold"
+              color="text.primary"
+              gutterBottom
+              noWrap
+            >
+              Detailed Report
+            </Typography>
+            <hr style={{ borderTop: '2px solid black' }} />
+            <p style={{ lineHeight: '300%' }}>
+              <b>Total Transactions over Time Span:</b>{' '}
+              {detailedExpenses.totalTransactions} <br />
+              <b>Highest Categorized Expense:</b>{' '}
+              {detailedExpenses.highestExpenseCateogry} <br />
+              <b>Least Categorized Expense:</b>{' '}
+              {detailedExpenses.leastExpenseCategory} <br />
+              <b>Largest Transaction:</b>{' '}
+              {detailedExpenses.largestTransaction.length ? (
+                <div>
+                  &emsp;&emsp;Name: {detailedExpenses.largestTransaction[0]}
+                  <br /> &emsp;&emsp;Date:{' '}
+                  {moment(detailedExpenses.largestTransaction[2]).format(
+                    'dddd MMMM DD, YYYY'
+                  )}
+                  <br /> &emsp;&emsp;Amount:{' '}
+                  {detailedExpenses.largestTransaction[1].toLocaleString(
+                    'en-US',
+                    {
+                      style: 'currency',
+                      currency: 'USD'
+                    }
+                  )}
+                </div>
+              ) : (
+                <br />
+              )}
+              <b>Most Frequent Transaction:</b>{' '}
+              {detailedExpenses.frequentExpenses[0]}
+              {', '}
+              {detailedExpenses.frequentExpenses.length
+                ? '(' +
+                  detailedExpenses.frequentExpenses[1] +
+                  ' Total Transactions)'
+                : ' '}
+            </p>
+          </Box>
         </Grid>
       </Container>
       <Footer />
