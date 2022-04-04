@@ -9,8 +9,48 @@ import CashFlow from '../components/CashFlow';
 import RevenueBreakdown from '../components/RevenueBreakdown';
 import AccountBalance from '../components/AccountBalance';
 import Expenses from '../components/Expenses';
+import { RootState } from 'src/redux/index';
+import axios from 'axios';
+import { getCookie } from 'src/utils/cookies';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  saveTransactions,
+  setTransactionLoading,
+  setTransactionTimestamp
+} from 'src/redux/modules/transactions';
+import { useEffect } from 'react';
 
 function Dashboard() {
+  const dispatch = useDispatch();
+  const transactionsState = useSelector(
+    (state: RootState) => state.transactions
+  );
+
+  const fetchData = async (force) => {
+    // retrieves the transactions from the user
+    if (transactionsState.loading || force) {
+      axios.get(
+        'http://localhost:8000/api/transactions', {
+        headers: {
+          authorization: 'Bearer ' + getCookie("auth_token"),
+        }
+      }).then((response) => {
+        dispatch(saveTransactions(response.data.transactions));
+        dispatch(setTransactionLoading(false));
+        dispatch(setTransactionTimestamp(Date.now()));
+        // populates the accounts array with data from response
+      })
+    } 
+  }
+
+  useEffect(() => {
+    fetchData(false);
+    const interval=setInterval(()=>{
+      fetchData(true);
+     },1000 * 60 * 10)
+    return()=>clearInterval(interval);
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -18,7 +58,7 @@ function Dashboard() {
       </Helmet>
 
       <PageTitleWrapper>
-        <PageHeader />
+        <PageHeader refreshFunction={fetchData}/>
       </PageTitleWrapper>
 
       <Container maxWidth="lg">
@@ -45,6 +85,7 @@ function Dashboard() {
           </Grid>
           {/* SECOND SECTION: EXPENSES, GOALS (?), ETC (?) */}
           <Grid item lg={9} xs={12}>
+            <RevenueBreakdown/>
             {/* Expenses */}
             <Expenses />
           </Grid>

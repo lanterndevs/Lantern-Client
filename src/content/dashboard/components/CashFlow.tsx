@@ -14,13 +14,8 @@ import { Line } from 'react-chartjs-2';
 import { RetrieveCashFlow } from 'src/utils/cashflow';
 import ChartHeader from './ChartHeader';
 import { RootState } from 'src/redux/index';
-import axios from 'axios';
-import { getCookie } from 'src/utils/cookies';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  saveTransactions,
-  setTransactionLoading
-} from '../../../redux/modules/transactions';
+import { useSelector } from 'react-redux';
+import LoadingWheel from 'src/content/pages/Components/LoadingWheel';
 
 ChartJS.register(
   CategoryScale,
@@ -37,36 +32,8 @@ ChartJS.defaults.font.family = 'Roboto';
 ChartJS.defaults.font.size = 14;
 
 const CashFlow = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [loaded, setLoaded] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const transactionsState = useSelector(
-    (state: RootState) => state.transactions
-  );
-
-  const fetchData = async () => {
-    // retrieves the transactions from the user
-    if (transactionsState.loading) {
-      axios
-        .get('http://localhost:8000/api/transactions', {
-          headers: {
-            authorization: 'Bearer ' + getCookie('auth_token')
-          }
-        })
-        .then((response) => {
-          setLoaded(true);
-          dispatch(saveTransactions(response.data.transactions));
-          dispatch(setTransactionLoading(false));
-          // populates the accounts array with data from response
-        });
-    } else {
-      setLoaded(true);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const transactionsState = useSelector((state: RootState) => state.transactions);
   /**
    * The options for the chart.
    *
@@ -216,8 +183,10 @@ const CashFlow = () => {
     <Card className="cashFlowChart">
       <CardHeader title="Cash Flow Breakdown" onClick={handleClick} />
       <ChartHeader onClick={handleClick} />
-      {/*@ts-ignore*/}
-      <Line data={chartData} options={options} />
+      <LoadingWheel loaded={!transactionsState.loading}>
+        {/*@ts-ignore*/}
+        <Line data={chartData} options={options} />
+      </LoadingWheel>
     </Card>
   );
 };
