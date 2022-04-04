@@ -5,6 +5,7 @@ import { Grid, Container, Box } from '@mui/material';
 import Footer from 'src/components/Footer';
 import UpcomingEvents from '../components/UpcomingEvents';
 import CashFlow from '../components/CashFlow';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import RevenueBreakdown from '../components/RevenueBreakdown';
 import AccountBalance from '../components/AccountBalance';
 import Expenses from '../components/Expenses';

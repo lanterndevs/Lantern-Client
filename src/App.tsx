@@ -12,6 +12,7 @@ import './App.css';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Provider as ReduxProvider } from 'react-redux';
 import { createStore } from 'redux';
 import { rootReducer } from './redux';

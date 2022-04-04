@@ -36,43 +36,36 @@ ChartJS.register(
 ChartJS.defaults.font.family = 'Roboto';
 ChartJS.defaults.font.size = 14;
 
-type Transaction = {
-    transactionID: string;
-    accountID: string;
-    amount: number;
-    categories: string;
-    date: Date;
-    details: string;
-    name: string;
-    currency: string;
-}
-
 const CashFlow = () => {
-  //const [transactions, setTransactions] = useState<Transaction[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loaded, setLoaded] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const transactionsState = useSelector((state: RootState) => state.transactions);
+  const transactionsState = useSelector(
+    (state: RootState) => state.transactions
+  );
 
   const fetchData = async () => {
-      // retrieves the transactions from the user
+    // retrieves the transactions from the user
     if (transactionsState.loading) {
-      axios.get('http://localhost:8000/api/transactions', {
-        headers: {
-          authorization: 'Bearer ' + getCookie("auth_token"),
-        }
-          }).then((response) => {
+      axios
+        .get('http://localhost:8000/api/transactions', {
+          headers: {
+            authorization: 'Bearer ' + getCookie('auth_token')
+          }
+        })
+        .then((response) => {
           setLoaded(true);
-         dispatch(saveTransactions(response.data.transactions));
-         dispatch(setTransactionLoading(false));
-            // populates the accounts array with data from response
-            })
-        } else {
-            setLoaded(true);
-        }   
+          dispatch(saveTransactions(response.data.transactions));
+          dispatch(setTransactionLoading(false));
+          // populates the accounts array with data from response
+        });
+    } else {
+      setLoaded(true);
     }
+  };
   useEffect(() => {
     fetchData();
-    //setTransactions(transactionsState.transactions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   /**
    * The options for the chart.
@@ -152,23 +145,25 @@ const CashFlow = () => {
 
   // retrieves cashflow if component did mount
   useEffect(() => {
-    RetrieveCashFlow(transactionsState.transactions).then(([week, month, year]) => {
-    setState({
-        loaded: true,
-        weekRevenue: week.revenue,
-        weekExpenses: week.expenses,
-        weekProfit: week.profit,
-        weekLabels: week.labels,
-        monthRevenue: month.revenue,
-        monthExpenses: month.expenses,
-        monthProfit: month.profit,
-        monthLabels: month.labels,
-        yearRevenue: year.revenue,
-        yearExpenses: year.expenses,
-        yearProfit: year.profit,
-        yearLabels: year.labels
-    });
-    });
+    RetrieveCashFlow(transactionsState.transactions).then(
+      ([week, month, year]) => {
+        setState({
+          loaded: true,
+          weekRevenue: week.revenue,
+          weekExpenses: week.expenses,
+          weekProfit: week.profit,
+          weekLabels: week.labels,
+          monthRevenue: month.revenue,
+          monthExpenses: month.expenses,
+          monthProfit: month.profit,
+          monthLabels: month.labels,
+          yearRevenue: year.revenue,
+          yearExpenses: year.expenses,
+          yearProfit: year.profit,
+          yearLabels: year.labels
+        });
+      }
+    );
   }, [transactionsState]);
 
   // data for the current chart type

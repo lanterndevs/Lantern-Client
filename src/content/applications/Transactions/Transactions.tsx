@@ -52,6 +52,7 @@ const Transactions = () => {
 
   useEffect(() => {
     formatTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactionsState]);
 
   const fetchData = async () => {
