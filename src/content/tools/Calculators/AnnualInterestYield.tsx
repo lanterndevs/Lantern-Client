@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-function LoanRepayment() {
+function AnnualInterestYield() {
   return (
     <Accordion>
       <AccordionSummary
@@ -12,24 +12,24 @@ function LoanRepayment() {
         id="panel1a-header"
       >
         <Typography variant="body1" fontWeight="bold" color="text.primary">
-          Loan Payment Calculator
+          Annual Interest Yield
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <div
           className="omni-calculator"
-          data-calculator="finance/loan-payment"
+          data-calculator="finance/apy"
           data-width="800"
           data-config="{}"
           data-currency="USD"
           data-show-row-controls="false"
           data-version="3"
-          data-t="1649188683161"
+          data-t="1649191076138"
         >
           <div className="omni-calculator-header"></div>
           <div className="omni-calculator-footer">
             <a
-              href="https://www.omnicalculator.com/finance/loan-payment"
+              href="https://www.omnicalculator.com/finance/apy"
               target="_blank"
               rel="noreferrer"
             >
@@ -49,4 +49,4 @@ function LoanRepayment() {
   );
 }
 
-export default LoanRepayment;
+export default AnnualInterestYield;

@@ -6,6 +6,7 @@ import PageHeader from './PageHeader';
 import ReturnOnInvestment from './ReturnOnInvestment';
 import LoanRepayment from './LoanRepayment';
 import CompoundAnnualGrowthRate from './CompoundAnnualGrowthRate';
+import AnnualInterestYield from './AnnualInterestYield';
 
 function Calculators() {
   return (
@@ -33,7 +34,9 @@ function Calculators() {
           <Grid item xs={12}>
             <ReturnOnInvestment />
           </Grid>
-          <Grid item xs={12}></Grid>
+          <Grid item xs={12}>
+            <AnnualInterestYield />
+          </Grid>
         </Grid>
       </Container>
       <Footer />

@@ -1,5 +1,5 @@
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import { Typography } from 'antd';
+import { Typography } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -11,7 +11,9 @@ function CompoundAnnualGrowthRate() {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography>Compound Annual Growth Rate</Typography>
+        <Typography variant="body1" fontWeight="bold" color="text.primary">
+          Compound Annual Growth Rate
+        </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <div
