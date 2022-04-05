@@ -1,6 +1,6 @@
 import { Typography, Grid, Button } from '@mui/material';
 
-function PageHeader({refreshFunction}) {
+function PageHeader({ refreshFunction }) {
   return (
     <Grid container alignItems="center" justifyContent="space-between">
       <Grid item>
@@ -13,7 +13,13 @@ function PageHeader({refreshFunction}) {
         </Typography>
       </Grid>
       <Grid item>
-        <Button variant="contained" size="large" onClick={() => {refreshFunction(true)}}>
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => {
+            refreshFunction(true);
+          }}
+        >
           Refresh
         </Button>
       </Grid>

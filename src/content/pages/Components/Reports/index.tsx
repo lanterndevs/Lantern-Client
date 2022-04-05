@@ -14,6 +14,7 @@ import {
 import Footer from 'src/components/Footer';
 import PageHeader from './PageHeader';
 import ExpenseBreakdown from './ExpenseBreakdown';
+import RevenueBreakdown from './RevenueBreakdown';
 import AccordionDetails from '@mui/material/AccordionDetails';
 
 function Reports() {
@@ -68,6 +69,39 @@ function Reports() {
                 <CardContent>
                   <AccordionDetails>
                     <ExpenseBreakdown />
+                  </AccordionDetails>
+                </CardContent>
+              </Accordion>
+            </Card>
+          </Grid>
+          <Grid item xs={12}>
+            <Card>
+              <CardHeader
+                title={
+                  <Typography
+                    variant="h3"
+                    sx={{ top: '14px', position: 'relative' }}
+                  >
+                    Revenue Breakdown
+                  </Typography>
+                }
+              />
+              <Accordion>
+                <AccordionSummary
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  sx={{
+                    bottom: '60px',
+                    marginRight: '30px',
+                    position: 'relative'
+                  }}
+                />
+
+                <Divider />
+
+                <CardContent>
+                  <AccordionDetails>
+                    <RevenueBreakdown />
                   </AccordionDetails>
                 </CardContent>
               </Accordion>

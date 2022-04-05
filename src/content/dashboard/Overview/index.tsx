@@ -15,6 +15,7 @@ import { getCookie } from 'src/utils/cookies';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   saveTransactions,
+  saveTotalTransactions,
   setTransactionLoading,
   setTransactionTimestamp
 } from 'src/redux/modules/transactions';
@@ -29,27 +30,29 @@ function Dashboard() {
   const fetchData = async (force) => {
     // retrieves the transactions from the user
     if (transactionsState.loading || force) {
-      axios.get(
-        'http://localhost:8000/api/transactions', {
-        headers: {
-          authorization: 'Bearer ' + getCookie("auth_token"),
-        }
-      }).then((response) => {
-        dispatch(saveTransactions(response.data.transactions));
-        dispatch(setTransactionLoading(false));
-        dispatch(setTransactionTimestamp(Date.now()));
-        // populates the accounts array with data from response
-      })
-    } 
-  }
+      axios
+        .get('http://localhost:8000/api/transactions', {
+          headers: {
+            authorization: 'Bearer ' + getCookie('auth_token')
+          }
+        })
+        .then((response) => {
+          dispatch(saveTransactions(response.data.transactions));
+          dispatch(saveTotalTransactions(response.data.total_transactions));
+          dispatch(setTransactionLoading(false));
+          dispatch(setTransactionTimestamp(Date.now()));
+          // populates the accounts array with data from response
+        });
+    }
+  };
 
   useEffect(() => {
     fetchData(false);
-    const interval=setInterval(()=>{
+    const interval = setInterval(() => {
       fetchData(true);
-     },1000 * 60 * 10)
-    return()=>clearInterval(interval);
-  }, []);
+    }, 1000 * 60 * 10);
+    return () => clearInterval(interval);
+  });
 
   return (
     <>
@@ -58,7 +61,7 @@ function Dashboard() {
       </Helmet>
 
       <PageTitleWrapper>
-        <PageHeader refreshFunction={fetchData}/>
+        <PageHeader refreshFunction={fetchData} />
       </PageTitleWrapper>
 
       <Container maxWidth="lg">
@@ -85,7 +88,7 @@ function Dashboard() {
           </Grid>
           {/* SECOND SECTION: EXPENSES, GOALS (?), ETC (?) */}
           <Grid item lg={9} xs={12}>
-            <RevenueBreakdown/>
+            <RevenueBreakdown />
             {/* Expenses */}
             <Expenses />
           </Grid>

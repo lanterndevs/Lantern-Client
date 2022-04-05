@@ -33,7 +33,9 @@ ChartJS.defaults.font.size = 14;
 
 const CashFlow = () => {
   //const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const transactionsState = useSelector((state: RootState) => state.transactions);
+  const transactionsState = useSelector(
+    (state: RootState) => state.transactions
+  );
   /**
    * The options for the chart.
    *
