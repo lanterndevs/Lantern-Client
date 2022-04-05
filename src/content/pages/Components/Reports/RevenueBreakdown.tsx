@@ -2,21 +2,21 @@ import { RootState } from 'src/redux/index';
 import { useSelector } from 'react-redux';
 import TransactionBreakdown from './TransactionBreakdown';
 import { useEffect, useState } from 'react';
-import { filterForExpenses } from './ReportHelpers';
+import { filterForRevenue } from './ReportHelpers';
 
-function ExpenseBreakdown() {
-  const [expenses, setExpenses] = useState([]);
+function RevenueBreakdown() {
+  const [revenues, setRevenues] = useState([]);
   const transactionsState = useSelector(
     (state: RootState) => state.transactions
   );
 
   useEffect(() => {
     if (!transactionsState.loading) {
-      setExpenses(filterForExpenses(transactionsState.transactions));
+      setRevenues(filterForRevenue(transactionsState.transactions));
     }
   }, [transactionsState]);
 
-  return TransactionBreakdown(expenses, 'expense');
+  return TransactionBreakdown(revenues, 'revenue');
 }
 
-export default ExpenseBreakdown;
+export default RevenueBreakdown;

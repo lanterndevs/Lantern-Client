@@ -25,7 +25,12 @@ type TransactionState = {
   timestamp: Number;
 };
 
-const initialState: TransactionState = {transactions: [], total_transactions: 0, loading: true, timestamp: Date.now()};
+const initialState: TransactionState = {
+  transactions: [],
+  total_transactions: 0,
+  loading: true,
+  timestamp: Date.now()
+};
 
 export const saveTransactions = (transactions: Transaction[]) => {
   return typedAction('saveTransactions', transactions);
@@ -44,7 +49,10 @@ export const setTransactionTimestamp = (timestamp: Number) => {
 };
 
 type TransactionAction = ReturnType<
-  typeof saveTransactions | typeof saveTotalTransactions | typeof setTransactionLoading | typeof setTransactionTimestamp
+  | typeof saveTransactions
+  | typeof saveTotalTransactions
+  | typeof setTransactionLoading
+  | typeof setTransactionTimestamp
 >;
 
 export function transactionReducer(
@@ -53,13 +61,33 @@ export function transactionReducer(
 ): TransactionState {
   switch (action.type) {
     case 'saveTransactions':
-      return {transactions: action.payload, total_transactions: state.total_transactions, loading: state.loading, timestamp: state.timestamp};
+      return {
+        transactions: action.payload,
+        total_transactions: state.total_transactions,
+        loading: state.loading,
+        timestamp: state.timestamp
+      };
     case 'saveTotalTransactions':
-      return {transactions: state.transactions, total_transactions: action.payload, loading: state.loading, timestamp: state.timestamp};
+      return {
+        transactions: state.transactions,
+        total_transactions: action.payload,
+        loading: state.loading,
+        timestamp: state.timestamp
+      };
     case 'setTransactionLoading':
-      return {transactions: state.transactions, total_transactions: state.total_transactions, loading: action.payload, timestamp: state.timestamp };
+      return {
+        transactions: state.transactions,
+        total_transactions: state.total_transactions,
+        loading: action.payload,
+        timestamp: state.timestamp
+      };
     case 'setTransactionTimestamp':
-      return {transactions: state.transactions, total_transactions: state.total_transactions, loading: state.loading, timestamp: action.payload };
+      return {
+        transactions: state.transactions,
+        total_transactions: state.total_transactions,
+        loading: state.loading,
+        timestamp: action.payload
+      };
     default:
       return state;
   }
