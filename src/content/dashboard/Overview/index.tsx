@@ -52,7 +52,7 @@ function Dashboard() {
       fetchData(true);
     }, 1000 * 60 * 10);
     return () => clearInterval(interval);
-  }, []);
+  });
 
   return (
     <>
