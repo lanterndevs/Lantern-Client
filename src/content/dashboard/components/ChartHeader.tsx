@@ -8,8 +8,7 @@ const ChartHeader = ({ onClick }) => {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: '20px'
+        alignItems: 'center'
       }}
     >
       <ButtonGroup size="medium">

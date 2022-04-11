@@ -17,12 +17,21 @@ import {
   setTransactionLoading,
   setTransactionTimestamp
 } from 'src/redux/modules/transactions';
-import { useEffect } from 'react';
+import {
+  saveLayouts
+} from 'src/redux/modules/dashboard';
+import {useEffect} from 'react';
+import { Responsive, WidthProvider } from "react-grid-layout";
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 function Dashboard() {
   const dispatch = useDispatch();
   const transactionsState = useSelector(
     (state: RootState) => state.transactions
+  );
+  const dashboardState = useSelector(
+    (state: RootState) => state.dashboard
   );
 
   const fetchData = async (force) => {
@@ -61,34 +70,34 @@ function Dashboard() {
       </PageTitleWrapper>
 
       <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="left"
-          alignItems="stretch"
-          spacing={3}
-        >
-          {/* FIRST SECTION: CASH FLOW , ACCOUNT BALANCE, UPCOMING EVENTS */}
-          <Grid item lg={8} xs={12}>
-            {/* Cash Flow Breakdown that displays weekly, monthly, and yearly net revenue */}
-            <CashFlow />
-          </Grid>
+      {/* <ResponsiveGridLayout className="layout" cols={3} layout={layout} rowHeight={100} width={1000} autoSize={true}> */}
+      <ResponsiveGridLayout
+        className="layout"
+        rowHeight={120}
+        layouts={dashboardState.layouts}
+        breakpoints={{ lg: 1000}}
+        cols={{ lg: 3}}
+        onLayoutChange={(curr, all) => {dispatch(saveLayouts(all))}}
+      >
+        <div key="a">
+          <CashFlow/>
+        </div>
+        <div key="b">
+        
+        <AccountBalance/>
+        </div>
+        <div key="c">
+          <RevenueBreakdown/>
+        </div>
+        <div key="d">
+          <Expenses/>  
+        </div>
+        <div key="e">
+          <UpcomingEvents/>
+        </div>
 
-          {/* Account Balance */}
-          <Grid item lg={4} xs={12}>
-            <AccountBalance />
-            {/* Space Divider */}
-            <Box sx={{ m: 5.2 }} />
-            {/* Upcoming Events */}
-            <UpcomingEvents />
-          </Grid>
-          {/* SECOND SECTION: EXPENSES, GOALS (?), ETC (?) */}
-          <Grid item lg={9} xs={12}>
-            <RevenueBreakdown/>
-            {/* Expenses */}
-            <Expenses />
-          </Grid>
-        </Grid>
+      </ResponsiveGridLayout>
+
       </Container>
 
       <Footer />

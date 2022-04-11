@@ -14,8 +14,11 @@ import { Line } from 'react-chartjs-2';
 import { RetrieveCashFlow } from 'src/utils/cashflow';
 import ChartHeader from './ChartHeader';
 import { RootState } from 'src/redux/index';
-import { useSelector } from 'react-redux';
 import LoadingWheel from 'src/content/pages/Components/LoadingWheel';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setCashflowMode
+} from 'src/redux/modules/dashboard';
 
 ChartJS.register(
   CategoryScale,
@@ -45,6 +48,8 @@ type Transaction = {
 const CashFlow = () => {
   //const [transactions, setTransactions] = useState<Transaction[]>([]);
   const transactionsState = useSelector((state: RootState) => state.transactions);
+  const dashboardState = useSelector((state: RootState) => state.dashboard);
+  const dispatch = useDispatch();
   /**
    * The options for the chart.
    *
@@ -60,6 +65,7 @@ const CashFlow = () => {
         }
       }
     },
+    maintainAspectRatio : false,
     responsive: true,
     plugins: {
       legend: {
@@ -104,7 +110,6 @@ const CashFlow = () => {
     };
   };
 
-  const [chartType, setChartType] = useState('month');
   const [state, setState] = useState({
     loaded: false,
     weekRevenue: [],
@@ -142,9 +147,10 @@ const CashFlow = () => {
     });
   }, [transactionsState]);
 
+
   // data for the current chart type
   const chartData = useMemo(() => {
-    switch (chartType) {
+    switch (dashboardState.cashflow_mode) {
       // displays data by the recent week
       case 'week':
         return data(
@@ -176,26 +182,30 @@ const CashFlow = () => {
       default:
         return [];
     }
-  }, [chartType, state]);
+  }, [dashboardState.cashflow_mode, state]);
 
   // updates which chart is displayed
   const handleClick = useCallback(
     (e) => {
       e.preventDefault();
       const type = e.target.outerText.toLowerCase();
-      setChartType(type);
+      if (type == "month" || type == "week" || type == "year") {
+        dispatch(setCashflowMode(type));  
+      }
     },
-    [setChartType]
+    []
   );
 
   return (
-    <Card className="cashFlowChart">
+    <Card className="cashFlowChart" style={{height:"100%"}}>
       <CardHeader title="Cash Flow Breakdown" onClick={handleClick} />
       <ChartHeader onClick={handleClick} />
+      <div style={{height:"80%"}}>
       <LoadingWheel loaded={!transactionsState.loading}>
         {/*@ts-ignore*/}
-        <Line data={chartData} options={options} />
+        <Line data={chartData} options={options} /> 
       </LoadingWheel>
+      </div>
     </Card>
   );
 };
