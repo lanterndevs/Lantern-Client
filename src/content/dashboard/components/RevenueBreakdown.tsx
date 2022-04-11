@@ -49,7 +49,7 @@ function RevenueBreakdown() {
   }, [transactionsState]);
 
   return (
-    <Card>
+    <Card style={{height:"100%"}}>
       <CardHeader title="Revenue Breakdown" />
       <Divider />
       <LoadingWheel loaded={!transactionsState.loading}>
