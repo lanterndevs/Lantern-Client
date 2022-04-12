@@ -1,9 +1,8 @@
 <div align="center">
     <h1>
-            <img src=".github/lanternlogo.png" height="250" width="380">
+        <img src=".github/images/lanternlogo.png" height="250" width="380">
     </h1>
 </div>
-
 
 # Lantern
 
