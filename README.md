@@ -22,9 +22,7 @@ Lantern is in continous development with new features and bug fixes giving all d
   <li>More !</li>
 </ul>  
 
-<h2>
-    Quick Start
-</h2>
+# Quick Start
 <ol>
     <li>Make sure you have the latest stable versions for Node.js and NPM installed</li>
     <li>Clone repository: <code>git clone https://github.com/lanterndevs/Lantern-Client.git</code></li>
