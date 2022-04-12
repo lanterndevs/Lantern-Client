@@ -12,9 +12,6 @@ Lantern is a free, open source web-application that gives small businesses the a
 # Features
 Will Add Features here
 
-# License
-Lantern is released under the terms of the GPL v3 license. For more information see https://www.gnu.org/licenses/gpl-3.0.en.html.
-
 
 
 <h2>
@@ -26,3 +23,6 @@ Lantern is released under the terms of the GPL v3 license. For more information 
     <li>Install dependencies: Run <code>npm install --legacy-peer-deps</code> inside the project folder</li>
   <li>You can start a development server by running <code>yarn start</code> or <code>npm run start</code>. Enjoy and best of luck with your financial growth!</li>
 </ol>
+
+# License
+Lantern is released under the terms of the GPL v3 license. For more information see https://www.gnu.org/licenses/gpl-3.0.en.html.
