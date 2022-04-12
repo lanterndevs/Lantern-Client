@@ -50,7 +50,7 @@ function Expenses() {
   }, [transactionsState]);
 
   return (
-    <Card>
+    <Card style={{height:"100%"}}>
       <CardHeader title="Expenses" />
       <Divider />
       <LoadingWheel loaded={!transactionsState.loading}>

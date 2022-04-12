@@ -26,8 +26,6 @@ const LoadingWheel: FC<LoadingWheelProps> = ({ children, loaded }) => {
       <ReactLoading
         type={'spinningBubbles'}
         color={'#5569FF'}
-        height={75}
-        width={75}
       />
     </div>
   );

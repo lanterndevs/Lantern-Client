@@ -6,6 +6,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 import 'nprogress/nprogress.css';
 import { SidebarProvider } from './contexts/SidebarContext';
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 
 ReactDOM.render(
   <HelmetProvider>

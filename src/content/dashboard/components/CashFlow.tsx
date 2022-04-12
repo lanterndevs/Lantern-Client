@@ -1,5 +1,5 @@
 import { Card, CardHeader } from '@mui/material';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,8 +14,8 @@ import { Line } from 'react-chartjs-2';
 import { RetrieveCashFlow } from 'src/utils/cashflow';
 import ChartHeader from './ChartHeader';
 import { RootState } from 'src/redux/index';
-import { useSelector } from 'react-redux';
 import LoadingWheel from 'src/content/pages/Components/LoadingWheel';
+import { useSelector } from 'react-redux';
 
 ChartJS.register(
   CategoryScale,
@@ -32,10 +32,9 @@ ChartJS.defaults.font.family = 'Roboto';
 ChartJS.defaults.font.size = 14;
 
 const CashFlow = () => {
-  //const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const transactionsState = useSelector(
-    (state: RootState) => state.transactions
-  );
+  const transactionsState = useSelector((state: RootState) => state.transactions);
+  const dashboardState = useSelector((state: RootState) => state.dashboard);
+
   /**
    * The options for the chart.
    *
@@ -51,6 +50,7 @@ const CashFlow = () => {
         }
       }
     },
+    maintainAspectRatio : false,
     responsive: true,
     plugins: {
       legend: {
@@ -95,7 +95,6 @@ const CashFlow = () => {
     };
   };
 
-  const [chartType, setChartType] = useState('month');
   const [state, setState] = useState({
     loaded: false,
     weekRevenue: [],
@@ -135,9 +134,10 @@ const CashFlow = () => {
     );
   }, [transactionsState]);
 
+
   // data for the current chart type
   const chartData = useMemo(() => {
-    switch (chartType) {
+    switch (dashboardState.cashflow_mode) {
       // displays data by the recent week
       case 'week':
         return data(
@@ -169,26 +169,18 @@ const CashFlow = () => {
       default:
         return [];
     }
-  }, [chartType, state]);
-
-  // updates which chart is displayed
-  const handleClick = useCallback(
-    (e) => {
-      e.preventDefault();
-      const type = e.target.outerText.toLowerCase();
-      setChartType(type);
-    },
-    [setChartType]
-  );
+  }, [dashboardState.cashflow_mode, state]);
 
   return (
-    <Card className="cashFlowChart">
-      <CardHeader title="Cash Flow Breakdown" onClick={handleClick} />
-      <ChartHeader onClick={handleClick} />
+    <Card className="cashFlowChart" style={{height:"100%"}}>
+      <CardHeader title="Cash Flow Breakdown"/>
+      <ChartHeader/>
+      <div style={{height:"80%"}}>
       <LoadingWheel loaded={!transactionsState.loading}>
         {/*@ts-ignore*/}
-        <Line data={chartData} options={options} />
+        <Line data={chartData} options={options} /> 
       </LoadingWheel>
+      </div>
     </Card>
   );
 };
