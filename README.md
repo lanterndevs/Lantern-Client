@@ -9,6 +9,8 @@
 
 Lantern is a free, open source web-application that gives small businesses the ability to track and account for all income and cash flow along with providing computed detailed reports and finanical analysis.
 
+Lantern is in continous development with new features and bug fixes giving all devlopers the opportunity to contribute.
+
 # Features
 <ul>
   <li>Net Cash Flow Statment</li>
