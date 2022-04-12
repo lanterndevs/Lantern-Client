@@ -35302,42 +35302,6 @@
     },
     {
       "type": "library",
-      "bom-ref": "pkg:npm/%40types/prettier@2.4.3",
-      "group": "@types",
-      "name": "prettier",
-      "version": "2.4.3",
-      "description": "TypeScript definitions for prettier",
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "4334ae64c06e1b9bbc1ea633d35aad31d83f25f72d967be3d73fe56272035ecfe0a25c70d1fc6d4401ddf4aaf38d1ed8c73d6a55e234d28d2488edcf995749f7"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:npm/%40types/prettier@2.4.3",
-      "externalReferences": [
-        {
-          "type": "website",
-          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/prettier"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
-        }
-      ]
-    },
-    {
-      "type": "library",
       "bom-ref": "pkg:npm/jest-validate@26.6.2",
       "name": "jest-validate",
       "version": "26.6.2",

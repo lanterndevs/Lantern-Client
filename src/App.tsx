@@ -17,7 +17,7 @@ import { createStore } from 'redux';
 import { rootReducer } from './redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from 'redux-persist/integration/react';
 
 // Axios global default config
 const axios = require('axios');
@@ -27,7 +27,7 @@ const persistConfig = {
   key: 'root',
   storage,
   whitelist: ['dashboard']
-}
+};
 
 const options = {
   // you can also just use 'bottom center'
