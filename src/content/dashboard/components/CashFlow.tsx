@@ -15,10 +15,7 @@ import { RetrieveCashFlow } from 'src/utils/cashflow';
 import ChartHeader from './ChartHeader';
 import { RootState } from 'src/redux/index';
 import LoadingWheel from 'src/content/pages/Components/LoadingWheel';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setCashflowMode
-} from 'src/redux/modules/dashboard';
+import { useSelector } from 'react-redux';
 
 ChartJS.register(
   CategoryScale,
@@ -37,7 +34,6 @@ ChartJS.defaults.font.size = 14;
 const CashFlow = () => {
   const transactionsState = useSelector((state: RootState) => state.transactions);
   const dashboardState = useSelector((state: RootState) => state.dashboard);
-  const dispatch = useDispatch();
 
   /**
    * The options for the chart.

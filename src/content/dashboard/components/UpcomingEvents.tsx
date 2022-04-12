@@ -30,13 +30,6 @@ const AvatarWrapperSuccess = styled(Avatar)(
 `
 );
 
-const AvatarWrapperWarning = styled(Avatar)(
-  ({ theme }) => `
-      background-color: ${theme.colors.warning.lighter};
-      color:  ${theme.colors.warning.main};
-`
-);
-
 function UpcomingEvents() {
   return (
     <Card style={{height:"100%"}}>
