@@ -19,7 +19,7 @@ Lantern is in continous development with new features and bug fixes giving all d
 # Features
 <ul>
   <li>Net Cash Flow Statment</li>
-  <li>Expense Breakdown</li>
+  <li>Expense and Revenue Breakdown</li>
   <li>Transaction Filtering</li>
   <li>Customizeable Dashboard</li>
   <li>Calendar Management</li>
