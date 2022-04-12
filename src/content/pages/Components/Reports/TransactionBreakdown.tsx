@@ -16,7 +16,7 @@ import Footer from 'src/components/Footer';
 import { useEffect, useState } from 'react';
 import ProgressBar from './ProgressBar';
 import moment from 'moment';
-import { getCount, getFrequent } from './ReportHelpers';
+import { getCategoryInfo, getFrequent } from './ReportHelpers';
 import { capitalizeFirstLetter } from '../../../../utils/strings';
 
 function TransactionBreakdown(transactions, typeString) {
@@ -35,7 +35,7 @@ function TransactionBreakdown(transactions, typeString) {
   useEffect(() => {
     if (transactions.length > 0) {
       // creates an array of arrays from the response data storing the category and number of transactions for respective category
-      let categoryData = getCount(transactions);
+      let categoryData = getCategoryInfo(transactions);
 
       // computes the total number of transactions made
       let total = 0;

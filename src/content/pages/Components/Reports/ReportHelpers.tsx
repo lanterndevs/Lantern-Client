@@ -1,19 +1,27 @@
-function getCount(data) {
+// Return transaction information organized by category:
+// - Number of transactions in category
+// - Total amount for whole category
+function getCategoryInfo(transactions) {
   // `map` out the data by type
-  const typeArr = data.map((object) => object.categories[0]);
+  const typeArr = transactions.map((object) => {
+    return {
+      category: object.categories[0],
+      amount: object.amount
+    }
+  });
 
-  // Iterate over the type data. We pass in an initial
-  // object to capture the counts, so we need to use
-  // `Object.values` to grab the object values at the end
-  // of the iteration
+  // Iterate over the categories. We pass in an initial object to capture the counts, so we need to use
+  // `Object.values` to grab the object values at the end of the iteration
   return Object.values(
-    typeArr.reduce((acc, id) => {
-      // If the key doesn't exist in the accumulator object
-      // create it and create a new array at its value
-      acc[id] = acc[id] || [id, 0];
+    typeArr.reduce((acc, element) => {
+      // If the key doesn't exist in the accumulator object create it and create a new array at its value
+      acc[element.category] = acc[element.category] || [element.category, 0, 0];
 
-      // Increment the second index (the count)
-      acc[id][1]++;
+      // Increment the count
+      acc[element.category][1]++;
+
+      // Add transaction amount
+      acc[element.category][2] += element.amount;
 
       // Return the object for the next iteration
       return acc;
@@ -54,4 +62,4 @@ function filterForRevenue(transactions) {
   return transactions.filter((object) => object.amount < 0);
 }
 
-export { getCount, getFrequent, filterForExpenses, filterForRevenue };
+export { getCategoryInfo, getFrequent, filterForExpenses, filterForRevenue };

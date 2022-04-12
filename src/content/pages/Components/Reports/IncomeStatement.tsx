@@ -14,12 +14,76 @@ import {
 } from '@mui/material';
 import Footer from 'src/components/Footer';
 import { useEffect, useState } from 'react';
-import ProgressBar from './ProgressBar';
 import moment from 'moment';
-import { filterForExpenses, filterForRevenue, getCount } from "./ReportHelpers";
+import { filterForExpenses, filterForRevenue, getCategoryInfo } from "./ReportHelpers";
 import { capitalizeFirstLetter } from '../../../../utils/strings';
+import { roundCents } from '../../../../utils/money';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux";
+
+function Row(props: { row: ReturnType<typeof createData> }) {
+    const { row } = props;
+    const [open, setOpen] = React.useState(false);
+
+    return (
+        <React.Fragment>
+            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+                <TableCell>
+                    <IconButton
+                        aria-label="expand row"
+                        size="small"
+                        onClick={() => setOpen(!open)}
+                    >
+                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                    </IconButton>
+                </TableCell>
+                <TableCell component="th" scope="row">
+                    {row.name}
+                </TableCell>
+                <TableCell align="right">{row.calories}</TableCell>
+                <TableCell align="right">{row.fat}</TableCell>
+                <TableCell align="right">{row.carbs}</TableCell>
+                <TableCell align="right">{row.protein}</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Box sx={{ margin: 1 }}>
+                            <Typography variant="h6" gutterBottom component="div">
+                                History
+                            </Typography>
+                            <Table size="small" aria-label="purchases">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Date</TableCell>
+                                        <TableCell>Customer</TableCell>
+                                        <TableCell align="right">Amount</TableCell>
+                                        <TableCell align="right">Total price ($)</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {row.history.map((historyRow) => (
+                                        <TableRow key={historyRow.date}>
+                                            <TableCell component="th" scope="row">
+                                                {historyRow.date}
+                                            </TableCell>
+                                            <TableCell>{historyRow.customerId}</TableCell>
+                                            <TableCell align="right">{historyRow.amount}</TableCell>
+                                            <TableCell align="right">
+                                                {Math.round(historyRow.amount * row.price * 100) / 100}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Box>
+                    </Collapse>
+                </TableCell>
+            </TableRow>
+        </React.Fragment>
+    );
+}
+
 
 function IncomeStatement() {
     const [revenueCategories, setRevenueCategories] = useState([]);
@@ -29,53 +93,38 @@ function IncomeStatement() {
     const transactions = useSelector((state: RootState) => state.transactions);
 
     useEffect(() => {
-        if (!transactions.loading) {
+        if (transactions.transactions.length > 0) {
             // Get revenue and expenses
             let revenue = filterForRevenue(transactions.transactions);
             let expenses = filterForExpenses(transactions.transactions);
 
-            // Get and set categories
-            setRevenueCategories(getCount(revenue));
-            setExpenseCategories(getCount(expenses));
+            // Get category info
+            let revenueCategories = getCategoryInfo(revenue);
+            let expenseCategories = getCategoryInfo(expenses);
 
-            // computes the total number of transactions made
-            let total = 0;
-            categoryData.forEach((category) => {
-                total += category[1];
-            });
-            setTotal(total);
+            // Ensure amounts are rounded to the closest cent (in the case of floating point error)
+            // Additionally, add "Total" category containing sum
+            let revenueSum = 0;
+            for (let i = 0; i < revenueCategories.length; i++) {
+                revenueCategories[i][2] = roundCents(revenueCategories[i][2]);
+                revenueSum += revenueCategories[i][2];
+            }
+            revenueSum = roundCents(revenueSum);
+            revenueCategories.push(["Total", 1, revenueSum]);
+            let expenseSum = 0;
+            for (let i = 0; i < expenseCategories.length; i++) {
+                expenseCategories[i][2] = roundCents(expenseCategories[i][2]);
+                expenseSum += expenseCategories[i][2];
+            }
+            expenseSum = roundCents(expenseSum);
+            expenseCategories.push(["Total", 1, expenseSum]);
 
-            // Converts category data to array of objects
-            let categoryObject = categoryData.map(([name, value]) => ({
-                name,
-                value
-            }));
+            console.log(revenueCategories);
+            console.log(expenseCategories);
 
-            // stores array of categories into variable
-            setCategories(categoryObject);
-
-            // sorts the category list from highest to least
-            categoryObject.sort((a, b) => {
-                return b.value - a.value;
-            });
-
-            // computes the largest transaction from transactions
-            const largestTransaction = transactions.reduce((a, b) =>
-                Math.abs(a.amount) > Math.abs(b.amount) ? a : b
-            );
-
-            // stores detailed breakdown into an object
-            setDetailed({
-                totalTransactions: transactions.length.toString(),
-                highestCategory: categoryObject[0].name,
-                leastCategory: categoryObject[categoryObject.length - 1].name,
-                frequentTransactions: getFrequent(transactions),
-                largestTransaction: [
-                    largestTransaction.name,
-                    largestTransaction.amount,
-                    largestTransaction.date
-                ]
-            });
+            // Save categories state (not totally synchronous!)
+            setRevenueCategories(revenueCategories);
+            setExpenseCategories(expenseCategories);
         }
     }, [transactions]);
 
@@ -109,107 +158,7 @@ function IncomeStatement() {
                     alignItems="stretch"
                     spacing={1}
                 >
-                    <TableContainer>
-                        <Table sx={{ minWidth: 650 }}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Category</TableCell>
-                                    <TableCell>
-                                        Percentage of Total {capitalizeFirstLetter(typeString)}s
-                                    </TableCell>
-                                    <TableCell>
-                                        Number of {capitalizeFirstLetter(typeString)}s
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
 
-                            <TableBody>
-                                {categories.map((category) => (
-                                    <TableRow
-                                        key={category.name}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                        <TableCell component="th" scope="row">
-                                            <Typography
-                                                variant="body1"
-                                                fontWeight="bold"
-                                                color="text.primary"
-                                                gutterBottom
-                                                noWrap
-                                            >
-                                                {/* Displays the name of the category */}
-                                                {category.name}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {/* Displays the percentage that the category makes up */}
-                                            <ProgressBar
-                                                done={((category.value / total) * 100).toFixed(2)}
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography
-                                                variant="body1"
-                                                fontWeight="bold"
-                                                color="text.primary"
-                                                gutterBottom
-                                                noWrap
-                                            >
-                                                {category.value}
-                                            </Typography>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <Box sx={{ mt: 5 }}>
-                        <Typography
-                            variant="h3"
-                            fontWeight="bold"
-                            color="text.primary"
-                            gutterBottom
-                            noWrap
-                        >
-                            Detailed Report
-                        </Typography>
-                        <hr style={{ borderTop: '2px solid black' }} />
-                        <div style={{ lineHeight: '300%' }}>
-                            <b>Total Transactions over Time Span:</b>{' '}
-                            {detailed.totalTransactions} <br />
-                            <b>
-                                Highest Categorized {capitalizeFirstLetter(typeString)}:
-                            </b>{' '}
-                            {detailed.highestCategory} <br />
-                            <b>Least Categorized {capitalizeFirstLetter(typeString)}:</b>{' '}
-                            {detailed.leastCategory} <br />
-                            <b>Largest Transaction:</b>{' '}
-                            {detailed.largestTransaction.length ? (
-                                <div>
-                                    &emsp;&emsp;Name: {detailed.largestTransaction[0]}
-                                    <br /> &emsp;&emsp;Date:{' '}
-                                    {moment(detailed.largestTransaction[2]).format(
-                                        'dddd MMMM DD, YYYY'
-                                    )}
-                                    <br /> &emsp;&emsp;Amount:{' '}
-                                    {detailed.largestTransaction[1].toLocaleString('en-US', {
-                                        style: 'currency',
-                                        currency: 'USD'
-                                    })}
-                                </div>
-                            ) : (
-                                <br />
-                            )}
-                            <b>Most Frequent Transaction:</b>{' '}
-                            {detailed.frequentTransactions[0]}
-                            {', '}
-                            {detailed.frequentTransactions.length
-                                ? '(' +
-                                detailed.frequentTransactions[1] +
-                                ' Total Transactions)'
-                                : ' '}
-                        </div>
-                    </Box>
                 </Grid>
             </Container>
             <Footer />
@@ -217,4 +166,4 @@ function IncomeStatement() {
     );
 }
 
-export default TransactionBreakdown;
+export default IncomeStatement;
