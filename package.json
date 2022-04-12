@@ -4,6 +4,7 @@
   "title": "lantern-client",
   "description": "Lantern is a free, open source web-application that gives small businesses the ability to track and account all income/cash flow along with providing computed detailed reports and finanical analysis.",
   "private": false,
+  "license": "GPL-3.0",
   "dependencies": {
     "@devexpress/dx-react-chart": "^3.0.0",
     "@devexpress/dx-react-chart-material-ui": "^3.0.0",
@@ -68,17 +69,8 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest",
-      "plugin:prettier/recommended"
-    ],
-    "rules": {
-      "prettier/prettier": [
-        "warn",
-        {
-          "endOfLine": "auto"
-        }
-      ]
-    }
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -104,15 +96,12 @@
     "eslint": "7.32.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-airbnb-typescript": "14.0.1",
-    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsx-a11y": "6.4.1",
-    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "7.26.1",
     "eslint-plugin-react-hooks": "4.2.0",
     "node-sass": "6.0.1",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.4.1",
     "typescript": "4.4.4"
   }
 }

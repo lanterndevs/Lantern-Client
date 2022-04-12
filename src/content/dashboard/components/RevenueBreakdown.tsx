@@ -6,8 +6,8 @@ import { RootState } from '../../../redux/index';
 import LoadingWheel from '../../pages/Components/LoadingWheel';
 
 function getTotals(data) {
-  // `map` out the data by type
-  const typeArr = data.map((object) => object.categories[0]);
+  // `map` out the data by type (UNUSED CURRENTLY)
+  //const typeArr = data.map((object) => object.categories[0]);
   // Iterate over the type data. We pass in an initial
   // object to capture the counts, so we need to use
   // `Object.values` to grab the object values at the end

@@ -34,22 +34,11 @@ ChartJS.register(
 ChartJS.defaults.font.family = 'Roboto';
 ChartJS.defaults.font.size = 14;
 
-type Transaction = {
-    transactionID: string;
-    accountID: string;
-    amount: number;
-    categories: string;
-    date: Date;
-    details: string;
-    name: string;
-    currency: string;
-}
-
 const CashFlow = () => {
-  //const [transactions, setTransactions] = useState<Transaction[]>([]);
   const transactionsState = useSelector((state: RootState) => state.transactions);
   const dashboardState = useSelector((state: RootState) => state.dashboard);
   const dispatch = useDispatch();
+
   /**
    * The options for the chart.
    *
@@ -128,23 +117,25 @@ const CashFlow = () => {
 
   // retrieves cashflow if component did mount
   useEffect(() => {
-    RetrieveCashFlow(transactionsState.transactions).then(([week, month, year]) => {
-    setState({
-        loaded: true,
-        weekRevenue: week.revenue,
-        weekExpenses: week.expenses,
-        weekProfit: week.profit,
-        weekLabels: week.labels,
-        monthRevenue: month.revenue,
-        monthExpenses: month.expenses,
-        monthProfit: month.profit,
-        monthLabels: month.labels,
-        yearRevenue: year.revenue,
-        yearExpenses: year.expenses,
-        yearProfit: year.profit,
-        yearLabels: year.labels
-    });
-    });
+    RetrieveCashFlow(transactionsState.transactions).then(
+      ([week, month, year]) => {
+        setState({
+          loaded: true,
+          weekRevenue: week.revenue,
+          weekExpenses: week.expenses,
+          weekProfit: week.profit,
+          weekLabels: week.labels,
+          monthRevenue: month.revenue,
+          monthExpenses: month.expenses,
+          monthProfit: month.profit,
+          monthLabels: month.labels,
+          yearRevenue: year.revenue,
+          yearExpenses: year.expenses,
+          yearProfit: year.profit,
+          yearLabels: year.labels
+        });
+      }
+    );
   }, [transactionsState]);
 
 

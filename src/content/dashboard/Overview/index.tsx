@@ -5,6 +5,7 @@ import { Grid, Container, Box } from '@mui/material';
 import Footer from 'src/components/Footer';
 import UpcomingEvents from '../components/UpcomingEvents';
 import CashFlow from '../components/CashFlow';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import RevenueBreakdown from '../components/RevenueBreakdown';
 import AccountBalance from '../components/AccountBalance';
 import Expenses from '../components/Expenses';
@@ -14,6 +15,7 @@ import { getCookie } from 'src/utils/cookies';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   saveTransactions,
+  saveTotalTransactions,
   setTransactionLoading,
   setTransactionTimestamp
 } from 'src/redux/modules/transactions';
@@ -37,27 +39,29 @@ function Dashboard() {
   const fetchData = async (force) => {
     // retrieves the transactions from the user
     if (transactionsState.loading || force) {
-      axios.get(
-        'http://localhost:8000/api/transactions', {
-        headers: {
-          authorization: 'Bearer ' + getCookie("auth_token"),
-        }
-      }).then((response) => {
-        dispatch(saveTransactions(response.data.transactions));
-        dispatch(setTransactionLoading(false));
-        dispatch(setTransactionTimestamp(Date.now()));
-        // populates the accounts array with data from response
-      })
-    } 
-  }
+      axios
+        .get('http://localhost:8000/api/transactions', {
+          headers: {
+            authorization: 'Bearer ' + getCookie('auth_token')
+          }
+        })
+        .then((response) => {
+          dispatch(saveTransactions(response.data.transactions));
+          dispatch(saveTotalTransactions(response.data.total_transactions));
+          dispatch(setTransactionLoading(false));
+          dispatch(setTransactionTimestamp(Date.now()));
+          // populates the accounts array with data from response
+        });
+    }
+  };
 
   useEffect(() => {
     fetchData(false);
-    const interval=setInterval(()=>{
+    const interval = setInterval(() => {
       fetchData(true);
-     },1000 * 60 * 10)
-    return()=>clearInterval(interval);
-  }, []);
+    }, 1000 * 60 * 10);
+    return () => clearInterval(interval);
+  });
 
   return (
     <>
@@ -66,11 +70,10 @@ function Dashboard() {
       </Helmet>
 
       <PageTitleWrapper>
-        <PageHeader refreshFunction={fetchData}/>
+        <PageHeader refreshFunction={fetchData} />
       </PageTitleWrapper>
 
       <Container maxWidth="lg">
-      {/* <ResponsiveGridLayout className="layout" cols={3} layout={layout} rowHeight={100} width={1000} autoSize={true}> */}
       <ResponsiveGridLayout
         className="layout"
         rowHeight={120}
@@ -97,7 +100,6 @@ function Dashboard() {
         </div>
 
       </ResponsiveGridLayout>
-
       </Container>
 
       <Footer />

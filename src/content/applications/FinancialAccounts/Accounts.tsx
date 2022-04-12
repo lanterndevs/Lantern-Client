@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 
 import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { Account } from 'src/models/account';
 import { FC } from 'react';
 
@@ -37,7 +36,7 @@ const Accounts: FC<AccountProps> = ({ accounts }) => {
               <TableCell>Account Name</TableCell>
               <TableCell>Balance</TableCell>
               <TableCell>Latest Update</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell>Update</TableCell>
             </TableRow>
           </TableHead>
 
@@ -105,14 +104,9 @@ const Accounts: FC<AccountProps> = ({ accounts }) => {
 
                   {/* Displays actions to either refresh or remove connected account */}
                   <TableCell>
-                    <Tooltip title="Refresh" arrow>
+                    <Tooltip title="Update Account" arrow>
                       <IconButton color="inherit" size="small">
                         <RefreshTwoToneIcon fontSize="medium" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Remove Account" arrow>
-                      <IconButton color="inherit" size="small">
-                        <DeleteTwoToneIcon fontSize="medium" />
                       </IconButton>
                     </Tooltip>
                   </TableCell>

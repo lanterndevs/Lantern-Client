@@ -29,7 +29,8 @@ const FinancialAccounts = Loader(
 const Transactions = Loader(
   lazy(() => import('src/content/applications/Transactions'))
 );
-// *** Will need to add Goals, Budget, etc
+
+// TODO: Add Goals, Budget, etc
 
 const Messenger = Loader(
   lazy(() => import('src/content/applications/Messenger'))
@@ -45,6 +46,8 @@ const UserSettings = Loader(
 const Reports = Loader(
   lazy(() => import('src/content/pages/Components/Reports'))
 );
+
+const Calculators = Loader(lazy(() => import('src/content/tools/Calculators')));
 
 // Status
 const Status404 = Loader(
@@ -212,7 +215,7 @@ const routes: PartialRouteObject[] = [
 
       {
         path: 'calculators',
-        element: <Navigate to="/status/coming-soon" replace />
+        element: <Calculators />
       },
       {
         path: 'calendar',
