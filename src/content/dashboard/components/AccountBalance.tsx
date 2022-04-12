@@ -51,7 +51,7 @@ function AccountBalance() {
     });
 
   return (
-    <Card>
+    <Card style={{height:"100%"}}>
       <CardHeader title="Account Balance" />
       <Divider />
       <List disablePadding>

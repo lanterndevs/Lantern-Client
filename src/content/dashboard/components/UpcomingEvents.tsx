@@ -30,16 +30,9 @@ const AvatarWrapperSuccess = styled(Avatar)(
 `
 );
 
-const AvatarWrapperWarning = styled(Avatar)(
-  ({ theme }) => `
-      background-color: ${theme.colors.warning.lighter};
-      color:  ${theme.colors.warning.main};
-`
-);
-
 function UpcomingEvents() {
   return (
-    <Card>
+    <Card style={{height:"100%"}}>
       <CardHeader title="Upcoming Events" />
       <Divider />
       <List disablePadding>
@@ -90,28 +83,6 @@ function UpcomingEvents() {
         </ListItem>
 
         <Divider />
-
-        {/* Hardcoded -- thi compoent from list */}
-        <ListItem sx={{ py: 2 }}>
-          <ListItemAvatar>
-            <AvatarWrapperWarning>
-              <AttachMoneyTwoToneIcon fontSize="medium" />
-            </AvatarWrapperWarning>
-          </ListItemAvatar>
-          <ListItemText
-            primary={<Text color="black">Bill Due, Feburary 5, 2022</Text>}
-            primaryTypographyProps={{
-              variant: 'body1',
-              fontWeight: 'bold',
-              color: 'textPrimary',
-              gutterBottom: true,
-              noWrap: true
-            }}
-            secondary={<Text> 6:00 PM </Text>}
-            secondaryTypographyProps={{ variant: 'body2', noWrap: true }}
-          />
-          <Checkbox />
-        </ListItem>
       </List>
     </Card>
   );
