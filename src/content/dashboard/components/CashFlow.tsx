@@ -184,22 +184,10 @@ const CashFlow = () => {
     }
   }, [dashboardState.cashflow_mode, state]);
 
-  // updates which chart is displayed
-  const handleClick = useCallback(
-    (e) => {
-      e.preventDefault();
-      const type = e.target.outerText.toLowerCase();
-      if (type == "month" || type == "week" || type == "year") {
-        dispatch(setCashflowMode(type));  
-      }
-    },
-    []
-  );
-
   return (
     <Card className="cashFlowChart" style={{height:"100%"}}>
-      <CardHeader title="Cash Flow Breakdown" onClick={handleClick} />
-      <ChartHeader onClick={handleClick} />
+      <CardHeader title="Cash Flow Breakdown"/>
+      <ChartHeader/>
       <div style={{height:"80%"}}>
       <LoadingWheel loaded={!transactionsState.loading}>
         {/*@ts-ignore*/}
