@@ -12,7 +12,7 @@ function getCategoryInfo(transactions) {
 
   // Iterate over the categories. We pass in an initial object to capture the counts, so we need to use
   // `Object.values` to grab the object values at the end of the iteration
-  return Object.values(
+  let categoryInfoArrays = Object.values(
     typeArr.reduce((acc, element) => {
       // If the key doesn't exist in the accumulator object create it and create a new array at its value
       acc[element.category] = acc[element.category] || [element.category, 0, 0];
@@ -27,6 +27,19 @@ function getCategoryInfo(transactions) {
       return acc;
     }, {})
   );
+
+  // Reorganize into array of objects
+  let categoryInfoObjs = [];
+
+  for (let i in categoryInfoArrays) {
+    categoryInfoObjs.push({
+      name: categoryInfoArrays[i][0],
+      count: categoryInfoArrays[i][1],
+      amount: categoryInfoArrays[i][2]
+    });
+  }
+
+  return categoryInfoObjs;
 }
 
 function getFrequent(transactions) {
@@ -36,21 +49,21 @@ function getFrequent(transactions) {
 
   // iterates through the list of transactions
   for (let transaction of transactions) {
-    // counts how many time each transaction is recorded
+    // counts how many times each transaction is recorded
     if (itemsMap[transaction.name] == null) {
       itemsMap[transaction.name] = 1;
     } else {
       itemsMap[transaction.name]++;
     }
 
-    // determines the transactrion with the most occurences
+    // determines the transaction with the most occurrences
     if (itemsMap[transaction.name] > maxCount) {
       maxValue = transaction.name;
       maxCount = itemsMap[transaction.name];
     }
   }
 
-  // returns an array with the transaction with the most occurences
+  // returns an array with the transaction with the most occurrences
   return [maxValue, maxCount];
 }
 

@@ -10,10 +10,15 @@ import {
     TableHead,
     TableRow,
     Typography,
-    Box
+    Box,
+    Collapse,
+    IconButton,
+    Paper
 } from '@mui/material';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Footer from 'src/components/Footer';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import moment from 'moment';
 import { filterForExpenses, filterForRevenue, getCategoryInfo } from "./ReportHelpers";
 import { capitalizeFirstLetter } from '../../../../utils/strings';
@@ -21,12 +26,13 @@ import { roundCents } from '../../../../utils/money';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux";
 
-function Row(props: { row: ReturnType<typeof createData> }) {
-    const { row } = props;
-    const [open, setOpen] = React.useState(false);
+function Row(props) {
+    const [open, setOpen] = useState(false);
+    let data = props.data;
+    console.log(data);
 
     return (
-        <React.Fragment>
+        <Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                 <TableCell>
                     <IconButton
@@ -38,40 +44,33 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {row.name}
+                    {data.name}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+                <TableCell align="right">{data.total}</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             <Typography variant="h6" gutterBottom component="div">
-                                History
+                                Category Breakdown
                             </Typography>
-                            <Table size="small" aria-label="purchases">
+                            <Table size="small" aria-label="monthly-totals">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Date</TableCell>
-                                        <TableCell>Customer</TableCell>
-                                        <TableCell align="right">Amount</TableCell>
-                                        <TableCell align="right">Total price ($)</TableCell>
+                                        <TableCell>Category</TableCell>
+                                        <TableCell>Transaction Count</TableCell>
+                                        <TableCell>Total {data.name}</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {row.history.map((historyRow) => (
-                                        <TableRow key={historyRow.date}>
+                                    {data.categories.map((category) => (
+                                        <TableRow key={category.name}>
                                             <TableCell component="th" scope="row">
-                                                {historyRow.date}
+                                                {category.name}
                                             </TableCell>
-                                            <TableCell>{historyRow.customerId}</TableCell>
-                                            <TableCell align="right">{historyRow.amount}</TableCell>
-                                            <TableCell align="right">
-                                                {Math.round(historyRow.amount * row.price * 100) / 100}
-                                            </TableCell>
+                                            <TableCell>{category.count}</TableCell>
+                                            <TableCell align="right">{category.amount}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -80,14 +79,14 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     </Collapse>
                 </TableCell>
             </TableRow>
-        </React.Fragment>
+        </Fragment>
     );
 }
 
 
 function IncomeStatement() {
-    const [revenueCategories, setRevenueCategories] = useState([]);
-    const [expenseCategories, setExpenseCategories] = useState([]);
+    const [revenueData, setRevenueData] = useState({name: "Revenue", categories: [], total: 0});
+    const [expenseData, setExpenseData] = useState({name: "Expenses", categories: [], total: 0});
     const [net, setNet] = useState(0);
 
     const transactions = useSelector((state: RootState) => state.transactions);
@@ -99,32 +98,36 @@ function IncomeStatement() {
             let expenses = filterForExpenses(transactions.transactions);
 
             // Get category info
-            let revenueCategories = getCategoryInfo(revenue);
-            let expenseCategories = getCategoryInfo(expenses);
+            let revenueCategoryInfo = getCategoryInfo(revenue);
+            let expenseCategoryInfo = getCategoryInfo(expenses);
 
             // Ensure amounts are rounded to the closest cent (in the case of floating point error)
             // Additionally, add "Total" category containing sum
             let revenueSum = 0;
-            for (let i = 0; i < revenueCategories.length; i++) {
-                revenueCategories[i][2] = roundCents(revenueCategories[i][2]);
-                revenueSum += revenueCategories[i][2];
+            for (let i = 0; i < revenueCategoryInfo.length; i++) {
+                revenueCategoryInfo[i].amount = roundCents(revenueCategoryInfo[i].amount);
+                revenueSum += revenueCategoryInfo[i].amount;
             }
             revenueSum = roundCents(revenueSum);
-            revenueCategories.push(["Total", 1, revenueSum]);
             let expenseSum = 0;
-            for (let i = 0; i < expenseCategories.length; i++) {
-                expenseCategories[i][2] = roundCents(expenseCategories[i][2]);
-                expenseSum += expenseCategories[i][2];
+            for (let i = 0; i < expenseCategoryInfo.length; i++) {
+                expenseCategoryInfo[i].amount = roundCents(expenseCategoryInfo[i].amount);
+                expenseSum += expenseCategoryInfo[i].amount;
             }
             expenseSum = roundCents(expenseSum);
-            expenseCategories.push(["Total", 1, expenseSum]);
 
-            console.log(revenueCategories);
-            console.log(expenseCategories);
-
-            // Save categories state (not totally synchronous!)
-            setRevenueCategories(revenueCategories);
-            setExpenseCategories(expenseCategories);
+            // Save data state (not totally synchronous!)
+            setRevenueData({
+                name: "Revenue",
+                categories: revenueCategoryInfo,
+                total: revenueSum
+            });
+            setExpenseData({
+                name: "Expenses",
+                categories: expenseCategoryInfo,
+                total: expenseSum
+            });
+            setNet(roundCents(revenueSum - expenseSum));
         }
     }, [transactions]);
 
@@ -158,7 +161,26 @@ function IncomeStatement() {
                     alignItems="stretch"
                     spacing={1}
                 >
-
+                    <TableContainer component={Paper}>
+                        <Table aria-label="collapsible table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Breakdown</TableCell>
+                                    <TableCell>Transaction Type</TableCell>
+                                    <TableCell align="right">Total</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <Row data={revenueData}></Row>
+                                <Row data={expenseData}></Row>
+                                <TableRow>
+                                    <TableCell/>
+                                    <TableCell>Total</TableCell>
+                                    <TableCell>{net}</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Grid>
             </Container>
             <Footer />

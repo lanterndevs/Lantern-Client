@@ -34,28 +34,22 @@ function TransactionBreakdown(transactions, typeString) {
 
   useEffect(() => {
     if (transactions.length > 0) {
-      // creates an array of arrays from the response data storing the category and number of transactions for respective category
-      let categoryData = getCategoryInfo(transactions);
+      // Get category breakdown data
+      let categoryInfo = getCategoryInfo(transactions);
 
-      // computes the total number of transactions made
+      // computes the total across all categories
       let total = 0;
-      categoryData.forEach((category) => {
-        total += category[1];
+      categoryInfo.forEach((category) => {
+        total += category.amount;
       });
       setTotal(total);
 
-      // Converts category data to array of objects
-      let categoryObject = categoryData.map(([name, value]) => ({
-        name,
-        value
-      }));
-
       // stores array of categories into variable
-      setCategories(categoryObject);
+      setCategories(categoryInfo);
 
       // sorts the category list from highest to least
-      categoryObject.sort((a, b) => {
-        return b.value - a.value;
+      categoryInfo.sort((a, b) => {
+        return Math.abs(b.amount) - Math.abs(a.amount);
       });
 
       // computes the largest transaction from transactions
@@ -66,8 +60,8 @@ function TransactionBreakdown(transactions, typeString) {
       // stores detailed breakdown into an object
       setDetailed({
         totalTransactions: transactions.length.toString(),
-        highestCategory: categoryObject[0].name,
-        leastCategory: categoryObject[categoryObject.length - 1].name,
+        highestCategory: categoryInfo[0].name,
+        leastCategory: categoryInfo[categoryInfo.length - 1].name,
         frequentTransactions: getFrequent(transactions),
         largestTransaction: [
           largestTransaction.name,
@@ -75,6 +69,7 @@ function TransactionBreakdown(transactions, typeString) {
           largestTransaction.date
         ]
       });
+      console.log(categoryInfo);
     }
   }, [transactions]);
 
@@ -143,7 +138,7 @@ function TransactionBreakdown(transactions, typeString) {
                     <TableCell align="center">
                       {/* Displays the percentage that the category makes up */}
                       <ProgressBar
-                        done={((category.value / total) * 100).toFixed(2)}
+                        done={((category.amount / total) * 100).toFixed(2)}
                       />
                     </TableCell>
                     <TableCell>
@@ -154,7 +149,7 @@ function TransactionBreakdown(transactions, typeString) {
                         gutterBottom
                         noWrap
                       >
-                        {category.value}
+                        {category.count}
                       </Typography>
                     </TableCell>
                   </TableRow>
