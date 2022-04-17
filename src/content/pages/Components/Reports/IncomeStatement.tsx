@@ -9,7 +9,6 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Typography,
     Box,
     Collapse,
     IconButton,
@@ -19,13 +18,10 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Footer from 'src/components/Footer';
 import React, {Fragment, useCallback, useEffect, useState} from 'react';
-import moment from 'moment';
 import {filterForExpenses, filterForRevenue, filterForYear, getCategoryInfo} from "./ReportHelpers";
-import { capitalizeFirstLetter } from '../../../../utils/strings';
 import { roundCents } from '../../../../utils/money';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux";
-import ChartHeader from "../../../dashboard/components/ChartHeader";
 
 function Row(props) {
     const [open, setOpen] = useState(false);
