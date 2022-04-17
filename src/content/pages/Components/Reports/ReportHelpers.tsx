@@ -75,4 +75,9 @@ function filterForRevenue(transactions) {
   return transactions.filter((object) => object.amount < 0);
 }
 
-export { getCategoryInfo, getFrequent, filterForExpenses, filterForRevenue };
+// year is integer number representing a calendar year
+function filterForYear(transactions, year) {
+  return transactions.filter((object) => parseInt(object.date.split('-')[0]) === year)
+}
+
+export { getCategoryInfo, getFrequent, filterForExpenses, filterForRevenue, filterForYear };

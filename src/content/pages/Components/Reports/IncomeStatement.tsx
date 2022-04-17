@@ -18,13 +18,14 @@ import {
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Footer from 'src/components/Footer';
-import { Fragment, useEffect, useState } from 'react';
+import React, {Fragment, useCallback, useEffect, useState} from 'react';
 import moment from 'moment';
-import { filterForExpenses, filterForRevenue, getCategoryInfo } from "./ReportHelpers";
+import {filterForExpenses, filterForRevenue, filterForYear, getCategoryInfo} from "./ReportHelpers";
 import { capitalizeFirstLetter } from '../../../../utils/strings';
 import { roundCents } from '../../../../utils/money';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux";
+import ChartHeader from "../../../dashboard/components/ChartHeader";
 
 function Row(props) {
     const [open, setOpen] = useState(false);
@@ -46,31 +47,26 @@ function Row(props) {
                 <TableCell component="th" scope="row">
                     {data.name}
                 </TableCell>
-                <TableCell align="right">{data.total}</TableCell>
+                <TableCell align="center">{data.total}</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div">
-                                Category Breakdown
-                            </Typography>
                             <Table size="small" aria-label="monthly-totals">
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Category</TableCell>
-                                        <TableCell>Transaction Count</TableCell>
-                                        <TableCell>Total {data.name}</TableCell>
+                                        <TableCell>Count</TableCell>
+                                        <TableCell>Total {data.name} ($)</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {data.categories.map((category) => (
                                         <TableRow key={category.name}>
-                                            <TableCell component="th" scope="row">
-                                                {category.name}
-                                            </TableCell>
+                                            <TableCell component="th" scope="row">{category.name}</TableCell>
                                             <TableCell>{category.count}</TableCell>
-                                            <TableCell align="right">{category.amount}</TableCell>
+                                            <TableCell>{category.amount}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -83,19 +79,34 @@ function Row(props) {
     );
 }
 
+let currentYear = (new Date()).getFullYear();
 
 function IncomeStatement() {
-    const [revenueData, setRevenueData] = useState({name: "Revenue", categories: [], total: 0});
-    const [expenseData, setExpenseData] = useState({name: "Expenses", categories: [], total: 0});
-    const [net, setNet] = useState(0);
-
+    const [statementData, setStatementData] = useState({
+        revenue: {name: "Revenue", categories: [], total: 0},
+        expenses: {name: "Expenses", categories: [], total: 0},
+        net: {name: "Net Income", total: 0}
+    });
+    const [statementYear, setStatementYear] = useState(currentYear);
     const transactions = useSelector((state: RootState) => state.transactions);
+
+    // updates which chart is displayed
+    const handleClick = useCallback(
+        (e) => {
+            e.preventDefault();
+            const year = parseInt(e.target.outerText);
+            setStatementYear(year);
+        },
+        [setStatementYear]
+    );
 
     useEffect(() => {
         if (transactions.transactions.length > 0) {
+            let yearTransactions = filterForYear(transactions.transactions, statementYear)
+
             // Get revenue and expenses
-            let revenue = filterForRevenue(transactions.transactions);
-            let expenses = filterForExpenses(transactions.transactions);
+            let revenue = filterForRevenue(yearTransactions);
+            let expenses = filterForExpenses(yearTransactions);
 
             // Get category info
             let revenueCategoryInfo = getCategoryInfo(revenue);
@@ -108,7 +119,7 @@ function IncomeStatement() {
                 revenueCategoryInfo[i].amount = roundCents(revenueCategoryInfo[i].amount);
                 revenueSum += revenueCategoryInfo[i].amount;
             }
-            revenueSum = roundCents(revenueSum);
+            revenueSum = roundCents(revenueSum * -1);
             let expenseSum = 0;
             for (let i = 0; i < expenseCategoryInfo.length; i++) {
                 expenseCategoryInfo[i].amount = roundCents(expenseCategoryInfo[i].amount);
@@ -117,42 +128,47 @@ function IncomeStatement() {
             expenseSum = roundCents(expenseSum);
 
             // Save data state (not totally synchronous!)
-            setRevenueData({
-                name: "Revenue",
-                categories: revenueCategoryInfo,
-                total: revenueSum
+            setStatementData({
+                revenue: {
+                    name: "Revenue",
+                    categories: revenueCategoryInfo,
+                    total: revenueSum
+                },
+                expenses: {
+                    name: "Expenses",
+                    categories: expenseCategoryInfo,
+                    total: expenseSum
+                },
+                net: {
+                    name: "Net Income",
+                    total: roundCents(revenueSum - expenseSum)
+                }
             });
-            setExpenseData({
-                name: "Expenses",
-                categories: expenseCategoryInfo,
-                total: expenseSum
-            });
-            setNet(roundCents(revenueSum - expenseSum));
         }
-    }, [transactions]);
+    }, [transactions, statementYear]);
 
     return (
         <>
-            <ButtonGroup
-                size="medium"
-                sx={{
-                    justifyContent: 'right',
+            <div
+                style={{
                     display: 'flex',
-                    marginRight: '25px',
-                    marginBottom: '25px'
+                    justifyContent: 'right',
+                    alignItems: 'right',
+                    marginBottom: '20px'
                 }}
             >
-                <Button variant="outlined" name="Chart">
-                    Day
-                </Button>
-                <Button variant="outlined" name="Normal">
-                    Week
-                </Button>
-                <Button variant="outlined" name="Normal">
-                    Year
-                </Button>
-            </ButtonGroup>
-
+                <ButtonGroup size="medium">
+                    <Button variant="outlined" onClick={handleClick} name="week">
+                        {currentYear - 2}
+                    </Button>
+                    <Button variant="outlined" onClick={handleClick} name="month">
+                        {currentYear - 1}
+                    </Button>
+                    <Button variant="outlined" onClick={handleClick} name="year">
+                        {currentYear}
+                    </Button>
+                </ButtonGroup>
+            </div>
             <Container maxWidth="lg">
                 <Grid
                     container
@@ -167,16 +183,16 @@ function IncomeStatement() {
                                 <TableRow>
                                     <TableCell>Breakdown</TableCell>
                                     <TableCell>Transaction Type</TableCell>
-                                    <TableCell align="right">Total</TableCell>
+                                    <TableCell align="center">Total ($)</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                <Row data={revenueData}></Row>
-                                <Row data={expenseData}></Row>
+                                <Row data={statementData.revenue}></Row>
+                                <Row data={statementData.expenses}></Row>
                                 <TableRow>
+                                    <TableCell>{statementData.net.name}</TableCell>
                                     <TableCell/>
-                                    <TableCell>Total</TableCell>
-                                    <TableCell>{net}</TableCell>
+                                    <TableCell align="center">{statementData.net.total}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
