@@ -85,7 +85,7 @@ export default function SignUp() {
           alert.removeAll();
           setCookie('auth_token', res.data.token, {
             path: '/',
-            maxAge: 1000000000000000
+            maxAge: 1800000
           });
           navigate('/dashboard/overview');
         }
