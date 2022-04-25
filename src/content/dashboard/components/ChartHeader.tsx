@@ -32,6 +32,9 @@ const ChartHeader = () => {
         <ToggleButton value="year" size='medium'>
           Year
         </ToggleButton>
+        <ToggleButton value="year-cumulative" size='medium'>
+          Year Cumulative
+        </ToggleButton>
       </ToggleButtonGroup>
       <br />
     </div>
