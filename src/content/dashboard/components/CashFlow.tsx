@@ -16,6 +16,9 @@ import ChartHeader from './ChartHeader';
 import { RootState } from 'src/redux/index';
 import LoadingWheel from 'src/content/pages/Components/LoadingWheel';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { getCookie } from 'src/utils/cookies';
+import RevenueBreakdown from './RevenueBreakdown';
 
 ChartJS.register(
   CategoryScale,
@@ -34,6 +37,7 @@ ChartJS.defaults.font.size = 14;
 const CashFlow = () => {
   const transactionsState = useSelector((state: RootState) => state.transactions);
   const dashboardState = useSelector((state: RootState) => state.dashboard);
+  const [totalBalance, setBalance] = useState(0);
 
   /**
    * The options for the chart.
@@ -95,6 +99,21 @@ const CashFlow = () => {
     };
   };
 
+  const dataCumulative = (labels, balance) => {
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Balance',
+          borderColor: '#000000',
+          backgroundColor: '#000000',
+          data: balance,
+          tension: 0.1
+        }
+      ]
+    }
+  }
+
   const [state, setState] = useState({
     loaded: false,
     weekRevenue: [],
@@ -108,30 +127,49 @@ const CashFlow = () => {
     yearRevenue: [],
     yearExpenses: [],
     yearProfit: [],
-    yearLabels: []
+    yearLabels: [],
+    yearCumulative: [],
+    yearCumulativeLabels: []
   });
 
   // retrieves cashflow if component did mount
   useEffect(() => {
-    RetrieveCashFlow(transactionsState.transactions).then(
-      ([week, month, year]) => {
-        setState({
-          loaded: true,
-          weekRevenue: week.revenue,
-          weekExpenses: week.expenses,
-          weekProfit: week.profit,
-          weekLabels: week.labels,
-          monthRevenue: month.revenue,
-          monthExpenses: month.expenses,
-          monthProfit: month.profit,
-          monthLabels: month.labels,
-          yearRevenue: year.revenue,
-          yearExpenses: year.expenses,
-          yearProfit: year.profit,
-          yearLabels: year.labels
-        });
+    axios
+    .get('/api/accounts', {
+      headers: {
+        authorization: 'Bearer ' + getCookie('auth_token')
       }
-    );
+    })
+    .then((response) => {
+      // computes thte total balance of all connected accounts
+      let totalBalance = 0;
+      for (var account of response.data) {
+        totalBalance += account.balance;
+      }
+      setBalance(totalBalance);
+      RetrieveCashFlow(transactionsState.transactions, totalBalance).then(
+        ([week, month, year, yearCumulative]) => {
+          console.log(year.revenue);
+          setState({
+            loaded: true,
+            weekRevenue: week.revenue,
+            weekExpenses: week.expenses,
+            weekProfit: week.profit,
+            weekLabels: week.labels,
+            monthRevenue: month.revenue,
+            monthExpenses: month.expenses,
+            monthProfit: month.profit,
+            monthLabels: month.labels,
+            yearRevenue: year.revenue,
+            yearExpenses: year.expenses,
+            yearProfit: year.profit,
+            yearLabels: year.labels,
+            yearCumulative: yearCumulative.revenue,
+            yearCumulativeLabels: yearCumulative.labels,
+          });
+        }
+      );
+    });
   }, [transactionsState]);
 
 
@@ -164,6 +202,12 @@ const CashFlow = () => {
           state.yearExpenses,
           state.yearProfit
         );
+
+      case 'year-cumulative':
+        return dataCumulative(
+          state.yearCumulativeLabels,
+          state.yearCumulative
+        );  
 
       // default display
       default:
