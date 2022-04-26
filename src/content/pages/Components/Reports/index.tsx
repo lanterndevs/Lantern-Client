@@ -15,6 +15,7 @@ import Footer from 'src/components/Footer';
 import PageHeader from './PageHeader';
 import ExpenseBreakdown from './ExpenseBreakdown';
 import RevenueBreakdown from './RevenueBreakdown';
+import IncomeStatement from './IncomeStatement';
 import AccordionDetails from '@mui/material/AccordionDetails';
 
 function Reports() {
@@ -34,13 +35,44 @@ function Reports() {
           alignItems="stretch"
           spacing={3}
         >
-          {/* <Grid item xs={12}>
+          <Grid item xs={12}>
             <Card>
-              <CardHeader title="Balance Sheet" />
-              <Divider />
-              <CardContent>Balance Sheet goes here</CardContent>
+            <CardHeader title={
+                  <Typography
+                      variant="h3"
+                      sx={{ top: '14px', position: 'relative' }}
+                  >
+                      Income Statement
+                  </Typography>
+              } />
+                <Accordion>
+                    <AccordionSummary
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                        sx={{
+                            bottom: '60px',
+                            marginRight: '30px',
+                            position: 'relative'
+                        }}
+                    />
+
+                    <Divider />
+
+                    <CardContent>
+                        <AccordionDetails>
+                            <IncomeStatement />
+                        </AccordionDetails>
+                    </CardContent>
+                </Accordion>
             </Card>
-          </Grid> */}
+          </Grid>
+          <Grid item xs={12}>
+            <Card>
+              {/* <CardHeader title="Balance Sheet" />
+              <Divider />
+              <CardContent>Balance Sheet goes here</CardContent> */}
+            </Card>
+          </Grid>
           <Grid item xs={12}>
             <Card>
               <CardHeader
